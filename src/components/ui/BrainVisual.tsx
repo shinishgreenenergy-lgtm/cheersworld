@@ -110,7 +110,7 @@ export function BrainVisual() {
             transition={reduce ? {} : { duration: 10, repeat: Infinity, ease: "easeInOut" }}
           >
             <Image
-              src="/brain-neural.png"
+              src="/brain-neural.webp"
               alt="Neural brain representing human consciousness"
               width={640}
               height={427}

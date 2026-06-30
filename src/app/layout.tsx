@@ -46,10 +46,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${bricolage.variable} ${jakarta.variable} ${dancing.variable}`}>
       <head>
-        {/* Google Material Symbols (used in the mega-menu) */}
+        {/* Google Material Symbols (mega-menu icons). Subsetted to only the icons we
+            actually use via &icon_names — the full variable font is ~346 KB, the subset
+            is a few KB. preconnect warms the font origins so the small fetch is fast. */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=account_balance,arrow_forward,article,auto_stories,balance,biotech,bolt,business,category,chevron_right,clinical_notes,dashboard,description,directions_car,diversity_3,domain,download,emoji_events,event,fact_check,flag,format_quote,groups,handshake,info,local_hospital,lock,mail,memory,menu_book,monitoring,newspaper,photo_library,policy,rocket_launch,schema,school,science,security,sell,sensors,shield,smart_display,sports_soccer,support_agent,terrain,timeline,trending_up,verified,verified_user,volunteer_activism,work,workspace_premium&display=block"
         />
       </head>
       <body className="min-h-dvh bg-canvas text-ink antialiased">
