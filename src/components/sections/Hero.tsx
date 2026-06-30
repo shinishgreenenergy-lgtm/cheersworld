@@ -8,20 +8,53 @@ import { BrainVisual } from "../ui/BrainVisual";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-// structura "anima fade-left": fade in while sliding from the left
-function fadeLeft(delay = 0) {
+// Reveal a line by wiping it open left -> right (clip-path). Negative top/right/
+// bottom insets keep descenders and the "Consciousness" glow from being clipped.
+function wipeLine(delay = 0, duration = 0.72) {
   return {
-    initial: { opacity: 0, x: -42 },
-    animate: { opacity: 1, x: 0 },
-    transition: { duration: 0.85, delay, ease },
+    initial: { clipPath: "inset(-12% 100% -12% 0%)" },
+    animate: { clipPath: "inset(-12% -12% -12% 0%)" },
+    transition: { duration, delay, ease },
   };
+}
+
+// "Consciousness" as handwriting: a cursive word that writes itself on left -> right
+// (clip-path) on a continuous loop, with a blinking pen caret at the tip.
+function WritingWord({ text }: { text: string }) {
+  return (
+    <span className="relative inline-block font-script text-[1.15em] font-bold leading-[1.15]">
+      <motion.span
+        className="text-gradient inline-block"
+        initial={{ clipPath: "inset(-18% 100% -24% -4%)" }}
+        animate={{
+          clipPath: [
+            "inset(-18% 100% -24% -4%)", // unwritten
+            "inset(-18% -7% -24% -4%)", // fully written
+            "inset(-18% -7% -24% -4%)", // hold
+            "inset(-18% 100% -24% -4%)", // erased
+          ],
+        }}
+        transition={{
+          duration: 6.5,
+          times: [0, 0.34, 0.82, 1],
+          ease: "easeInOut",
+          repeat: Infinity,
+          repeatDelay: 0.3,
+          delay: 0.5,
+        }}
+      >
+        {text}
+        <span className="caret-blink ml-[0.04em] inline-block h-[0.6em] w-[2.5px] translate-y-[0.05em] rounded-full bg-accent align-baseline" />
+      </motion.span>
+    </span>
+  );
 }
 
 export function Hero() {
   return (
     <section id="top" className="relative isolate overflow-hidden">
-      {/* Light greenish-grey base */}
-      <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,#f1f6f1_0%,#e4ede5_100%)]" />
+      {/* Soft neutral base with just a hint of green */}
+      <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,#f8f9fb_0%,#eef1f1_100%)]" />
       {/* Faint grid texture */}
       <div className="absolute inset-0 -z-10 bg-grid opacity-40 [mask-image:radial-gradient(ellipse_at_top,black,transparent_72%)]" />
       {/* structura-style vertical hairlines across the hero */}
@@ -33,14 +66,14 @@ export function Hero() {
           />
         ))}
       </div>
-      {/* Soft warm glows */}
-      <div className="absolute -left-20 top-10 -z-10 h-[26rem] w-[26rem] rounded-full bg-accent/12 blur-[130px]" />
-      <div className="absolute right-0 top-1/3 -z-10 h-[24rem] w-[24rem] rounded-full bg-accent-2/14 blur-[130px]" />
+      {/* Soft glows (subtle) */}
+      <div className="absolute -left-20 top-10 -z-10 h-[26rem] w-[26rem] rounded-full bg-accent/[0.07] blur-[130px]" />
+      <div className="absolute right-0 top-1/3 -z-10 h-[24rem] w-[24rem] rounded-full bg-accent-3/[0.06] blur-[130px]" />
 
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 pb-24 pt-36 sm:px-6 lg:grid-cols-2 lg:gap-8 lg:pt-44">
         <div>
           <motion.span
-            {...fadeLeft(0)}
+            {...wipeLine(0, 0.55)}
             className="inline-flex items-center gap-2 rounded-full border border-line bg-white/70 px-4 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-accent backdrop-blur"
           >
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
@@ -48,32 +81,37 @@ export function Hero() {
           </motion.span>
 
           <h1 className="mt-7 font-display text-5xl font-extrabold leading-[1.02] tracking-tight text-ink sm:text-6xl lg:text-[4.3rem]">
-            <motion.span {...fadeLeft(0.12)} className="block">
+            <motion.span {...wipeLine(0.18)} className="block w-fit">
               {hero.titleTop}
             </motion.span>
-            <motion.span {...fadeLeft(0.26)} className="block pb-[0.14em]">
-              <span className="accent-pulse font-serif font-medium italic">{hero.titleAccent}</span>
-            </motion.span>
+            <span className="block w-fit pb-[0.2em]">
+              <WritingWord text={hero.titleAccent} />
+            </span>
           </h1>
 
           <motion.p
-            {...fadeLeft(0.42)}
-            className="mt-6 flex flex-wrap items-center gap-x-2 text-xl font-extrabold text-ink-soft"
+            {...wipeLine(0.66)}
+            className="mt-6 flex w-fit flex-wrap items-center gap-x-2 text-xl font-extrabold text-ink-soft"
           >
             <span>Adaptive AI for</span>
             <RotatingText words={["recovery", "resilience", "clarity", "safety", "balance"]} className="font-display text-gradient-animated" />
           </motion.p>
 
-          <motion.p {...fadeLeft(0.52)} className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
+          <motion.p {...wipeLine(0.84)} className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
             {hero.body}
           </motion.p>
 
-          <motion.p {...fadeLeft(0.6)} className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted">
+          <motion.p {...wipeLine(1.0)} className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted">
             Where neuroscience, behavioral science, and emotional intelligence meet adaptive AI, turning awareness into
             measurable, life-changing outcomes.
           </motion.p>
 
-          <motion.div {...fadeLeft(0.7)} className="mt-9 flex flex-wrap items-center gap-3">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.18, ease }}
+            className="mt-9 flex flex-wrap items-center gap-3"
+          >
             <Button href={hero.ctaPrimary.href} icon="arrow">
               {hero.ctaPrimary.label}
             </Button>

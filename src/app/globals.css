@@ -1,9 +1,10 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-questrial), ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-display: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-playfair), ui-serif, Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: ui-serif, Georgia, "Times New Roman", serif;
+  --font-script: var(--font-dancing), "Brush Script MT", cursive;
 
   /* palette: premium light */
   --color-ink: #14162a;
@@ -37,10 +38,27 @@ body {
   overflow-x: hidden;
 }
 
-/* Structura pairing: headings + bold UI in Nunito, body in Questrial (single-weight, no faux-bold) */
+/* Headings + bold UI in the display face, body in the sans face */
 h1, h2, h3, h4, h5, h6,
 button, nav, .font-display {
   font-family: var(--font-display);
+}
+
+/* Google Material Symbols (Rounded) */
+.msym {
+  font-family: "Material Symbols Rounded";
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
 }
 
 ::selection {
@@ -95,6 +113,19 @@ button, nav, .font-display {
 }
 @media (prefers-reduced-motion: reduce) {
   .accent-pulse { animation: none; }
+}
+
+/* blinking pen caret for the handwritten "Consciousness" */
+@keyframes caret-blink {
+  0%, 45% { opacity: 1; }
+  50%, 95% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.caret-blink {
+  animation: caret-blink 1.05s steps(1, end) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .caret-blink { animation: none; opacity: 1; }
 }
 
 /* details accordion (mobile nav) */

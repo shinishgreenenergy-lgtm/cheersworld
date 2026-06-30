@@ -1,41 +1,38 @@
+import { SectionHeading } from "../ui/SectionHeading";
 import { Reveal } from "../ui/Reveal";
 import { Icon } from "../ui/Icon";
 import { scienceSoul } from "@/lib/content";
+import { TINTS } from "@/lib/tints";
 
 export function ScienceSoul() {
   return (
-    <section className="relative overflow-hidden bg-[linear-gradient(135deg,#2e9e5b_0%,#1f8a4c_60%,#2e8b57_100%)] py-20 sm:py-28">
-      <div className="absolute inset-0 bg-dots opacity-[0.12]" />
-      <div className="absolute -left-24 -top-24 h-80 w-80 rounded-full bg-white/10 blur-3xl" />
-      <div className="absolute -bottom-28 right-0 h-96 w-96 rounded-full bg-black/10 blur-3xl" />
+    <section className="relative scroll-mt-24 py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <SectionHeading
+          eyebrow={scienceSoul.eyebrow}
+          title={scienceSoul.title}
+          subtitle={scienceSoul.subtitle}
+        />
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="mx-auto max-w-2xl text-center">
-          <Reveal>
-            <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-white/75">{scienceSoul.eyebrow}</span>
-          </Reveal>
-          <Reveal delay={0.06}>
-            <h2 className="mt-3 text-balance text-3xl font-light leading-tight text-white sm:text-4xl">
-              {scienceSoul.title}
-            </h2>
-          </Reveal>
-          <Reveal delay={0.12}>
-            <p className="mt-4 text-pretty text-base leading-relaxed text-white/85">{scienceSoul.subtitle}</p>
-          </Reveal>
-        </div>
-
-        <div className="mt-16 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-          {scienceSoul.features.map((f, i) => (
-            <Reveal key={f.title} delay={(i % 4) * 0.08}>
-              <div className="group flex flex-col items-center text-center">
-                <span className="grid h-16 w-16 place-items-center rounded-2xl border border-white/35 text-white transition-colors duration-300 group-hover:bg-white/10">
-                  <Icon name={f.icon} className="h-7 w-7" strokeWidth={1.4} />
-                </span>
-                <h3 className="mt-5 text-lg font-semibold leading-snug text-white">{f.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/80">{f.body}</p>
-              </div>
-            </Reveal>
-          ))}
+        <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {scienceSoul.features.map((f, i) => {
+            const t = TINTS[i % TINTS.length];
+            return (
+              <Reveal key={f.title} delay={(i % 4) * 0.07}>
+                <div className="group glass relative flex h-full flex-col items-start gap-5 overflow-hidden p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_50px_-30px_rgba(20,22,42,0.3)]">
+                  <span aria-hidden className="absolute inset-x-0 top-0 h-1" style={{ background: t.bar }} />
+                  <span
+                    className="grid h-14 w-14 place-items-center rounded-2xl text-white"
+                    style={{ background: t.tile, boxShadow: `0 12px 26px -12px ${t.glow}` }}
+                  >
+                    <Icon name={f.icon} className="h-7 w-7" strokeWidth={1.7} />
+                  </span>
+                  <h3 className="font-display text-lg font-extrabold leading-snug tracking-tight text-ink">{f.title}</h3>
+                  <p className="text-[15px] leading-relaxed text-muted">{f.body}</p>
+                </div>
+              </Reveal>
+            );
+          })}
         </div>
       </div>
     </section>

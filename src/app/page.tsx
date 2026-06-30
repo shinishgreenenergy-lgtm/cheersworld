@@ -1,4 +1,5 @@
 import { Aurora } from "@/components/ui/Aurora";
+import { CurveDivider } from "@/components/ui/CurveDivider";
 import { Header } from "@/components/sections/Header";
 import { Hero } from "@/components/sections/Hero";
 import { Trusted } from "@/components/sections/Trusted";
@@ -7,7 +8,6 @@ import { ScienceSoul } from "@/components/sections/ScienceSoul";
 import { Products } from "@/components/sections/Products";
 import { Partners } from "@/components/sections/Partners";
 import { Testimonials } from "@/components/sections/Testimonials";
-import { CTA } from "@/components/sections/CTA";
 import { Footer } from "@/components/sections/Footer";
 
 export default function Home() {
@@ -18,12 +18,12 @@ export default function Home() {
       <main>
         <Hero />
         <Trusted />
+        <CurveDivider />
         <About />
         <ScienceSoul />
         <Products />
         <Partners />
         <Testimonials />
-        <CTA />
       </main>
       <Footer />
     </>
