@@ -135,10 +135,11 @@ summary::-webkit-details-marker { display: none; }
 details[open] > summary .chev { transform: rotate(180deg); }
 
 .glass {
-  background: rgba(255, 255, 255, 0.62);
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  border: 1px solid rgba(15, 18, 40, 0.06);
+  /* frosted translucent panel: diagonal sheen + strong backdrop frost + light rim */
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.24) 100%);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
 }
 
 /* animated gradient border on hover */
