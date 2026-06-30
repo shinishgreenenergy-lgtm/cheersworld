@@ -247,9 +247,19 @@ details[open] > summary .chev { transform: rotate(180deg); }
   100% { transform: translateX(100%); }
 }
 
+/* neuron dot twinkle — CSS keyframe (kept off the React style tree so SSR/client stay identical) */
+@keyframes neuron-twinkle {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+.neuron-dot {
+  animation: neuron-twinkle 3.2s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
-  .animate-floaty {
+  .animate-floaty,
+  .neuron-dot {
     animation: none !important;
   }
 }

@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import { SectionHeading } from "../ui/SectionHeading";
 import { Reveal } from "../ui/Reveal";
 import { Icon } from "../ui/Icon";
+import { CardSeal } from "../ui/CardSeal";
 import { partners } from "@/lib/content";
 import { TINTS } from "@/lib/tints";
 
@@ -37,6 +38,7 @@ export function Partners() {
                       </li>
                     ))}
                   </ul>
+                  <CardSeal index={i} />
                 </div>
               </Reveal>
             );

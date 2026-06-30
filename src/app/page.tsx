@@ -1,5 +1,4 @@
 import { Aurora } from "@/components/ui/Aurora";
-import { TrustSeal } from "@/components/ui/TrustSeal";
 import { Header } from "@/components/sections/Header";
 import { Hero } from "@/components/sections/Hero";
 import { Trusted } from "@/components/sections/Trusted";
@@ -25,7 +24,6 @@ export default function Home() {
         <Testimonials />
       </main>
       <Footer />
-      <TrustSeal />
     </>
   );
 }

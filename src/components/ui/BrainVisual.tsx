@@ -9,18 +9,21 @@ const NODE_COLORS = ["#14b8a6", "#3b82f6", "#ef4444", "#f59e0b", "#8b5cf6"];
 
 // Neuron points on a Fibonacci sphere (deterministic → no hydration mismatch).
 const R = 172;
+// Coords are rounded to integers and delay to 2 decimals: the browser normalises
+// sub-pixel transform values when it parses the server HTML, so any extra precision
+// here would read as a hydration mismatch on the client. Keep these strings exact.
 const DOTS = Array.from({ length: 60 }, (_, i) => {
   const golden = Math.PI * (3 - Math.sqrt(5));
   const y = 1 - (i / 59) * 2;
   const rad = Math.sqrt(1 - y * y);
   const theta = golden * i;
   return {
-    x: Math.cos(theta) * rad * R,
-    y: y * R,
-    z: Math.sin(theta) * rad * R,
+    x: Math.round(Math.cos(theta) * rad * R),
+    y: Math.round(y * R),
+    z: Math.round(Math.sin(theta) * rad * R),
     size: 2.5 + ((i * 7) % 5) * 0.8,
     color: NODE_COLORS[i % NODE_COLORS.length],
-    delay: (i % 9) * 0.35,
+    delay: ((i % 9) * 0.35).toFixed(2),
   };
 });
 
@@ -69,9 +72,9 @@ export function BrainVisual() {
           transition={reduce ? {} : { duration: 34, repeat: Infinity, ease: "linear" }}
         >
           {DOTS.map((d, i) => (
-            <motion.span
+            <span
               key={i}
-              className="absolute left-1/2 top-1/2 rounded-full"
+              className="neuron-dot absolute left-1/2 top-1/2 rounded-full"
               style={{
                 width: d.size,
                 height: d.size,
@@ -80,9 +83,8 @@ export function BrainVisual() {
                 transform: `translate3d(${d.x}px, ${d.y}px, ${d.z}px)`,
                 background: d.color,
                 boxShadow: `0 0 8px ${d.color}`,
+                animationDelay: `${d.delay}s`,
               }}
-              animate={reduce ? {} : { opacity: [0.35, 1, 0.35] }}
-              transition={reduce ? {} : { duration: 3.2, repeat: Infinity, ease: "easeInOut", delay: d.delay }}
             />
           ))}
 
