@@ -1,0 +1,9 @@
+Third-party asset credits
+=========================
+
+Hero 3D model: "Brain" by Poly by Google
+Source: https://poly.pizza/m/5mPRPZkI3qt
+License: Creative Commons Attribution 3.0 (CC-BY 3.0)
+https://creativecommons.org/licenses/by/3.0/
+
+Used in the homepage hero (public/brain-model.glb), recoloured/relit but geometry unmodified.
