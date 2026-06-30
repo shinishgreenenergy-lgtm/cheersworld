@@ -80,13 +80,13 @@ export function BrainVisual() {
         transition={reduce ? {} : { duration: 6, repeat: Infinity, ease: "easeInOut" }}
       >
         <Image
-          src="/brain-neural.jpg"
+          src="/brain-neural.png"
           alt="Colourful neural brain representing human consciousness"
           width={640}
           height={427}
           priority
           sizes="(max-width: 1024px) 70vw, 30vw"
-          className="h-auto w-full mix-blend-multiply [mask-image:radial-gradient(ellipse_72%_62%_at_50%_50%,#000_55%,transparent_92%)] [-webkit-mask-image:radial-gradient(ellipse_72%_62%_at_50%_50%,#000_55%,transparent_92%)]"
+          className="h-auto w-full"
         />
       </motion.div>
     </div>
