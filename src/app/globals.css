@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-display: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-display-src), ui-sans-serif, system-ui, sans-serif;
   --font-serif: ui-serif, Georgia, "Times New Roman", serif;
   --font-script: var(--font-dancing), "Brush Script MT", cursive;
 
@@ -174,6 +174,21 @@ details[open] > summary .chev { transform: rotate(180deg); }
 .bg-dots {
   background-image: radial-gradient(rgba(11, 11, 20, 0.08) 1px, transparent 1px);
   background-size: 22px 22px;
+}
+
+/* fine grain noise for a premium, tactile background */
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* liquid wave crest that rides the rising fill on the Science cards */
+@keyframes wave-x {
+  to { transform: translateX(-50%); }
+}
+.wave-anim { animation: wave-x 2.3s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .wave-anim { animation: none; }
 }
 
 /* marquee */

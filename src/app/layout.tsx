@@ -1,20 +1,21 @@
 import type { Metadata } from "next";
-import { Sora, Inter, Dancing_Script } from "next/font/google";
+import { Bricolage_Grotesque, Plus_Jakarta_Sans, Dancing_Script } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/providers/SmoothScroll";
 
-// Premium, highly readable pairing: Sora for headings, Inter for body.
-const sora = Sora({
+// Premium pairing: Bricolage Grotesque for expressive headings, Plus Jakarta
+// Sans for crisp, highly readable body copy.
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-sora",
+  variable: "--font-display-src",
   display: "swap",
 });
 
-const inter = Inter({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-inter",
+  variable: "--font-body",
   display: "swap",
 });
 
@@ -43,7 +44,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${sora.variable} ${inter.variable} ${dancing.variable}`}>
+    <html lang="en" className={`${bricolage.variable} ${jakarta.variable} ${dancing.variable}`}>
       <head>
         {/* Google Material Symbols (used in the mega-menu) */}
         <link

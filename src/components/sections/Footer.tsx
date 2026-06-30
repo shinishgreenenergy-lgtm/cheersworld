@@ -4,15 +4,14 @@ import { footer, site } from "@/lib/content";
 
 export function Footer() {
   return (
-    <footer className="border-t border-line bg-white/60 py-16 backdrop-blur">
+    <footer className="border-t border-white/50 bg-[linear-gradient(180deg,rgba(255,255,255,0.55),rgba(255,255,255,0.3))] py-16 backdrop-blur-xl">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="grid gap-12 md:grid-cols-[1.6fr_1fr_1fr]">
           <div>
-            <Link href="#top" className="flex items-center gap-2.5">
-              <span className="grid h-10 w-10 place-items-center overflow-hidden rounded-2xl bg-[#0a160d] ring-1 ring-black/5">
-                <Image src="/cheers-logo.svg" alt="Cheers Wisdom" width={56} height={56} className="h-full w-full" />
+            <Link href="#top" className="inline-flex items-center">
+              <span className="grid h-20 w-20 place-items-center overflow-hidden rounded-3xl bg-[#0a160d] ring-1 ring-black/5">
+                <Image src="/cheers-logo.svg" alt={site.name} width={96} height={96} className="h-full w-full" />
               </span>
-              <span className="text-lg font-black tracking-tight">{site.name}</span>
             </Link>
             <p className="mt-4 max-w-sm text-[15px] leading-relaxed text-muted">{footer.blurb}</p>
           </div>

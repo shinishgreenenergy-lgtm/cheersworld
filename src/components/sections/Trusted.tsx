@@ -24,7 +24,7 @@ function LogoLockup({ name, icon }: Partner) {
 
 export function Trusted() {
   return (
-    <section className="border-y border-line/70 bg-white/40 py-14 backdrop-blur">
+    <section className="relative isolate border-y border-[#d6dcd4] bg-[#e7ebe6] py-14">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <Reveal>
           <p className="text-center text-[13px] font-bold uppercase tracking-[0.2em] text-muted">

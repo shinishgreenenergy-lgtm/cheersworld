@@ -193,7 +193,7 @@ export function Header() {
       {open && (
         <div className="fixed inset-0 z-50 xl:hidden">
           <div className="absolute inset-0 bg-ink/40 backdrop-blur-sm" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 top-0 flex h-full w-[88%] max-w-sm flex-col bg-surface shadow-2xl">
+          <div className="absolute right-0 top-0 flex h-full w-[88%] max-w-sm flex-col bg-[linear-gradient(180deg,rgba(255,255,255,0.85),rgba(255,255,255,0.7))] shadow-2xl backdrop-blur-2xl">
             <div className="flex items-center justify-between border-b border-line px-5 py-4">
               <span className="font-display font-extrabold">Menu</span>
               <button onClick={() => setOpen(false)} aria-label="Close menu">
