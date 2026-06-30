@@ -1,78 +1,22 @@
 "use client";
 
 // Real WebGL 3D brain for the hero. Model: "Brain" by Poly by Google (CC-BY 3.0),
-// via poly.pizza — attribution in /public/CREDITS.txt. Low-poly (~3k tris, 200 KB),
-// lit with the five wellness-dimension colours so it stays on-brand. Loaded only on
-// the client (ssr:false from the wrapper) and only when WebGL is available.
-// Surrounded by an orbiting neuron point-field + great-circle rings (in-scene, so they
-// interleave with the brain at the correct depth).
+// via poly.pizza — attribution in /public/CREDITS.txt. Low-poly (~3k tris, 200 KB).
+// Rendered as a natural, organic brain (pink-grey tissue, soft realistic lighting),
+// surrounded by an orbiting neuron point-field + great-circle rings (in-scene, so they
+// interleave with the brain at the correct depth). Client-only (ssr:false from wrapper).
 
 import { Suspense, useMemo, useRef } from "react";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { mergeVertices, mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
+import { mergeVertices } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import * as THREE from "three";
 
 const DIM_COLORS = ["#14b8a6", "#3b82f6", "#ef4444", "#f59e0b", "#8b5cf6"];
 
-// Small seeded RNG so the nerve tangle is identical every render/reload.
-function mulberry32(seed: number) {
-  return () => {
-    seed |= 0;
-    seed = (seed + 0x6d2b79f5) | 0;
-    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
-// Pull a point back inside the brain-interior ellipsoid if it strays out.
-function clampEllipsoid(p: THREE.Vector3, a: number, b: number, c: number) {
-  const v = (p.x * p.x) / (a * a) + (p.y * p.y) / (b * b) + (p.z * p.z) / (c * c);
-  if (v > 1) p.multiplyScalar(1 / Math.sqrt(v));
-}
-
-// Red nerve filaments meandering through the brain's interior (visible through the glass).
-function Nerves() {
-  const geometry = useMemo(() => {
-    const rng = mulberry32(20260701);
-    const A = 1.02, B = 0.72, C = 0.92; // interior ellipsoid (fits inside the 2.5-unit brain)
-    const tubes: THREE.TubeGeometry[] = [];
-    for (let i = 0; i < 18; i++) {
-      const pts: THREE.Vector3[] = [];
-      const p = new THREE.Vector3((rng() - 0.5) * 0.7, (rng() - 0.5) * 0.6, (rng() - 0.5) * 0.7);
-      const dir = new THREE.Vector3(rng() - 0.5, rng() - 0.5, rng() - 0.5).normalize().multiplyScalar(0.34);
-      const steps = 5 + Math.floor(rng() * 4);
-      for (let k = 0; k < steps; k++) {
-        pts.push(p.clone());
-        dir.add(new THREE.Vector3((rng() - 0.5) * 0.34, (rng() - 0.5) * 0.34, (rng() - 0.5) * 0.34));
-        p.add(dir);
-        clampEllipsoid(p, A, B, C);
-      }
-      const curve = new THREE.CatmullRomCurve3(pts, false, "catmullrom", 0.5);
-      tubes.push(new THREE.TubeGeometry(curve, 50, 0.012 + rng() * 0.016, 6, false));
-    }
-    return mergeGeometries(tubes, false);
-  }, []);
-
-  const material = useMemo(
-    () =>
-      new THREE.MeshStandardMaterial({
-        color: new THREE.Color("#e10f1f"),
-        emissive: new THREE.Color("#ff1126"),
-        emissiveIntensity: 1.5,
-        roughness: 0.5,
-        metalness: 0,
-      }),
-    [],
-  );
-
-  return <mesh geometry={geometry} material={material} />;
-}
-
-// Generate a neutral studio environment at runtime (no external HDR file) so the
-// glass material has something to reflect/refract. Keeps the bundle lean.
+// Soft studio reflections at runtime (no external HDR) — gives the moist clearcoat
+// something subtle to reflect.
 function StudioEnv() {
   const { gl, scene } = useThree();
   useMemo(() => {
@@ -83,9 +27,34 @@ function StudioEnv() {
   return null;
 }
 
+// Subtle blurred-noise bump → organic, skin-like surface micro-detail on the low-poly mesh.
+function useBumpTexture() {
+  return useMemo(() => {
+    const s = 256;
+    const c = document.createElement("canvas");
+    c.width = c.height = s;
+    const ctx = c.getContext("2d")!;
+    const img = ctx.createImageData(s, s);
+    for (let i = 0; i < s * s; i++) {
+      const v = 128 + (Math.random() * 2 - 1) * 64;
+      img.data[i * 4] = img.data[i * 4 + 1] = img.data[i * 4 + 2] = v;
+      img.data[i * 4 + 3] = 255;
+    }
+    ctx.putImageData(img, 0, 0);
+    ctx.filter = "blur(1.5px)";
+    ctx.drawImage(c, 0, 0);
+    ctx.filter = "none";
+    const tex = new THREE.CanvasTexture(c);
+    tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+    tex.repeat.set(5, 5);
+    return tex;
+  }, []);
+}
+
 function Brain() {
   const gltf = useLoader(GLTFLoader, "/brain-model.glb");
   const ref = useRef<THREE.Group>(null);
+  const bump = useBumpTexture();
 
   const model = useMemo(() => {
     const s = gltf.scene.clone(true);
@@ -98,24 +67,20 @@ function Brain() {
     s.scale.setScalar(scale);
     s.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
 
-    // Frosted-glass material — translucent with soft refraction + a subtle brand tint.
-    // The frosting (roughness) blurs the refraction, which also hides the low-poly
-    // facets so the brain reads as smooth glass. A glossy clearcoat keeps highlights crisp.
-    const glass = new THREE.MeshPhysicalMaterial({
-      color: new THREE.Color("#ffffff"),
-      transmission: 0.96,
-      thickness: 0.9,
-      ior: 1.3,
-      roughness: 0.28,
+    // Organic brain tissue — warm pink-grey, soft and slightly moist, with a hint of
+    // sub-surface warmth. Not glass; reads as a real brain.
+    const mat = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color("#c79188"),
+      roughness: 0.62,
       metalness: 0,
-      clearcoat: 1,
-      clearcoatRoughness: 0.12,
-      attenuationColor: new THREE.Color("#cfd6ff"),
-      attenuationDistance: 2.6,
-      iridescence: 0.28,
-      iridescenceIOR: 1.3,
-      transparent: true,
-      envMapIntensity: 1.2,
+      clearcoat: 0.35,
+      clearcoatRoughness: 0.5,
+      sheen: 0.45,
+      sheenColor: new THREE.Color("#e7b0a4"),
+      sheenRoughness: 0.6,
+      envMapIntensity: 0.55,
+      bumpMap: bump,
+      bumpScale: 0.55,
     });
 
     s.traverse((o) => {
@@ -127,11 +92,11 @@ function Brain() {
         g = mergeVertices(g, 1e-4);
         g.computeVertexNormals();
         m.geometry = g;
-        m.material = glass;
+        m.material = mat;
       }
     });
     return s;
-  }, [gltf]);
+  }, [gltf, bump]);
 
   useFrame((_, dt) => {
     if (ref.current) ref.current.rotation.y += dt * 0.3;
@@ -139,8 +104,6 @@ function Brain() {
 
   return (
     <group ref={ref}>
-      {/* nerves first so the frosted glass shell renders over them */}
-      <Nerves />
       <primitive object={model} />
     </group>
   );
@@ -172,7 +135,6 @@ function NeuronField() {
   const ref = useRef<THREE.Group>(null);
   const tex = useDotTexture();
 
-  // Fibonacci-sphere positions + per-dimension colours.
   const { positions, colors } = useMemo(() => {
     const positions = new Float32Array(COUNT * 3);
     const colors = new Float32Array(COUNT * 3);
@@ -194,7 +156,6 @@ function NeuronField() {
     return { positions, colors };
   }, []);
 
-  // Three faint great-circle rings on different axes.
   const ring = useMemo(() => {
     const seg = 128;
     const arr = new Float32Array((seg + 1) * 3);
@@ -254,22 +215,14 @@ export function BrainScene() {
       style={{ background: "transparent" }}
     >
       <StudioEnv />
-      <ambientLight intensity={0.55} />
-      <hemisphereLight args={["#ffffff", "#cfd6e6", 0.4]} />
-      <directionalLight position={[3, 4, 5]} intensity={1.15} />
-      {/* five coloured rim lights — one per wellness dimension */}
-      {DIM_COLORS.map((c, i) => {
-        const a = (i / DIM_COLORS.length) * Math.PI * 2;
-        return (
-          <pointLight
-            key={c}
-            color={c}
-            intensity={14}
-            distance={11}
-            position={[Math.cos(a) * 3.2, Math.sin(a) * 2.4, Math.sin(a * 1.3) * 3.2]}
-          />
-        );
-      })}
+      {/* realistic, mostly-neutral lighting so the brain's own colour reads */}
+      <ambientLight intensity={0.45} />
+      <hemisphereLight args={["#ffffff", "#e9d8d0", 0.5]} />
+      <directionalLight position={[3, 5, 4]} intensity={1.6} color="#fff4ea" />
+      <directionalLight position={[-4, -1, -2]} intensity={0.5} color="#cfe0ff" />
+      {/* two restrained brand accents for depth (not a rainbow wash) */}
+      <pointLight color="#14b8a6" intensity={5} distance={10} position={[-3.2, 1.6, 2.4]} />
+      <pointLight color="#f59e0b" intensity={4} distance={10} position={[3.2, -1.4, 1.8]} />
       <group rotation={[-0.16, 0, 0]}>
         <NeuronField />
         <Suspense fallback={null}>
