@@ -9,7 +9,7 @@ export function Footer() {
         <div className="grid gap-12 md:grid-cols-[1.6fr_1fr_1fr]">
           <div>
             <Link href="#top" className="inline-flex items-center">
-              <span className="grid h-20 w-20 place-items-center overflow-hidden rounded-3xl bg-[#0a160d] ring-1 ring-black/5">
+              <span className="grid h-20 w-20 place-items-center">
                 <Image src="/cheers-logo.svg" alt={site.name} width={96} height={96} className="h-full w-full" />
               </span>
             </Link>

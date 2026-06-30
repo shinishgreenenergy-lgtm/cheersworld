@@ -97,7 +97,7 @@ export function Header() {
         >
           {/* Logo */}
           <Link href="#top" className="flex shrink-0 items-center gap-2.5">
-            <span className="grid h-10 w-10 place-items-center overflow-hidden rounded-2xl bg-[#0a160d] ring-1 ring-black/5">
+            <span className="grid h-10 w-10 place-items-center">
               <Image src="/cheers-logo.svg" alt="Cheers Wisdom" width={56} height={56} className="h-full w-full" />
             </span>
             <span className="font-display text-lg font-extrabold tracking-tight">Cheers Wisdom</span>
