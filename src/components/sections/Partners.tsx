@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { SectionHeading } from "../ui/SectionHeading";
 import { Reveal } from "../ui/Reveal";
 import { Icon } from "../ui/Icon";
@@ -14,8 +15,10 @@ export function Partners() {
             const t = TINTS[i % TINTS.length];
             return (
               <Reveal key={g.heading} delay={i * 0.08}>
-                <div className="group glass relative flex h-full flex-col items-center overflow-hidden px-8 py-10 text-center shadow-[0_24px_50px_-34px_rgba(20,22,42,0.4)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_30px_60px_-30px_rgba(20,22,42,0.3)]">
-                  <span aria-hidden className="absolute inset-x-0 top-0 h-1" style={{ background: t.bar }} />
+                <div
+                  className="group beam-border glass relative flex h-full origin-bottom flex-col items-center overflow-hidden px-8 py-10 text-center shadow-[0_24px_50px_-34px_rgba(20,22,42,0.4)] transition-all duration-300 hover:[transform:perspective(1100px)_translateY(-8px)_rotateX(9deg)_rotateZ(-2deg)] hover:shadow-[0_42px_72px_-28px_rgba(20,22,42,0.5)]"
+                  style={{ "--beam-color": t.bar } as CSSProperties}
+                >
                   <span
                     className="grid h-14 w-14 place-items-center rounded-full"
                     style={{ background: t.soft, color: t.text }}

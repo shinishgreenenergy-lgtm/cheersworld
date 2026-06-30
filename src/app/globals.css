@@ -191,6 +191,39 @@ details[open] > summary .chev { transform: rotate(180deg); }
   .wave-anim { animation: none; }
 }
 
+/* thin light tracing a card border, clockwise */
+@property --beam {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes beam-spin {
+  to { --beam: 360deg; }
+}
+.beam-border::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--beam),
+    transparent 0deg 266deg,
+    var(--beam-color, #2e9e5b) 322deg,
+    #ffffff 344deg,
+    var(--beam-color, #2e9e5b) 352deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+  animation: beam-spin 4.5s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .beam-border::after { animation: none; }
+}
+
 /* marquee */
 @keyframes marquee {
   from { transform: translateX(0); }
