@@ -7,6 +7,7 @@ import { Dimensions } from "@/components/sections/Dimensions";
 import { Science } from "@/components/sections/Science";
 import { Solutions } from "@/components/sections/Solutions";
 import { Architecture } from "@/components/sections/Architecture";
+import { Research } from "@/components/sections/Research";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { Footer } from "@/components/sections/Footer";
 
@@ -23,6 +24,7 @@ export default function Home() {
         <Science />
         <Solutions />
         <Architecture />
+        <Research />
         <Testimonials />
       </main>
       <Footer />
