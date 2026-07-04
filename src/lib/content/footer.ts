@@ -8,7 +8,7 @@ export const footer = {
   blurb: "Advancing human consciousness through adaptive AI companions across health, emotion, and awareness.",
   quickLinks: [
     { label: "About", href: "#about" },
-    { label: "Products", href: "#products" },
+    { label: "Solutions", href: "#solutions" },
     { label: "Team", href: "#about" },
     { label: "Research", href: "#research" },
     { label: "Insights", href: "#insights" },

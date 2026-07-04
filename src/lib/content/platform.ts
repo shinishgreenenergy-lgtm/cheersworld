@@ -1,15 +1,27 @@
 import type { IconName } from "@/components/ui/Icon";
+import type { SoonLink } from "./types";
 
-export const products = {
-  eyebrow: "The Cheers Wisdom Core AI",
-  title: "One ecosystem, every dimension of life",
+const FACETS: SoonLink[] = [
+  { label: "Overview", href: "#solutions" },
+  { label: "Research" },
+  { label: "Evidence" },
+  { label: "Demo" },
+  { label: "Use Cases" },
+];
+
+export const solutions = {
+  eyebrow: "Human Intelligence Platform",
+  title: "One platform. Seven connected solutions.",
   subtitle:
-    "Our ecosystem connects AI-driven solutions across life's key dimensions: health, digital safety, fashion, finance, and research.",
+    "Every Cheers solution runs on the same platform core — the same situational awareness, prediction and intervention engines, tuned to a different domain of human life.",
+  hub: "Human Intelligence Platform",
   items: [
-    { name: "Cheers Health", tagline: "Recovery & Rehabilitation", icon: "HeartPulse" as IconName },
-    { name: "Cheers Digital", tagline: "Emotional Safety Online", icon: "Shield" as IconName },
-    { name: "Cheers Wellthy", tagline: "Financial Emotional Balance", icon: "Wallet" as IconName },
-    { name: "Cheers Fashion", tagline: "Identity & Mood Wellness", icon: "Shirt" as IconName },
-    { name: "Cheers Research", tagline: "Innovation in Human-AI Science", icon: "Microscope" as IconName },
+    { name: "Cheers Health", tagline: "Clinical recovery & patient wellbeing", domain: "Healthcare", icon: "HeartPulse" as IconName, facets: FACETS },
+    { name: "Cheers Digital", tagline: "Cyber safety & digital wellbeing", domain: "Education", icon: "Shield" as IconName, facets: FACETS },
+    { name: "Cheers Mining", tagline: "Miner safety & fatigue awareness", domain: "Mining", icon: "Mountain" as IconName, facets: FACETS },
+    { name: "Cheers Drive", tagline: "Driver wellness & road safety", domain: "Transportation", icon: "Car" as IconName, facets: FACETS },
+    { name: "Cheers Presence", tagline: "Social presence & team wellbeing", domain: "Corporate", icon: "Users" as IconName, facets: FACETS },
+    { name: "Cheers Finance", tagline: "Financial behaviour & balance", domain: "Finance", icon: "Wallet" as IconName, facets: FACETS },
+    { name: "Cheers Sports", tagline: "Athlete cognition & performance", domain: "Sports", icon: "Trophy" as IconName, facets: FACETS },
   ],
 };
