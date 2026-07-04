@@ -3,6 +3,7 @@ export * from "./site";
 export * from "./nav";
 export * from "./hero";
 export * from "./about";
+export * from "./dimensions";
 export * from "./science";
 export * from "./platform";
 export * from "./trust";

@@ -3,6 +3,7 @@ import { Header } from "@/components/sections/Header";
 import { Hero } from "@/components/sections/Hero";
 import { Trusted } from "@/components/sections/Trusted";
 import { About } from "@/components/sections/About";
+import { Dimensions } from "@/components/sections/Dimensions";
 import { ScienceSoul } from "@/components/sections/ScienceSoul";
 import { Products } from "@/components/sections/Products";
 import { Testimonials } from "@/components/sections/Testimonials";
@@ -17,6 +18,7 @@ export default function Home() {
         <Hero />
         <Trusted />
         <About />
+        <Dimensions />
         <ScienceSoul />
         <Products />
         <Testimonials />
