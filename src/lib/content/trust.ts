@@ -1,37 +1,45 @@
-import type { IconName } from "@/components/ui/Icon";
-
-export const partnerNames = [
-  "NIMS Jaipur",
-  "NIMS Hyderabad",
-  "Medtrina Hospitals",
-  "Renova Hospitals",
-  "Ujala Cygnus",
-  "Sancheti School",
-  "Modern School",
-  "Faubert Lab",
-  "Amity Cognitive Lab",
-];
-
-export const partners = {
-  eyebrow: "Built on Science. Backed by Trust.",
-  title: "Built on science. Backed by trust.",
-  subtitle:
-    "In collaboration with leading hospitals, research institutions, and schools, bringing AI science to life through real human impact.",
+// Only verifiably real partners appear here. Metrics without a `value`
+// render as "Coming Soon" — never invent numbers.
+export const trust = {
+  eyebrow: "In collaboration with leading institutions",
   groups: [
     {
-      heading: "Hospitals",
-      icon: "Building2" as IconName,
-      items: ["NIMS Jaipur", "NIMS Hyderabad", "Medtrina Hospitals", "Renova Hospitals", "Ujala Cygnus Hospitals"],
+      label: "Clinical",
+      items: [
+        { name: "NIMS Jaipur", logo: "/partners/nims-jaipur.png" },
+        { name: "NIMS Hyderabad", logo: "/partners/nims-hyderabad.svg" },
+        { name: "Medtrina Hospitals", logo: "/partners/meditrina.png" },
+        { name: "Renova Hospitals", logo: "/partners/renova.svg" },
+        { name: "Ujala Cygnus Hospitals", logo: "/partners/ujala-cygnus.jpeg" },
+      ],
     },
     {
-      heading: "Schools",
-      icon: "GraduationCap" as IconName,
-      items: ["Sancheti School", "Modern School"],
+      label: "Academic",
+      items: [
+        { name: "Sancheti School", logo: "/partners/sancheti.webp" },
+        { name: "Modern School", logo: "/partners/modern-school.png" },
+      ],
     },
     {
-      heading: "Research",
-      icon: "FlaskConical" as IconName,
-      items: ["Faubert Lab (NeuroTrackerX)", "CIIPS (Cyber AI Research)", "Amity Cognitive Computing Lab"],
+      label: "Research",
+      items: [
+        { name: "Faubert Lab (NeuroTrackerX)", logo: "/partners/faubert.png" },
+        { name: "CIIPS (Cyber AI Research)", logo: "/partners/ciips.png" },
+        { name: "Amity Cognitive Computing Lab", logo: "/partners/amity-accbi.png" },
+      ],
     },
+    { label: "Government", soon: true, items: [] },
+    { label: "Technology", soon: true, items: [] },
+  ],
+  metrics: [
+    { label: "Partner hospitals", value: 5 },
+    { label: "Partner schools", value: 2 },
+    { label: "Research labs", value: 3 },
+    { label: "Publications" },
+    { label: "Clinical studies" },
+    { label: "AI interactions" },
+    { label: "Countries" },
+    { label: "Patents" },
+    { label: "Awards" },
   ],
 };
