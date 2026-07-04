@@ -8,6 +8,7 @@ import { Science } from "@/components/sections/Science";
 import { Solutions } from "@/components/sections/Solutions";
 import { Architecture } from "@/components/sections/Architecture";
 import { Research } from "@/components/sections/Research";
+import { Evidence } from "@/components/sections/Evidence";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { Footer } from "@/components/sections/Footer";
 
@@ -25,6 +26,7 @@ export default function Home() {
         <Solutions />
         <Architecture />
         <Research />
+        <Evidence />
         <Testimonials />
       </main>
       <Footer />

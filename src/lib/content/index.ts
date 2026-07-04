@@ -9,4 +9,5 @@ export * from "./platform";
 export * from "./trust";
 export * from "./testimonials";
 export * from "./research";
+export * from "./evidence";
 export * from "./footer";
