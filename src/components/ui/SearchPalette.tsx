@@ -9,7 +9,18 @@ import { cn } from "@/lib/cn";
 type Entry = { label: string; group: string; href: string };
 
 export function SearchPalette({ open, onClose }: { open: boolean; onClose: () => void }) {
-  return <AnimatePresence>{open && <PaletteDialog onClose={onClose} />}</AnimatePresence>;
+  // Bump a generation counter on every open so AnimatePresence always mounts
+  // a fresh PaletteDialog (reset-by-remount survives fast reopen during exit).
+  const gen = useRef(0);
+  const prevOpen = useRef(false);
+  if (open && !prevOpen.current) gen.current += 1;
+  prevOpen.current = open;
+
+  return (
+    <AnimatePresence>
+      {open && <PaletteDialog key={gen.current} onClose={onClose} />}
+    </AnimatePresence>
+  );
 }
 
 // Mounted fresh on every open (via `open && …` above), so query/selection state

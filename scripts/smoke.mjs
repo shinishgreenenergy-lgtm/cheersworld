@@ -73,6 +73,7 @@ try {
   await page.screenshot({ path: "smoke-desktop.png", fullPage: true });
 
   const mob = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  mob.on("console", (m) => m.type() === "error" && errors.push(m.text()));
   mob.on("pageerror", (e) => errors.push(String(e)));
   await mob.goto(`http://localhost:${PORT}/`, { waitUntil: "networkidle" });
   await scrollThrough(mob);
