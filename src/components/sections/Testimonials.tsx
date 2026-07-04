@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { Quote, ArrowLeft, ArrowRight } from "lucide-react";
+import { Quote, ArrowLeft, ArrowRight, Play } from "lucide-react";
 import { SectionHeading } from "../ui/SectionHeading";
 import { testimonials } from "@/lib/content";
 import { TINTS } from "@/lib/tints";
@@ -13,9 +13,13 @@ export function Testimonials() {
   const items = testimonials.items;
   const reduce = useReducedMotion();
   const [[idx, dir], setState] = useState<[number, number]>([0, 0]);
+  const [videoOpen, setVideoOpen] = useState(false);
 
   const go = useCallback(
-    (d: number) => setState(([i]) => [(i + d + items.length) % items.length, d]),
+    (d: number) => {
+      setVideoOpen(false);
+      setState(([i]) => [(i + d + items.length) % items.length, d]);
+    },
     [items.length],
   );
 
@@ -35,12 +39,12 @@ export function Testimonials() {
   };
 
   return (
-    <section id="insights" className="scroll-mt-24 py-24 sm:py-32">
+    <section id="testimonials" className="scroll-mt-24 py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading
           eyebrow={testimonials.eyebrow}
           title={testimonials.title}
-          subtitle="What partners, clinicians, and people experience with Cheers Wisdom."
+          subtitle={testimonials.subtitle}
         />
 
         <div className="relative mx-auto mt-14 max-w-3xl">
@@ -57,6 +61,12 @@ export function Testimonials() {
                 className="glass relative col-start-1 row-start-1 flex flex-col items-center overflow-hidden p-10 text-center sm:p-12"
               >
                 <span aria-hidden className="absolute inset-x-0 top-0 h-1" style={{ background: t.bar }} />
+                <span
+                  className="rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-[0.12em]"
+                  style={{ background: t.soft, color: t.text }}
+                >
+                  {item.category}
+                </span>
                 <Quote className="h-10 w-10" style={{ color: t.text }} />
                 <blockquote className="mt-6 text-xl font-semibold leading-relaxed text-ink-soft sm:text-2xl">
                   &ldquo;{item.quote}&rdquo;
@@ -73,6 +83,14 @@ export function Testimonials() {
                     <span className="block text-xs text-muted">{item.role}</span>
                   </span>
                 </figcaption>
+                {item.video && (
+                  <button
+                    onClick={() => setVideoOpen(true)}
+                    className="mt-5 inline-flex items-center gap-2 rounded-full border border-line bg-white/70 px-4 py-2 text-[12.5px] font-bold text-ink-soft transition-colors hover:border-accent/60 hover:text-accent"
+                  >
+                    <Play className="h-3.5 w-3.5 fill-current" /> Watch the story
+                  </button>
+                )}
               </motion.figure>
             </AnimatePresence>
           </div>
@@ -106,6 +124,15 @@ export function Testimonials() {
             </button>
           </div>
         </div>
+
+        {videoOpen && item.video && (
+          <div className="fixed inset-0 z-[70] grid place-items-center bg-ink/70 p-4 backdrop-blur-sm" onClick={() => setVideoOpen(false)}>
+            <div className="w-full max-w-3xl overflow-hidden rounded-2xl bg-black" onClick={(e) => e.stopPropagation()}>
+              {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+              <video src={item.video} controls autoPlay className="aspect-video w-full" />
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
