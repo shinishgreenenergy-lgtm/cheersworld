@@ -10,4 +10,5 @@ export * from "./trust";
 export * from "./testimonials";
 export * from "./research";
 export * from "./evidence";
+export * from "./dashboards";
 export * from "./footer";
