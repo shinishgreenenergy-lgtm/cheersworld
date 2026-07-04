@@ -10,6 +10,7 @@ import { Architecture } from "@/components/sections/Architecture";
 import { Research } from "@/components/sections/Research";
 import { Evidence } from "@/components/sections/Evidence";
 import { Dashboards } from "@/components/sections/Dashboards";
+import { Government } from "@/components/sections/Government";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { Footer } from "@/components/sections/Footer";
 
@@ -29,6 +30,7 @@ export default function Home() {
         <Research />
         <Evidence />
         <Dashboards />
+        <Government />
         <Testimonials />
       </main>
       <Footer />
