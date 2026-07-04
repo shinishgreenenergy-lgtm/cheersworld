@@ -4,44 +4,11 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { Reveal } from "../ui/Reveal";
 import { Icon, type IconName } from "../ui/Icon";
+import { CompanyTimeline } from "../ui/CompanyTimeline";
 import { about } from "@/lib/content";
 import { TINTS } from "@/lib/tints";
 
 const ease = [0.22, 1, 0.36, 1] as const;
-
-const DIMENSION_ICONS: IconName[] = ["Activity", "BrainCircuit", "Users", "ShieldCheck", "Wallet"];
-const DIMENSION_BACK: string[] = [
-  "Recovery, rehabilitation & lasting vitality.",
-  "Clarity, focus & emotional resilience.",
-  "Connection, belonging & support.",
-  "Safety & wellbeing in digital life.",
-  "Security, balance & confidence.",
-];
-
-// Drifting coloured smoke that rises inside a dimension card.
-function Smoke({ color }: { color: string }) {
-  const reduce = useReducedMotion();
-  if (reduce) return null;
-  const puffs = [
-    { c: "left-3 h-16 w-16", delay: 0, d: 7 },
-    { c: "right-4 h-20 w-20", delay: 1.6, d: 9 },
-    { c: "left-1/3 h-14 w-14", delay: 3.2, d: 8 },
-  ];
-  return (
-    <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-      {puffs.map((p, i) => (
-        <motion.span
-          key={i}
-          className={`absolute -bottom-6 rounded-full blur-2xl ${p.c}`}
-          style={{ background: color }}
-          initial={{ opacity: 0, y: 0, scale: 0.6 }}
-          animate={{ opacity: [0, 0.55, 0], y: [0, -90], scale: [0.6, 1.45] }}
-          transition={{ duration: p.d, repeat: Infinity, ease: "easeInOut", delay: p.delay }}
-        />
-      ))}
-    </div>
-  );
-}
 
 // Peel-in like a sticker flapping down from its top edge.
 const peel = {
@@ -123,56 +90,34 @@ export function About() {
           </div>
         </motion.div>
 
-        {/* Five dimensions as square tiles */}
+        {/* Mission / Vision / Philosophy */}
         <motion.div style={{ y: yGrid }} className="mt-16">
-          <Reveal>
-            <div className="flex items-center gap-4">
-              <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-accent">
-                Five dimensions of wellness
-              </span>
-              <span className="h-px flex-1 bg-line" />
-            </div>
-          </Reveal>
-
-          <div className="mt-7 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-            {about.dimensions.map((d, i) => {
+          <div className="grid gap-5 md:grid-cols-3">
+            {about.pillars.map((p, i) => {
               const t = TINTS[i % TINTS.length];
               return (
-                <Reveal key={d} delay={(i % 5) * 0.07}>
-                  <div className="group/flip h-52 [perspective:1000px]">
-                    <div className="relative h-full w-full transition-transform duration-[600ms] [transform-style:preserve-3d] group-hover/flip:[transform:rotateY(180deg)]">
-                      {/* front */}
-                      <div className="glass absolute inset-0 flex flex-col items-start overflow-hidden p-5 [backface-visibility:hidden]">
-                        <Smoke color={t.glow} />
-                        <span
-                          className="pointer-events-none absolute right-3 top-1 z-[1] font-display text-4xl font-black leading-none"
-                          style={{ color: t.text, opacity: 0.14 }}
-                        >
-                          {String(i + 1).padStart(2, "0")}
-                        </span>
-                        <span
-                          className="relative z-[1] grid h-12 w-12 place-items-center rounded-xl"
-                          style={{ background: t.soft, color: t.text }}
-                        >
-                          <Icon name={DIMENSION_ICONS[i]} className="h-[22px] w-[22px]" strokeWidth={1.7} />
-                        </span>
-                        <span className="relative z-[1] mt-auto font-display text-lg font-extrabold tracking-tight text-ink">{d}</span>
-                      </div>
-                      {/* back */}
-                      <div
-                        className="absolute inset-0 flex flex-col items-start justify-between overflow-hidden p-5 text-white [backface-visibility:hidden] [transform:rotateY(180deg)]"
-                        style={{ background: t.tile, boxShadow: `0 20px 45px -20px ${t.glow}` }}
-                      >
-                        <Icon name={DIMENSION_ICONS[i]} className="h-6 w-6" strokeWidth={1.7} />
-                        <p className="text-[13px] font-medium leading-relaxed text-white/90">{DIMENSION_BACK[i]}</p>
-                        <span className="font-display text-base font-extrabold">{d}</span>
-                      </div>
-                    </div>
+                <Reveal key={p.title} delay={i * 0.08}>
+                  <div className="glass relative h-full overflow-hidden rounded-2xl p-7">
+                    <span aria-hidden className="absolute inset-x-0 top-0 h-1" style={{ background: t.bar }} />
+                    <span className="grid h-12 w-12 place-items-center rounded-xl" style={{ background: t.soft, color: t.text }}>
+                      <Icon name={p.icon} className="h-6 w-6" strokeWidth={1.7} />
+                    </span>
+                    <h3 className="mt-4 font-display text-lg font-extrabold tracking-tight text-ink">{p.title}</h3>
+                    <p className="mt-2 text-[14.5px] leading-relaxed text-muted">{p.body}</p>
                   </div>
                 </Reveal>
               );
             })}
           </div>
+
+          {/* Company timeline */}
+          <Reveal className="mt-16">
+            <div className="flex items-center gap-4">
+              <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-accent">Our journey</span>
+              <span className="h-px flex-1 bg-line" />
+            </div>
+          </Reveal>
+          <CompanyTimeline />
         </motion.div>
       </div>
     </section>
