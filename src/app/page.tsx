@@ -4,7 +4,7 @@ import { Hero } from "@/components/sections/Hero";
 import { Trusted } from "@/components/sections/Trusted";
 import { About } from "@/components/sections/About";
 import { Dimensions } from "@/components/sections/Dimensions";
-import { ScienceSoul } from "@/components/sections/ScienceSoul";
+import { Science } from "@/components/sections/Science";
 import { Products } from "@/components/sections/Products";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { Footer } from "@/components/sections/Footer";
@@ -19,7 +19,7 @@ export default function Home() {
         <Trusted />
         <About />
         <Dimensions />
-        <ScienceSoul />
+        <Science />
         <Products />
         <Testimonials />
       </main>
