@@ -7,7 +7,7 @@
 // interleave with the brain at the correct depth). Client-only (ssr:false from wrapper).
 
 import { Suspense, useMemo, useRef } from "react";
-import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
+import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { mergeVertices } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
@@ -16,15 +16,12 @@ import * as THREE from "three";
 const DIM_COLORS = ["#14b8a6", "#3b82f6", "#ef4444", "#f59e0b", "#8b5cf6"];
 
 // Soft studio reflections at runtime (no external HDR) — gives the moist clearcoat
-// something subtle to reflect.
-function StudioEnv() {
-  const { gl, scene } = useThree();
-  useMemo(() => {
-    const pmrem = new THREE.PMREMGenerator(gl);
-    scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-    return () => pmrem.dispose();
-  }, [gl, scene]);
-  return null;
+// something subtle to reflect. Runs once when the canvas is created (the generated
+// env texture lives for the lifetime of the WebGL context).
+function setupStudioEnv({ gl, scene }: { gl: THREE.WebGLRenderer; scene: THREE.Scene }) {
+  const pmrem = new THREE.PMREMGenerator(gl);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  pmrem.dispose();
 }
 
 // Subtle blurred-noise bump → organic, skin-like surface micro-detail on the low-poly mesh.
@@ -35,8 +32,17 @@ function useBumpTexture() {
     c.width = c.height = s;
     const ctx = c.getContext("2d")!;
     const img = ctx.createImageData(s, s);
+    // Deterministic xorshift32 PRNG — keeps render pure and the texture stable
+    // across re-renders (Math.random is impure during render).
+    let seed = 0x2f6e2b1;
+    const rand = () => {
+      seed ^= seed << 13;
+      seed ^= seed >>> 17;
+      seed ^= seed << 5;
+      return (seed >>> 0) / 4294967296;
+    };
     for (let i = 0; i < s * s; i++) {
-      const v = 128 + (Math.random() * 2 - 1) * 64;
+      const v = 128 + (rand() * 2 - 1) * 64;
       img.data[i * 4] = img.data[i * 4 + 1] = img.data[i * 4 + 2] = v;
       img.data[i * 4 + 3] = 255;
     }
@@ -213,8 +219,8 @@ export function BrainScene() {
       dpr={[1, 2]}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       style={{ background: "transparent" }}
+      onCreated={setupStudioEnv}
     >
-      <StudioEnv />
       {/* realistic, mostly-neutral lighting so the brain's own colour reads */}
       <ambientLight intensity={0.45} />
       <hemisphereLight args={["#ffffff", "#e9d8d0", 0.5]} />

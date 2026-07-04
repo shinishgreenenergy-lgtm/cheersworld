@@ -77,7 +77,7 @@ export function Footer() {
 
         <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-line pt-8 sm:flex-row sm:items-center">
           <p className="text-sm text-muted">{footer.copyright}</p>
-          <ul className="flex items-center gap-5">
+          <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
             {footer.socials.map((s) => (
               <li key={s} className="inline-flex items-center gap-1.5 text-sm text-muted/60">
                 {s}

@@ -128,7 +128,6 @@ export function Testimonials() {
         {videoOpen && item.video && (
           <div className="fixed inset-0 z-[70] grid place-items-center bg-ink/70 p-4 backdrop-blur-sm" onClick={() => setVideoOpen(false)}>
             <div className="w-full max-w-3xl overflow-hidden rounded-2xl bg-black" onClick={(e) => e.stopPropagation()}>
-              {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
               <video src={item.video} controls autoPlay className="aspect-video w-full" />
             </div>
           </div>

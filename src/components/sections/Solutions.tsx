@@ -13,7 +13,7 @@ import { TINTS } from "@/lib/tints";
 export function Solutions() {
   const reduce = useReducedMotion();
   return (
-    <section id="solutions" className="scroll-mt-24 py-24 sm:py-32">
+    <section id="solutions" className="scroll-mt-24 overflow-x-clip py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading eyebrow={solutions.eyebrow} title={solutions.title} subtitle={solutions.subtitle} />
 

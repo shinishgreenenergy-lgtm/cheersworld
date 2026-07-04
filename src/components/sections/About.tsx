@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { Reveal } from "../ui/Reveal";
-import { Icon, type IconName } from "../ui/Icon";
+import { Icon } from "../ui/Icon";
 import { CompanyTimeline } from "../ui/CompanyTimeline";
 import { about } from "@/lib/content";
 import { TINTS } from "@/lib/tints";
@@ -14,7 +14,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const peel = {
   initial: { opacity: 0, rotateX: -82, y: -6 },
   whileInView: { opacity: 1, rotateX: 0, y: 0 },
-  viewport: { once: false, amount: 0.5 },
+  viewport: { once: true, amount: 0.5 },
 };
 
 export function About() {

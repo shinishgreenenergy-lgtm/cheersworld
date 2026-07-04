@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import NumberFlow from "@number-flow/react";
 
@@ -10,11 +10,9 @@ export function TrustMetric({ label, value, suffix }: { label: string; value?: n
   const reduce = useReducedMotion();
   const [n, setN] = useState(0);
 
-  // useReducedMotion resolves after hydration; sync the final value then so
+  // useReducedMotion resolves after hydration; derive the final value directly so
   // reduced-motion users never wait on the viewport trigger.
-  useEffect(() => {
-    if (reduce && value !== undefined) setN(value);
-  }, [reduce, value]);
+  const shown = reduce && value !== undefined ? value : n;
 
   return (
     <motion.div
@@ -24,7 +22,7 @@ export function TrustMetric({ label, value, suffix }: { label: string; value?: n
     >
       {value !== undefined ? (
         <span className="flex items-baseline font-display text-3xl font-extrabold tracking-tight text-ink">
-          <NumberFlow value={n} animated={!reduce} />
+          <NumberFlow value={shown} animated={!reduce} />
           {suffix && <span className="text-accent">{suffix}</span>}
         </span>
       ) : (

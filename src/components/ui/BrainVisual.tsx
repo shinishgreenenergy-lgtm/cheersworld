@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
@@ -34,21 +34,29 @@ const BrainScene = dynamic(() => import("./BrainScene").then((m) => m.BrainScene
   loading: () => <StaticBrain />,
 });
 
-export function BrainVisual() {
-  const reduce = useReducedMotion();
-  const [webgl, setWebgl] = useState<boolean | null>(null);
-
-  // Detect WebGL once on mount; fall back to the static image if unsupported.
-  useEffect(() => {
+// WebGL support never changes within a session — detect once, cache, and expose
+// it as an external store (server snapshot: false, so SSR/hydration render the
+// static fallback and the client upgrades to 3D right after hydration).
+let webglSupport: boolean | undefined;
+const subscribeNoop = () => () => {};
+const getWebglSnapshot = () => {
+  if (webglSupport === undefined) {
     try {
       const c = document.createElement("canvas");
-      setWebgl(!!(c.getContext("webgl2") || c.getContext("webgl")));
+      webglSupport = !!(c.getContext("webgl2") || c.getContext("webgl"));
     } catch {
-      setWebgl(false);
+      webglSupport = false;
     }
-  }, []);
+  }
+  return webglSupport;
+};
+const getWebglServerSnapshot = () => false;
 
-  const use3D = webgl === true && !reduce;
+export function BrainVisual() {
+  const reduce = useReducedMotion();
+  const webgl = useSyncExternalStore(subscribeNoop, getWebglSnapshot, getWebglServerSnapshot);
+
+  const use3D = webgl && !reduce;
 
   return (
     <div className="relative mx-auto grid aspect-square w-full max-w-[34rem] place-items-center">
