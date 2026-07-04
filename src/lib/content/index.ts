@@ -8,6 +8,7 @@ export * from "./science";
 export * from "./platform";
 export * from "./trust";
 export * from "./testimonials";
+export * from "./team";
 export * from "./research";
 export * from "./evidence";
 export * from "./dashboards";

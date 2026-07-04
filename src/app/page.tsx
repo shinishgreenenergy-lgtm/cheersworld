@@ -12,6 +12,7 @@ import { Evidence } from "@/components/sections/Evidence";
 import { Dashboards } from "@/components/sections/Dashboards";
 import { Government } from "@/components/sections/Government";
 import { Testimonials } from "@/components/sections/Testimonials";
+import { Team } from "@/components/sections/Team";
 import { Footer } from "@/components/sections/Footer";
 
 export default function Home() {
@@ -32,6 +33,7 @@ export default function Home() {
         <Dashboards />
         <Government />
         <Testimonials />
+        <Team />
       </main>
       <Footer />
     </>
