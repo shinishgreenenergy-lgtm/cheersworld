@@ -6,6 +6,7 @@ import { About } from "@/components/sections/About";
 import { Dimensions } from "@/components/sections/Dimensions";
 import { Science } from "@/components/sections/Science";
 import { Solutions } from "@/components/sections/Solutions";
+import { Architecture } from "@/components/sections/Architecture";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { Footer } from "@/components/sections/Footer";
 
@@ -21,6 +22,7 @@ export default function Home() {
         <Dimensions />
         <Science />
         <Solutions />
+        <Architecture />
         <Testimonials />
       </main>
       <Footer />

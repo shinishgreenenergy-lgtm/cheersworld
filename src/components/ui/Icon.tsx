@@ -5,6 +5,7 @@ import {
   Sprout, Infinity as InfinityIcon, Network, Headphones, ScanEye,
   ShieldCheck, HeartPulse, Wallet, Shirt, Microscope, Building2,
   GraduationCap, FlaskConical, Globe, Users, Mail, Landmark, Car, Mountain, Trophy,
+  ClipboardList, TrendingUp, FileText, BarChart3, RefreshCw,
   type LucideProps,
 } from "lucide-react";
 
@@ -15,6 +16,7 @@ export const icons = {
   Sprout, Infinity: InfinityIcon, Network, Headphones, ScanEye,
   ShieldCheck, HeartPulse, Wallet, Shirt, Microscope, Building2,
   GraduationCap, FlaskConical, Globe, Users, Mail, Landmark, Car, Mountain, Trophy,
+  ClipboardList, TrendingUp, FileText, BarChart3, RefreshCw,
 };
 
 export type IconName = keyof typeof icons;
