@@ -1,13 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import NumberFlow from "@number-flow/react";
 
 // Counts up when scrolled into view; no value ⇒ honest "Coming Soon".
+// Reduced motion: the value appears immediately, with no count-up animation.
 export function TrustMetric({ label, value, suffix }: { label: string; value?: number; suffix?: string }) {
   const reduce = useReducedMotion();
-  const [n, setN] = useState(reduce ? (value ?? 0) : 0);
+  const [n, setN] = useState(0);
+
+  // useReducedMotion resolves after hydration; sync the final value then so
+  // reduced-motion users never wait on the viewport trigger.
+  useEffect(() => {
+    if (reduce && value !== undefined) setN(value);
+  }, [reduce, value]);
 
   return (
     <motion.div
@@ -17,7 +24,7 @@ export function TrustMetric({ label, value, suffix }: { label: string; value?: n
     >
       {value !== undefined ? (
         <span className="flex items-baseline font-display text-3xl font-extrabold tracking-tight text-ink">
-          <NumberFlow value={n} />
+          <NumberFlow value={n} animated={!reduce} />
           {suffix && <span className="text-accent">{suffix}</span>}
         </span>
       ) : (
