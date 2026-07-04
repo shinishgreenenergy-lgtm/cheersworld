@@ -1,4 +1,4 @@
 export const site = {
   name: "Cheers Wisdom",
-  tagline: "Advancing Human Consciousness",
+  tagline: "Human Intelligence Platform",
 };

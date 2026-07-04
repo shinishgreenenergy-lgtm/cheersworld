@@ -29,13 +29,13 @@ const dancing = Dancing_Script({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.cheerswisdom.com"),
-  title: "Cheers Wisdom · Advancing Human Consciousness",
+  title: "Cheers Wisdom · Human Intelligence Platform",
   description:
-    "A global R&D company designing adaptive AI companions that track, guide, and enhance human wellness across physical, mental, social, cyber, and financial dimensions.",
+    "One AI platform advancing human outcomes across healthcare, education, mining, transportation, finance, sports and government.",
   openGraph: {
-    title: "Cheers Wisdom · Advancing Human Consciousness",
+    title: "Cheers Wisdom · Human Intelligence Platform",
     description:
-      "Adaptive AI companions that track, guide, and enhance human wellness across health, emotion, and cognition.",
+      "One AI Platform. Multiple Human Outcomes. Continuous understanding and adaptive intervention, built on science.",
     type: "website",
   },
 };
