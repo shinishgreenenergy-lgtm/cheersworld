@@ -48,7 +48,12 @@ export function ScienceWheel({ active, onSelect }: { active: number; onSelect: (
                 tabIndex={0}
                 aria-label={d.name}
                 onClick={() => onSelect(i)}
-                onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && onSelect(i)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    onSelect(i);
+                  }
+                }}
                 className="cursor-pointer outline-none focus-visible:opacity-80"
                 animate={{ scale: selected && !reduce ? 1.04 : 1 }}
                 style={{ transformOrigin: "100px 100px" }}
