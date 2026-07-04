@@ -10,14 +10,14 @@ export interface EvidenceDomain {
   proof?: string;
 }
 
-export interface Evidence {
+export interface EvidenceContent {
   eyebrow: string;
   title: string;
   subtitle: string;
   domains: EvidenceDomain[];
 }
 
-export const evidence: Evidence = {
+export const evidence: EvidenceContent = {
   eyebrow: "Evidence",
   title: "Challenge → Platform → Outcome → Evidence",
   subtitle:

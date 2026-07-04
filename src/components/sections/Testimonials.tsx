@@ -24,10 +24,10 @@ export function Testimonials() {
   );
 
   useEffect(() => {
-    if (reduce) return;
+    if (reduce || videoOpen) return;
     const timer = setInterval(() => go(1), 5200);
     return () => clearInterval(timer);
-  }, [go, reduce, idx]);
+  }, [go, reduce, idx, videoOpen]);
 
   const t = TINTS[idx % TINTS.length];
   const item = items[idx];

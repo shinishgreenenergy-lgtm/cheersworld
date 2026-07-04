@@ -259,6 +259,8 @@ details[open] > summary .chev { transform: rotate(180deg); }
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
   .animate-floaty,
+  .animate-ping,
+  .animate-pulse,
   .neuron-dot {
     animation: none !important;
   }

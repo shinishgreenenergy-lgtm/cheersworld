@@ -32,6 +32,6 @@ export const knowledge = {
     { q: "Who does Cheers Wisdom work with today?", a: "Hospitals including NIMS Jaipur, NIMS Hyderabad, Medtrina, Renova and Ujala Cygnus; schools including Sancheti and Modern School; and research groups including the Faubert Lab (NeuroTrackerX), CIIPS and the Amity Cognitive Computing Lab." },
     { q: "How does the platform actually work?", a: "It runs a continuous loop: Observe → Understand → Predict → Intervene → Measure → Improve. Signals are interpreted in context, guidance adapts to the person and moment, and measured outcomes feed back into learning." },
     { q: "Where is the evidence?", a: "Studies are in progress with our clinical and academic partners, and our first publications are in preparation. We publish outcomes rather than promise them — anything not yet measured is marked 'coming soon' on this site." },
-    { q: "How can my organisation start?", a: "Programs begin with a scoped pilot against clear baselines. Use the contact form below and the right team — clinical, education, industry or government — will respond." },
+    { q: "How can my organisation start?", a: "Programs begin with a scoped pilot against clear baselines. Use the contact button below and the right team — clinical, education, industry or government — will respond." },
   ],
 };
