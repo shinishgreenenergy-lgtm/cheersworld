@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, Search } from "lucide-react";
 import { navGroups, type NavItem } from "@/lib/content";
 import { Button } from "../ui/Button";
+import { SearchPalette } from "../ui/SearchPalette";
 import { TINTS } from "@/lib/tints";
 import { cn } from "@/lib/cn";
 
@@ -158,12 +159,24 @@ function PanelItem({ item, group, tintText }: { item: NavItem; group: string; ti
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setSearchOpen((v) => !v);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, []);
 
   useEffect(() => {
@@ -247,19 +260,36 @@ export function Header() {
           </nav>
 
           <div className="hidden shrink-0 items-center gap-2 xl:flex">
+            <button
+              onClick={() => setSearchOpen(true)}
+              aria-label="Search (⌘K)"
+              className="flex items-center gap-2 rounded-xl border border-line bg-white/60 px-3 py-2.5 text-muted transition-colors hover:text-ink"
+            >
+              <Search className="h-4 w-4" />
+              <kbd className="text-[10px] font-bold">⌘K</kbd>
+            </button>
             <Button href="#contact" className="px-5 py-2.5">
               Get in Touch
             </Button>
           </div>
 
-          {/* Mobile toggle */}
-          <button
-            onClick={() => setOpen(true)}
-            className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-line bg-white/60 xl:hidden"
-            aria-label="Open menu"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
+          {/* Mobile search + toggle */}
+          <div className="flex items-center gap-2 xl:hidden">
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-line bg-white/60"
+              aria-label="Search"
+            >
+              <Search className="h-4.5 w-4.5" />
+            </button>
+            <button
+              onClick={() => setOpen(true)}
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-line bg-white/60"
+              aria-label="Open menu"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
+          </div>
         </div>
       </div>
 
@@ -321,6 +351,8 @@ export function Header() {
           </div>
         </div>
       )}
+
+      <SearchPalette open={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>
   );
 }
