@@ -16,21 +16,23 @@ export function TrustMetric({ label, value, suffix }: { label: string; value?: n
 
   return (
     <motion.div
-      className="flex flex-col items-center gap-1 py-4 text-center"
+      className="flex flex-col items-center gap-1.5 py-6 text-center"
       onViewportEnter={() => value !== undefined && setN(value)}
       viewport={{ once: true, margin: "-40px" }}
     >
       {value !== undefined ? (
-        <span className="flex items-baseline font-display text-3xl font-extrabold tracking-tight text-ink">
+        // Solid accent, NOT the text-gradient util — background-clip:text does not
+        // clip to NumberFlow's nested digit spans, so a gradient renders invisible.
+        <span className="flex items-baseline font-display text-[2.6rem] font-black leading-none tracking-tight text-accent">
           <NumberFlow value={shown} animated={!reduce} />
-          {suffix && <span className="text-accent">{suffix}</span>}
+          {suffix && <span>{suffix}</span>}
         </span>
       ) : (
         <span className="rounded-full border border-dashed border-line bg-white/50 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.12em] text-muted">
           Coming Soon
         </span>
       )}
-      <span className="text-[12.5px] font-medium text-muted">{label}</span>
+      <span className="text-[12.5px] font-semibold text-muted">{label}</span>
     </motion.div>
   );
 }
