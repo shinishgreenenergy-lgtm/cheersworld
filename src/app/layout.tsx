@@ -29,13 +29,13 @@ const dancing = Dancing_Script({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.cheerswisdom.com"),
-  title: "Cheers Wisdom · Advancing Human Consciousness",
+  title: "Cheers Wisdom · Human Intelligence Platform",
   description:
-    "A global R&D company designing adaptive AI companions that track, guide, and enhance human wellness across physical, mental, social, cyber, and financial dimensions.",
+    "One AI platform advancing human outcomes across healthcare, education, mining, transportation, finance, sports and government.",
   openGraph: {
-    title: "Cheers Wisdom · Advancing Human Consciousness",
+    title: "Cheers Wisdom · Human Intelligence Platform",
     description:
-      "Adaptive AI companions that track, guide, and enhance human wellness across health, emotion, and cognition.",
+      "One AI Platform. Multiple Human Outcomes. Continuous understanding and adaptive intervention, built on science.",
     type: "website",
   },
 };
@@ -53,7 +53,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=account_balance,arrow_forward,article,auto_stories,balance,biotech,bolt,business,category,chevron_right,clinical_notes,dashboard,description,directions_car,diversity_3,domain,download,emoji_events,event,fact_check,flag,format_quote,groups,handshake,info,local_hospital,lock,mail,memory,menu_book,monitoring,newspaper,photo_library,policy,rocket_launch,schema,school,science,security,sell,sensors,shield,smart_display,sports_soccer,support_agent,terrain,timeline,trending_up,verified,verified_user,volunteer_activism,work,workspace_premium&display=block"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=account_balance,arrow_forward,article,auto_stories,balance,biotech,bolt,business,category,chevron_right,clinical_notes,dashboard,description,directions_car,diversity_3,domain,download,emoji_events,event,extension,fact_check,flag,format_quote,groups,handshake,hub,info,local_hospital,local_police,lock,mail,map,memory,menu_book,monitoring,newspaper,photo_library,policy,psychology,query_stats,rocket_launch,schema,school,science,security,sell,sensors,shield,smart_display,sports_soccer,support_agent,terrain,timeline,trending_up,verified,verified_user,volunteer_activism,work,workspace_premium&display=block"
         />
       </head>
       <body className="min-h-dvh bg-canvas text-ink antialiased">

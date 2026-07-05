@@ -1,19 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
-import { about } from "@/lib/content";
+import { DomainRing } from "./DomainRing";
 
-const NODE_COLORS = ["#14b8a6", "#3b82f6", "#ef4444", "#f59e0b", "#8b5cf6"];
-
-// 2D label positions around the visual (pentagon).
-const LABELS = about.dimensions.map((name, i) => {
-  const a = (-90 + i * 72) * (Math.PI / 180);
-  const r = 46;
-  return { name, color: NODE_COLORS[i % NODE_COLORS.length], x: 50 + r * Math.cos(a), y: 50 + r * Math.sin(a) };
-});
 
 // Lightweight WebP brain — shown instantly (fast LCP), while the WebGL scene loads,
 // and as the permanent fallback when WebGL is unavailable or reduced-motion is set.
@@ -42,36 +34,29 @@ const BrainScene = dynamic(() => import("./BrainScene").then((m) => m.BrainScene
   loading: () => <StaticBrain />,
 });
 
-export function BrainVisual() {
-  const reduce = useReducedMotion();
-  const [shown, setShown] = useState(0);
-  const [webgl, setWebgl] = useState<boolean | null>(null);
-
-  // Detect WebGL once on mount; fall back to the static image if unsupported.
-  useEffect(() => {
+// WebGL support never changes within a session — detect once, cache, and expose
+// it as an external store (server snapshot: false, so SSR/hydration render the
+// static fallback and the client upgrades to 3D right after hydration).
+let webglSupport: boolean | undefined;
+const subscribeNoop = () => () => {};
+const getWebglSnapshot = () => {
+  if (webglSupport === undefined) {
     try {
       const c = document.createElement("canvas");
-      setWebgl(!!(c.getContext("webgl2") || c.getContext("webgl")));
+      webglSupport = !!(c.getContext("webgl2") || c.getContext("webgl"));
     } catch {
-      setWebgl(false);
+      webglSupport = false;
     }
-  }, []);
+  }
+  return webglSupport;
+};
+const getWebglServerSnapshot = () => false;
 
-  // Labels appear one-by-one (build up), hold, then all fade out, then repeat.
-  useEffect(() => {
-    if (reduce) {
-      setShown(LABELS.length);
-      return;
-    }
-    let n = 0;
-    const id = setInterval(() => {
-      n = n >= LABELS.length + 1 ? 0 : n + 1; // 0(hidden) -> 1..5(build) -> 6(hold) -> repeat
-      setShown(Math.min(n, LABELS.length));
-    }, 850);
-    return () => clearInterval(id);
-  }, [reduce]);
+export function BrainVisual() {
+  const reduce = useReducedMotion();
+  const webgl = useSyncExternalStore(subscribeNoop, getWebglSnapshot, getWebglServerSnapshot);
 
-  const use3D = webgl === true && !reduce;
+  const use3D = webgl && !reduce;
 
   return (
     <div className="relative mx-auto grid aspect-square w-full max-w-[34rem] place-items-center">
@@ -87,21 +72,7 @@ export function BrainVisual() {
       {/* 3D brain (or static fallback) */}
       <div className="absolute inset-0">{use3D ? <BrainScene /> : <StaticBrain />}</div>
 
-      {/* 2D labels — appear one by one, then fade out */}
-      {LABELS.map((l, i) => (
-        <motion.div
-          key={l.name}
-          className="absolute z-10 -translate-x-1/2 -translate-y-1/2"
-          style={{ left: `${l.x}%`, top: `${l.y}%` }}
-          animate={{ opacity: i < shown ? 1 : 0, y: i < shown ? 0 : 8, scale: i < shown ? 1 : 0.9 }}
-          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <div className="glass flex items-center gap-1.5 rounded-full px-3 py-1.5 shadow-[0_10px_24px_-12px_rgba(20,22,42,0.35)]">
-            <span className="h-1.5 w-1.5 rounded-full" style={{ background: l.color }} />
-            <span className="whitespace-nowrap text-[12px] font-bold text-ink-soft">{l.name}</span>
-          </div>
-        </motion.div>
-      ))}
+      <DomainRing />
     </div>
   );
 }
