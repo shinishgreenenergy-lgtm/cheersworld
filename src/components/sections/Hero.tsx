@@ -8,10 +8,14 @@ import { HeroOrb } from "../ui/HeroOrb";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-// Hollow outlined letters — transparent fill, ink stroke that scales with the type.
-const HOLLOW = {
+// Letters filled with a live grass texture (clipped to the glyphs).
+const GRASS = {
   color: "transparent",
-  WebkitTextStroke: "0.02em #14162a",
+  backgroundImage: "url(/grass.jpg)",
+  backgroundSize: "cover",
+  backgroundPosition: "center 58%",
+  WebkitBackgroundClip: "text",
+  backgroundClip: "text",
 } as const;
 
 function fade(delay = 0, y = 18) {
@@ -37,21 +41,20 @@ export function Hero() {
           <div className="absolute -bottom-20 right-[8%] h-80 w-80 rounded-full bg-accent-2/15 blur-[120px]" />
         </div>
 
-        {/* giant wordmark — hollow outlined letters, brain standing in for the "O" */}
+        {/* giant wordmark — letters filled with grass, brain standing in for the "O" */}
         <motion.h1
           {...fade(0.05, 24)}
-          className="relative z-10 text-center font-display font-black tracking-[-0.03em]"
+          style={GRASS}
+          className="relative z-10 text-center font-display font-black tracking-[-0.03em] [filter:drop-shadow(0_4px_10px_rgba(20,40,15,0.28))]"
         >
-          <span className="block text-[clamp(2.9rem,12vw,9rem)] leading-[0.92]" style={HOLLOW}>
-            CHEERS
-          </span>
+          <span className="block text-[clamp(2.9rem,12vw,9rem)] leading-[0.92]">CHEERS</span>
           <span className="flex items-center justify-center text-[clamp(2.9rem,12vw,9rem)] leading-[0.95]">
-            <span style={HOLLOW}>WISD</span>
+            <span>WISD</span>
             <span className="relative mx-[0.03em] inline-block aspect-square w-[0.96em] shrink-0 -translate-y-[0.02em] align-middle">
               <HeroOrb compact />
             </span>
-            <span style={HOLLOW}>M</span>
-            <span className="text-accent">.</span>
+            <span>M</span>
+            <span style={{ color: "#2e9e5b" }}>.</span>
           </span>
         </motion.h1>
 

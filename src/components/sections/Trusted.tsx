@@ -32,7 +32,7 @@ function MetricStat({ label, value, suffix }: { label: string; value: number; su
         <NumberFlow value={shown} animated={!reduce} />
         {suffix && <span>{suffix}</span>}
       </span>
-      <span className="text-[12.5px] font-semibold text-white/55">{label}</span>
+      <span className="text-[12.5px] font-semibold text-white/65">{label}</span>
     </motion.div>
   );
 }
@@ -82,7 +82,7 @@ export function Trusted() {
             <h2 className="font-display text-[clamp(1.5rem,3.2vw,2.15rem)] font-extrabold leading-tight tracking-tight text-white">
               {trust.eyebrow}
             </h2>
-            <p className="text-[15px] leading-relaxed text-white/55">{trust.subhead}</p>
+            <p className="text-[15px] leading-relaxed text-white/65">{trust.subhead}</p>
           </div>
         </Reveal>
 
@@ -102,9 +102,9 @@ export function Trusted() {
               ))}
             </div>
             <div className="border-t border-white/10 bg-black/10 px-5 py-5">
-              <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.16em] text-white/45">
+              <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.16em] text-white/65">
                 On the roadmap
-                <span className="ml-2 font-medium normal-case tracking-normal text-white/30">
+                <span className="ml-2 font-medium normal-case tracking-normal text-white/45">
                   — reported as it becomes real, never fabricated
                 </span>
               </p>
@@ -112,7 +112,7 @@ export function Trusted() {
                 {soonMetrics.map((m) => (
                   <span
                     key={m.label}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-dashed border-white/20 bg-white/[0.03] px-3 py-1.5 text-[12px] font-semibold text-white/55"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-dashed border-white/25 bg-white/[0.04] px-3 py-1.5 text-[12px] font-semibold text-white/70"
                   >
                     <span className="h-1 w-1 rounded-full bg-white/30" />
                     {m.label}
@@ -159,7 +159,7 @@ export function Trusted() {
                     <span className="text-[12px] font-bold uppercase tracking-wide text-white/45">partners</span>
                   </div>
                   <h3 className="mt-3 font-display text-[15px] font-extrabold tracking-tight text-white">{g.label}</h3>
-                  <p className="text-[12px] text-white/50">{s.blurb}</p>
+                  <p className="text-[12px] text-white/60">{s.blurb}</p>
                 </div>
               </Reveal>
             );
@@ -177,7 +177,7 @@ export function Trusted() {
                     Soon
                   </span>
                   <h3 className="mt-3 font-display text-[15px] font-extrabold tracking-tight text-white/80">{g.label}</h3>
-                  <p className="text-[12px] text-white/45">{s?.blurb}</p>
+                  <p className="text-[12px] text-white/55">{s?.blurb}</p>
                 </div>
               </Reveal>
             );
