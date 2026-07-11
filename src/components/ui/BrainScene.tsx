@@ -20,8 +20,12 @@ const DIM_COLORS = ["#14b8a6", "#3b82f6", "#ef4444", "#f59e0b", "#8b5cf6"];
 // env texture lives for the lifetime of the WebGL context).
 function setupStudioEnv({ gl, scene }: { gl: THREE.WebGLRenderer; scene: THREE.Scene }) {
   const pmrem = new THREE.PMREMGenerator(gl);
-  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  // Sharper env (low blur sigma) so the chrome band shows crisp studio reflections.
+  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.01).texture;
   pmrem.dispose();
+  // Filmic tone-mapping + full-quality output for a photographic, high-res finish.
+  gl.toneMapping = THREE.ACESFilmicToneMapping;
+  gl.toneMappingExposure = 1.05;
 }
 
 // Subtle blurred-noise bump → organic, skin-like surface micro-detail on the low-poly mesh.
@@ -69,24 +73,28 @@ function Brain() {
     const center = new THREE.Vector3();
     box.getSize(size);
     box.getCenter(center);
-    const scale = 2.5 / Math.max(size.x, size.y, size.z);
+    const scale = 2.9 / Math.max(size.x, size.y, size.z);
     s.scale.setScalar(scale);
     s.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
 
-    // Organic brain tissue — warm pink-grey, soft and slightly moist, with a hint of
-    // sub-surface warmth. Not glass; reads as a real brain.
+    // Glossy emerald "liquid" — a wet, high-clearcoat green with a metallic sheen and
+    // faint inner glow, echoing the reference object's molten-jelly core.
     const mat = new THREE.MeshPhysicalMaterial({
-      color: new THREE.Color("#c79188"),
-      roughness: 0.62,
-      metalness: 0,
-      clearcoat: 0.35,
-      clearcoatRoughness: 0.5,
-      sheen: 0.45,
-      sheenColor: new THREE.Color("#e7b0a4"),
-      sheenRoughness: 0.6,
-      envMapIntensity: 0.55,
+      color: new THREE.Color("#1fb85a"),
+      roughness: 0.14,
+      metalness: 0.35,
+      clearcoat: 1,
+      clearcoatRoughness: 0.06,
+      sheen: 0.6,
+      sheenColor: new THREE.Color("#b6f24d"),
+      sheenRoughness: 0.4,
+      iridescence: 0.35,
+      iridescenceIOR: 1.4,
+      envMapIntensity: 1.5,
+      emissive: new THREE.Color("#0a7a38"),
+      emissiveIntensity: 0.16,
       bumpMap: bump,
-      bumpScale: 0.55,
+      bumpScale: 0.28,
     });
 
     s.traverse((o) => {
@@ -216,7 +224,7 @@ export function BrainScene() {
   return (
     <Canvas
       camera={{ position: [0, 0, 5], fov: 42 }}
-      dpr={[1, 2]}
+      dpr={[1, 3]}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       style={{ background: "transparent" }}
       onCreated={setupStudioEnv}

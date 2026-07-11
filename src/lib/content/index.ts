@@ -6,6 +6,7 @@ export * from "./about";
 export * from "./dimensions";
 export * from "./science";
 export * from "./platform";
+export * from "./capabilities";
 export * from "./trust";
 export * from "./testimonials";
 export * from "./team";

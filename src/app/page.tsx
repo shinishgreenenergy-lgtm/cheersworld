@@ -2,6 +2,7 @@ import { Aurora } from "@/components/ui/Aurora";
 import { Header } from "@/components/sections/Header";
 import { Hero } from "@/components/sections/Hero";
 import { Trusted } from "@/components/sections/Trusted";
+import { Capabilities } from "@/components/sections/Capabilities";
 import { About } from "@/components/sections/About";
 import { Dimensions } from "@/components/sections/Dimensions";
 import { Science } from "@/components/sections/Science";
@@ -26,6 +27,7 @@ export default function Home() {
       <main>
         <Hero />
         <Trusted />
+        <Capabilities />
         <About />
         <Dimensions />
         <Science />
