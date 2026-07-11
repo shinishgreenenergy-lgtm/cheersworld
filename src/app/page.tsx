@@ -2,6 +2,7 @@ import { Aurora } from "@/components/ui/Aurora";
 import { Header } from "@/components/sections/Header";
 import { Hero } from "@/components/sections/Hero";
 import { Trusted } from "@/components/sections/Trusted";
+import { Capabilities } from "@/components/sections/Capabilities";
 import { About } from "@/components/sections/About";
 import { Dimensions } from "@/components/sections/Dimensions";
 import { Science } from "@/components/sections/Science";
@@ -14,7 +15,6 @@ import { Government } from "@/components/sections/Government";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { Team } from "@/components/sections/Team";
 import { Gallery } from "@/components/sections/Gallery";
-import { Knowledge } from "@/components/sections/Knowledge";
 import { CTA } from "@/components/sections/CTA";
 import { Footer } from "@/components/sections/Footer";
 
@@ -26,6 +26,7 @@ export default function Home() {
       <main>
         <Hero />
         <Trusted />
+        <Capabilities />
         <About />
         <Dimensions />
         <Science />
@@ -38,7 +39,6 @@ export default function Home() {
         <Testimonials />
         <Team />
         <Gallery />
-        <Knowledge />
         <CTA />
       </main>
       <Footer />

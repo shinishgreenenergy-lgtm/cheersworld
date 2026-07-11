@@ -2,6 +2,8 @@
 // render as "Coming Soon" — never invent numbers.
 export const trust = {
   eyebrow: "In collaboration with leading institutions",
+  subhead:
+    "Every institution below is a real, named partner we work with today — hospitals, schools and research labs advancing the science with us. Nothing here is aspirational.",
   groups: [
     {
       label: "Clinical",

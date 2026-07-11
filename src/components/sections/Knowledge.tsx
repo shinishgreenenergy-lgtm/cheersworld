@@ -38,7 +38,7 @@ export function Knowledge() {
               </div>
               <dl className="mt-6 space-y-4">
                 {knowledge.glossary.map((g) => (
-                  <div key={g.term} className="glass rounded-2xl p-5">
+                  <div key={g.term} className="rounded-2xl border border-line bg-white p-5">
                     <dt className="font-display text-[14.5px] font-extrabold tracking-tight text-ink">{g.term}</dt>
                     <dd className="mt-1.5 text-[13.5px] leading-relaxed text-muted">{g.def}</dd>
                   </div>
@@ -53,7 +53,7 @@ export function Knowledge() {
               <h3 className="font-display text-xl font-extrabold tracking-tight text-ink">Frequently asked questions</h3>
               <div className="mt-6 space-y-3">
                 {knowledge.faqs.map((f) => (
-                  <details key={f.q} className="glass group rounded-2xl px-5">
+                  <details key={f.q} className="group rounded-2xl border border-line bg-white px-5">
                     <summary className="flex items-center justify-between gap-4 py-4 text-[14.5px] font-bold text-ink">
                       {f.q}
                       <ChevronDown className="chev h-4 w-4 shrink-0 text-muted" />

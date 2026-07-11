@@ -1,136 +1,123 @@
 "use client";
 
+import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
+import { Play } from "lucide-react";
 import { hero } from "@/lib/content";
-import { Button } from "../ui/Button";
-import { RotatingText } from "../ui/RotatingText";
-import { BrainVisual } from "../ui/BrainVisual";
-import { PhilosophyLoop } from "../ui/PhilosophyLoop";
+import { HeroOrb } from "../ui/HeroOrb";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-// Reveal a line by wiping it open left -> right (clip-path). Negative top/right/
-// bottom insets keep descenders and the "Consciousness" glow from being clipped.
-function wipeLine(delay = 0, duration = 0.72) {
+// Letters as foggy light-green frosted glass — a milky translucent green gradient
+// clipped to the glyphs, with a frosty white rim.
+const GLASS_TEXT = {
+  color: "transparent",
+  backgroundImage:
+    "linear-gradient(160deg, rgba(208,241,220,0.96) 0%, rgba(132,204,164,0.66) 48%, rgba(96,178,130,0.52) 100%)",
+  WebkitBackgroundClip: "text",
+  backgroundClip: "text",
+  WebkitTextStroke: "0.6px rgba(255,255,255,0.6)",
+} as const;
+
+function fade(delay = 0, y = 18) {
   return {
-    initial: { clipPath: "inset(-12% 100% -12% 0%)" },
-    animate: { clipPath: "inset(-12% -12% -12% 0%)" },
-    transition: { duration, delay, ease },
+    initial: { opacity: 0, y },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.7, delay, ease },
   };
 }
 
-// Slow-drifting coloured mesh blobs (the multi-dimension palette, kept light).
-const BLOBS = [
-  { c: "#14b8a6", className: "left-[6%] top-[12%] h-72 w-72", x: [0, 26, 0], y: [0, -18, 0], d: 17 },
-  { c: "#3b82f6", className: "right-[8%] top-[6%] h-80 w-80", x: [0, -22, 0], y: [0, 24, 0], d: 21 },
-  { c: "#f59e0b", className: "left-[34%] bottom-[6%] h-72 w-72", x: [0, 30, 0], y: [0, 14, 0], d: 19 },
-  { c: "#8b5cf6", className: "right-[28%] bottom-[10%] h-64 w-64", x: [0, -18, 0], y: [0, -22, 0], d: 23 },
-];
-
 export function Hero() {
   const reduce = useReducedMotion();
+  const dots = hero.domains.slice(0, 5);
+
   return (
-    <section id="top" className="relative isolate overflow-hidden">
-      {/* Soft neutral base */}
-      <div className="absolute inset-0 -z-20 bg-[linear-gradient(180deg,#f9fafb_0%,#eef1f1_100%)]" />
-
-      {/* Drifting multicolour mesh */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        {BLOBS.map((b, i) => (
-          <motion.div
-            key={i}
-            className={`absolute rounded-full blur-[120px] ${b.className}`}
-            style={{ background: b.c, opacity: 0.1 }}
-            animate={reduce ? {} : { x: b.x, y: b.y }}
-            transition={reduce ? {} : { duration: b.d, repeat: Infinity, ease: "easeInOut" }}
-          />
-        ))}
-      </div>
-
-      {/* Faint grid texture */}
-      <div className="absolute inset-0 -z-10 bg-grid opacity-40 [mask-image:radial-gradient(ellipse_at_top,black,transparent_72%)]" />
-      {/* vertical hairlines */}
-      <div className="pointer-events-none absolute inset-0 -z-10 mx-auto flex max-w-7xl justify-between px-4 sm:px-6">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <div
-            key={i}
-            className="h-full w-px bg-[linear-gradient(180deg,transparent,rgba(20,22,42,0.05)_12%,rgba(20,22,42,0.05)_88%,transparent)]"
-          />
-        ))}
-      </div>
-
-      <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 pb-24 pt-36 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8 lg:pt-44">
-        <div>
-          <motion.span
-            {...wipeLine(0, 0.55)}
-            className="inline-flex items-center gap-2 rounded-full border border-line bg-white/70 px-4 py-1.5 text-[12px] font-bold uppercase tracking-[0.16em] text-accent backdrop-blur"
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-            </span>
-            {hero.badge}
-          </motion.span>
-
-          <h1 className="mt-7 font-display text-[clamp(2.5rem,5.4vw,4.3rem)] font-extrabold leading-[1.02] tracking-tight text-ink">
-            <motion.span {...wipeLine(0.18)} className="block w-fit">
-              {hero.titleTop}
-            </motion.span>
-            <motion.span {...wipeLine(0.4)} className="text-gradient block w-fit pb-[0.12em]">
-              {hero.titleAccent}
-            </motion.span>
-          </h1>
-
-          <motion.p {...wipeLine(0.66)} className="mt-6 flex w-fit flex-wrap items-center gap-x-2 text-xl font-extrabold text-ink-soft">
-            <span>One platform for</span>
-            <RotatingText words={hero.rotating} className="font-display text-gradient-animated" />
-          </motion.p>
-
-          <motion.p {...wipeLine(0.84)} className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
-            {hero.body}
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.05, ease }}
-            className="mt-9 flex flex-wrap items-center gap-3"
-          >
-            <Button href={hero.ctaPrimary.href} icon="arrow">
-              {hero.ctaPrimary.label}
-            </Button>
-            <Button href={hero.ctaSecondary.href} variant="secondary">
-              {hero.ctaSecondary.label}
-            </Button>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.2, ease }}
-            className="mt-11 border-t border-line/70 pt-7"
-          >
-            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.2em] text-muted">How the platform thinks</p>
-            <PhilosophyLoop />
-          </motion.div>
+    <section id="top" className="relative px-3 pb-10 pt-20 sm:px-5 sm:pt-24 lg:pb-16">
+      {/* the floating card */}
+      <div className="relative mx-auto flex min-h-[34rem] max-w-[86rem] flex-col overflow-hidden rounded-[2rem] border border-line bg-[linear-gradient(180deg,#ffffff_0%,#f2f4f4_58%,#eceff0_100%)] px-5 pb-8 pt-16 shadow-[0_50px_120px_-40px_rgba(20,22,42,0.35)] sm:rounded-[2.5rem] sm:px-10 sm:pt-20 lg:min-h-[42rem] lg:px-14 lg:pb-12">
+        {/* ambient wavy texture */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute inset-0 bg-noise opacity-[0.5] mix-blend-multiply" />
+          <div className="absolute -bottom-24 left-[6%] h-72 w-72 rounded-full bg-accent/10 blur-[120px]" />
+          <div className="absolute -bottom-20 right-[8%] h-80 w-80 rounded-full bg-accent-2/15 blur-[120px]" />
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.2, ease }}
+        {/* giant wordmark — letters as foggy glass, brain standing in for the "O" */}
+        <motion.h1
+          {...fade(0.05, 24)}
+          style={GLASS_TEXT}
+          className="relative z-10 text-center font-display font-black tracking-[-0.03em] [filter:drop-shadow(0_3px_16px_rgba(46,158,91,0.32))]"
         >
-          <BrainVisual />
-        </motion.div>
+          <span className="block text-[clamp(2.9rem,12vw,9rem)] leading-[0.92]">CHEERS</span>
+          <span className="flex items-center justify-center text-[clamp(2.9rem,12vw,9rem)] leading-[0.95]">
+            <span>WISD</span>
+            <span className="relative mx-[0.03em] inline-block aspect-square w-[0.96em] shrink-0 -translate-y-[0.02em] align-middle">
+              <HeroOrb compact />
+            </span>
+            <span>M</span>
+            <span style={{ color: "#2e9e5b" }}>.</span>
+          </span>
+        </motion.h1>
+
+        {/* top meta row: stat (left) · numbered features (right) */}
+        <div className="relative z-20 mt-10 flex flex-col gap-8 sm:mt-12 sm:flex-row sm:items-start sm:justify-between">
+          <motion.div {...fade(0.22)} className="flex items-center gap-3">
+            <div className="flex -space-x-2">
+              {dots.map((d) => (
+                <span
+                  key={d.name}
+                  className="h-8 w-8 rounded-full border-2 border-white shadow-sm"
+                  style={{ background: d.color }}
+                />
+              ))}
+            </div>
+            <div className="leading-tight">
+              <span className="font-display text-2xl font-black tracking-tight text-ink">{hero.stat.value}</span>
+              <p className="max-w-[13rem] text-[12px] text-muted">{hero.stat.label}</p>
+            </div>
+          </motion.div>
+
+          <motion.ul {...fade(0.3)} className="flex flex-col gap-1.5 sm:items-end sm:text-right">
+            {hero.features.map((f) => (
+              <li key={f.n} className="flex items-center gap-2 text-[14px] font-semibold text-ink-soft">
+                <span className="text-ink-soft">{f.label}</span>
+                <span className="tabular-nums text-muted/70">/{f.n}</span>
+              </li>
+            ))}
+          </motion.ul>
+        </div>
+
+        {/* pushes the bottom row down */}
+        <div className="hidden flex-1 lg:block" />
+
+        {/* bottom meta row: tagline (left) · "How it works?" circle (right) */}
+        <div className="relative z-20 mt-10 flex flex-col items-start gap-8 sm:mt-12 sm:flex-row sm:items-end sm:justify-between lg:mt-0">
+          <motion.div {...fade(0.38)} className="max-w-sm">
+            <p className="text-[15px] leading-relaxed text-ink-soft">{hero.tagline}</p>
+            <div className="mt-3 border-t border-dotted border-ink/25" />
+          </motion.div>
+
+          <motion.div {...fade(0.46)}>
+            <Link
+              href={hero.howItWorks.href}
+              className="group grid h-28 w-28 place-items-center rounded-full bg-accent-2 text-center transition-transform duration-300 hover:scale-105 sm:h-32 sm:w-32"
+            >
+              <span className="flex flex-col items-center gap-1 text-[13px] font-bold text-ink">
+                <Play className="h-4 w-4 fill-current" />
+                {hero.howItWorks.label}
+              </span>
+            </Link>
+          </motion.div>
+        </div>
       </div>
 
-      {/* Scroll cue */}
+      {/* scroll cue */}
       {!reduce && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.8, duration: 0.8 }}
-          className="pointer-events-none absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 lg:flex"
+          transition={{ delay: 1.6, duration: 0.8 }}
+          className="pointer-events-none mt-6 hidden flex-col items-center gap-2 lg:flex"
         >
           <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-muted">Scroll</span>
           <span className="flex h-9 w-5 justify-center rounded-full border border-line p-1">
