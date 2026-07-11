@@ -101,8 +101,8 @@ export function Dimensions() {
                   (on ? "beam-border border-white/70 shadow-[0_30px_70px_-34px_rgba(20,22,42,0.45)]" : "border-line hover:border-white/70")
                 }
               >
-                {/* frosted glass base + moving sheen */}
-                <div className="glass absolute inset-0" />
+                {/* solid card base */}
+                <div className="absolute inset-0 bg-white" />
                 <Water color={t.bar} active={on} reduce={reduce} />
                 <span aria-hidden className="absolute inset-x-0 top-0 z-10 h-1" style={{ background: t.bar }} />
 

@@ -76,7 +76,7 @@ export function About() {
                 <motion.div
                   whileHover={{ y: -6 }}
                   transition={{ duration: 0.35, ease }}
-                  className="glass beam-border relative h-full overflow-hidden rounded-2xl p-7"
+                  className="beam-border relative h-full overflow-hidden rounded-2xl border border-line bg-white p-7"
                   style={{ "--beam-color": t.bar } as CSSProperties}
                 >
                   <span aria-hidden className="absolute inset-x-0 top-0 h-1" style={{ background: t.bar }} />

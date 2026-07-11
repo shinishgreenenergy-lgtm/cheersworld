@@ -1,54 +1,76 @@
 "use client";
 
-import { useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
-import { SectionHeading } from "../ui/SectionHeading";
+import { motion } from "motion/react";
 import { Reveal } from "../ui/Reveal";
-import { ScienceWheel } from "../ui/ScienceWheel";
 import { science } from "@/lib/content";
 import { TINTS } from "@/lib/tints";
 
+const ease = [0.22, 1, 0.36, 1] as const;
+
 export function Science() {
-  const [active, setActive] = useState(0);
-  const d = science.disciplines[active];
-  const t = TINTS[(active * 5) % TINTS.length];
-
   return (
-    <section id="science" className="relative isolate scroll-mt-24 overflow-hidden py-24 sm:py-32">
-      <div className="absolute inset-0 -z-10 bg-dots opacity-50 [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]" />
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <SectionHeading eyebrow={science.eyebrow} title={science.title} subtitle={science.subtitle} />
+    <section id="science" className="scroll-mt-24 px-3 py-6 sm:px-5">
+      <div className="relative mx-auto max-w-[86rem] overflow-hidden rounded-[2rem] bg-[linear-gradient(180deg,#181b24_0%,#101219_100%)] px-5 py-16 sm:rounded-[2.5rem] sm:px-10 sm:py-20 lg:px-14">
+        {/* atmosphere */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute left-1/2 top-0 h-64 w-[46rem] max-w-[92%] -translate-x-1/2 rounded-full bg-accent/12 blur-[130px]" />
+          <div className="absolute inset-0 bg-noise opacity-[0.35] mix-blend-overlay" />
+        </div>
 
-        <div className="mt-14 grid items-center gap-10 lg:grid-cols-2">
-          <Reveal>
-            <ScienceWheel active={active} onSelect={setActive} />
-          </Reveal>
+        {/* header */}
+        <Reveal>
+          <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 text-center">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-accent-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-accent-2" />
+              {science.eyebrow}
+            </span>
+            <h2 className="font-display text-[clamp(1.7rem,3.7vw,2.7rem)] font-extrabold leading-tight tracking-tight text-white">
+              {science.title}
+            </h2>
+            <p className="text-[15px] leading-relaxed text-white/60">{science.subtitle}</p>
+          </div>
+        </Reveal>
 
-          <Reveal delay={0.1}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={d.name}
-                initial={{ opacity: 0, x: 16 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -10 }}
-                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                className="glass relative overflow-hidden rounded-3xl p-8 sm:p-10"
-              >
-                <span aria-hidden className="absolute inset-x-0 top-0 h-1" style={{ background: t.bar }} />
-                <h3 className="font-display text-2xl font-extrabold tracking-tight text-ink">{d.name}</h3>
-                <p className="mt-3 text-[15px] leading-relaxed text-ink-soft">{d.blurb}</p>
-                <div className="mt-6 rounded-2xl p-5" style={{ background: t.soft }}>
-                  <span className="text-[11px] font-bold uppercase tracking-[0.16em]" style={{ color: t.text }}>
-                    In the platform
-                  </span>
-                  <p className="mt-1.5 text-[14px] leading-relaxed text-ink-soft">{d.use}</p>
-                </div>
-                <p className="mt-5 text-[12px] font-medium text-muted/70">
-                  Dedicated science pages · <span className="font-bold uppercase tracking-[0.08em]">Soon</span>
-                </p>
-              </motion.div>
-            </AnimatePresence>
-          </Reveal>
+        {/* discipline grid */}
+        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {science.disciplines.map((d, i) => {
+            const t = TINTS[i % TINTS.length];
+            return (
+              <Reveal key={d.name} delay={(i % 4) * 0.06}>
+                <motion.div
+                  whileHover={{ y: -6 }}
+                  transition={{ duration: 0.35, ease }}
+                  className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1c2029] p-6 transition-colors duration-300 hover:border-white/25"
+                >
+                  <span aria-hidden className="absolute inset-x-0 top-0 h-1" style={{ background: t.bar }} />
+                  {/* faint number glow on hover */}
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-40"
+                    style={{ background: t.bar }}
+                  />
+                  <div className="relative flex items-baseline justify-between">
+                    <span className="font-display text-[2.1rem] font-black leading-none tracking-tight" style={{ color: t.bar }}>
+                      0{i + 1}
+                    </span>
+                    <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-white/30">{d.short}</span>
+                  </div>
+                  <h3 className="relative mt-4 font-display text-[17px] font-extrabold leading-tight tracking-tight text-white">
+                    {d.name}
+                  </h3>
+                  <p className="relative mt-2 text-[13px] leading-relaxed text-white/55">{d.blurb}</p>
+                  <div className="relative mt-auto pt-4">
+                    <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
+                      <span className="text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: t.bar }}>
+                        In the platform
+                      </span>
+                      <p className="mt-1 text-[12px] leading-relaxed text-white/55">{d.use}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              </Reveal>
+            );
+          })}
         </div>
       </div>
     </section>

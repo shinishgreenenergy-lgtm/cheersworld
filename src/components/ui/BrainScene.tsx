@@ -77,24 +77,17 @@ function Brain() {
     s.scale.setScalar(scale);
     s.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
 
-    // Glossy emerald "liquid" — a wet, high-clearcoat green with a metallic sheen and
-    // faint inner glow, echoing the reference object's molten-jelly core.
+    // Matte red — soft, non-reflective crimson tissue (no clearcoat/sheen/gloss).
     const mat = new THREE.MeshPhysicalMaterial({
-      color: new THREE.Color("#1fb85a"),
-      roughness: 0.14,
-      metalness: 0.35,
-      clearcoat: 1,
-      clearcoatRoughness: 0.06,
-      sheen: 0.6,
-      sheenColor: new THREE.Color("#b6f24d"),
-      sheenRoughness: 0.4,
-      iridescence: 0.35,
-      iridescenceIOR: 1.4,
-      envMapIntensity: 1.5,
-      emissive: new THREE.Color("#0a7a38"),
-      emissiveIntensity: 0.16,
+      color: new THREE.Color("#d5342b"),
+      roughness: 0.85,
+      metalness: 0,
+      clearcoat: 0,
+      envMapIntensity: 0.35,
+      emissive: new THREE.Color("#5a0f0a"),
+      emissiveIntensity: 0.1,
       bumpMap: bump,
-      bumpScale: 0.28,
+      bumpScale: 0.5,
     });
 
     s.traverse((o) => {
@@ -119,6 +112,35 @@ function Brain() {
   return (
     <group ref={ref}>
       <primitive object={model} />
+    </group>
+  );
+}
+
+// Translucent glass cranium enclosing the brain — a frosted head shell that turns
+// on its own axis (the skull/head stand-in, since no skull model is available).
+function HeadShell() {
+  const ref = useRef<THREE.Group>(null);
+  useFrame((_, dt) => {
+    if (ref.current) ref.current.rotation.y += dt * 0.18;
+  });
+  return (
+    <group ref={ref} rotation={[0.12, 0, 0]}>
+      <mesh scale={[1.55, 1.82, 1.7]}>
+        <sphereGeometry args={[1, 64, 48]} />
+        <meshPhysicalMaterial
+          color="#e2eaed"
+          transparent
+          opacity={0.16}
+          roughness={0.12}
+          metalness={0}
+          clearcoat={1}
+          clearcoatRoughness={0.18}
+          ior={1.4}
+          side={THREE.DoubleSide}
+          depthWrite={false}
+          envMapIntensity={1.3}
+        />
+      </mesh>
     </group>
   );
 }
@@ -241,6 +263,7 @@ export function BrainScene() {
         <NeuronField />
         <Suspense fallback={null}>
           <Brain />
+          <HeadShell />
         </Suspense>
       </group>
     </Canvas>

@@ -89,7 +89,7 @@ export function Trusted() {
         {/* 1 — metrics (proven today + roadmap) */}
         <Reveal delay={0.06}>
           <div
-            className="beam-border relative mt-12 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-2xl"
+            className="beam-border relative mt-12 overflow-hidden rounded-3xl border border-white/10 bg-[#242832]"
             style={{ "--beam-color": "#8fbf4d" } as CSSProperties}
           >
             <div className="flex items-center gap-2 border-b border-white/10 px-5 pt-4">
@@ -142,7 +142,7 @@ export function Trusted() {
             return (
               <Reveal key={g.label} delay={gi * 0.06}>
                 <div
-                  className="beam-border group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-2xl transition-colors duration-300 hover:bg-white/[0.07]"
+                  className="beam-border group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#242832] p-5 transition-colors duration-300 hover:bg-[#2b303b]"
                   style={{ "--beam-color": t.bar } as CSSProperties}
                 >
                   <span aria-hidden className="absolute inset-x-0 top-0 h-1" style={{ background: t.bar }} />
@@ -169,7 +169,7 @@ export function Trusted() {
             const s = GROUP_STYLE[g.label];
             return (
               <Reveal key={g.label} delay={(realGroups.length + gi) * 0.06}>
-                <div className="relative flex h-full flex-col rounded-2xl border border-dashed border-white/15 bg-white/[0.02] p-5">
+                <div className="relative flex h-full flex-col rounded-2xl border border-dashed border-white/15 bg-[#1c2029] p-5">
                   <span className="grid h-11 w-11 place-items-center rounded-xl border border-white/10 bg-white/[0.05] text-white/50">
                     {s && <Icon name={s.icon} className="h-5 w-5" strokeWidth={1.8} />}
                   </span>

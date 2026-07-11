@@ -33,6 +33,7 @@ const GROUP_BLURB: Record<string, string> = {
 // Keyword -> Material Symbol for individual items. Order matters: first match
 // wins, so specific patterns must precede broad catch-alls.
 const ICON_RULES: [RegExp, string][] = [
+  [/knowledge|glossary|faq/i, "menu_book"],
   [/case stud/i, "fact_check"],
   [/whitepaper/i, "article"],
   [/clinical|trial/i, "clinical_notes"],
@@ -107,15 +108,15 @@ function PanelItem({ item, group, tintText }: { item: NavItem; group: string; ti
   const inner = (
     <>
       <span
-        className="grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-line/70 bg-white/60"
-        style={{ color: item.href ? tintText : "var(--color-muted)" }}
+        className="grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-white/10 bg-white/[0.07]"
+        style={{ color: item.href ? tintText : "rgba(255,255,255,0.4)" }}
       >
         <Sym name={itemIcon(item.label, group)} className="text-[18px]" />
       </span>
       <span
         className={cn(
           "text-[13px] font-semibold",
-          item.href ? "text-ink-soft transition-colors group-hover/i:text-ink" : "text-muted",
+          item.href ? "text-white/80 transition-colors group-hover/i:text-white" : "text-white/45",
         )}
       >
         {item.label}
@@ -127,11 +128,11 @@ function PanelItem({ item, group, tintText }: { item: NavItem; group: string; ti
     <span className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 pl-[42px]">
       {item.facets.map((f) =>
         f.href ? (
-          <Link key={f.label} href={f.href} className="text-[11px] font-semibold text-muted underline-offset-2 hover:text-ink hover:underline">
+          <Link key={f.label} href={f.href} className="text-[11px] font-semibold text-white/55 underline-offset-2 hover:text-white hover:underline">
             {f.label}
           </Link>
         ) : (
-          <span key={f.label} className="text-[11px] font-medium text-muted/60">
+          <span key={f.label} className="text-[11px] font-medium text-white/35">
             {f.label}
           </span>
         ),
@@ -148,7 +149,7 @@ function PanelItem({ item, group, tintText }: { item: NavItem; group: string; ti
   }
   return (
     <span className="flex flex-col">
-      <Link href={item.href} className="group/i flex items-center gap-2.5 rounded-xl px-2.5 py-2 transition-colors hover:bg-white/70">
+      <Link href={item.href} className="group/i flex items-center gap-2.5 rounded-xl px-2.5 py-2 transition-colors hover:bg-white/[0.07]">
         {inner}
       </Link>
       {facets}
@@ -233,23 +234,26 @@ export function Header() {
                       "group-focus-within:pointer-events-auto group-focus-within:translate-y-0 group-focus-within:opacity-100",
                     )}
                   >
-                    <div className="glass w-[40rem] overflow-hidden rounded-2xl shadow-[0_30px_60px_-24px_rgba(20,22,42,0.34)]">
-                      <div className="grid grid-cols-[13rem_1fr]">
+                    <div className="relative h-[23rem] w-[46rem] overflow-hidden rounded-2xl border border-white/10 bg-[#191c23]/95 shadow-[0_30px_60px_-24px_rgba(0,0,0,0.65),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-2xl [clip-path:inset(0_0_100%_0)] transition-[clip-path] duration-300 ease-out group-hover:[clip-path:inset(0_0_0_0)] group-focus-within:[clip-path:inset(0_0_0_0)]">
+                      {/* gray + red tonal lights along the top */}
+                      <div aria-hidden className="pointer-events-none absolute -top-14 left-[18%] h-28 w-56 -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(224,45,36,0.22),transparent)] blur-2xl" />
+                      <div aria-hidden className="pointer-events-none absolute -top-16 right-[12%] h-28 w-64 rounded-full bg-[radial-gradient(closest-side,rgba(200,210,225,0.16),transparent)] blur-2xl" />
+                      <div className="relative grid h-full grid-cols-[13rem_1fr]">
                         {/* intro rail */}
-                        <div className="flex flex-col gap-3 border-r border-line/60 bg-white/35 p-5">
-                          <span className="grid h-11 w-11 place-items-center rounded-xl" style={{ background: t.soft, color: t.text }}>
+                        <div className="flex flex-col gap-3 border-r border-white/10 bg-white/[0.03] p-5">
+                          <span className="grid h-11 w-11 place-items-center rounded-xl" style={{ background: t.soft, color: t.bar }}>
                             <Sym name={GROUP_ICON[g.label] ?? "category"} className="text-[24px]" />
                           </span>
-                          <p className="font-display text-base font-extrabold leading-tight text-ink">{g.full ?? g.label}</p>
-                          <p className="text-[13px] leading-relaxed text-muted">{GROUP_BLURB[g.label]}</p>
-                          <Link href={g.href} className="mt-1 inline-flex items-center gap-1 text-[13px] font-bold" style={{ color: t.text }}>
+                          <p className="font-display text-base font-extrabold leading-tight text-white">{g.full ?? g.label}</p>
+                          <p className="text-[13px] leading-relaxed text-white/55">{GROUP_BLURB[g.label]}</p>
+                          <Link href={g.href} className="mt-1 inline-flex items-center gap-1 text-[13px] font-bold" style={{ color: t.bar }}>
                             Explore <Sym name="arrow_forward" className="text-[16px]" />
                           </Link>
                         </div>
                         {/* items */}
-                        <div className={cn("grid gap-1 p-3", g.label === "Solutions" ? "grid-cols-1" : "grid-cols-2")}>
+                        <div className={cn("grid content-start gap-1 overflow-y-auto p-3", g.label === "Solutions" ? "grid-cols-1" : "grid-cols-2")}>
                           {g.items.map((it) => (
-                            <PanelItem key={it.label} item={it} group={g.label} tintText={t.text} />
+                            <PanelItem key={it.label} item={it} group={g.label} tintText={t.bar} />
                           ))}
                         </div>
                       </div>
