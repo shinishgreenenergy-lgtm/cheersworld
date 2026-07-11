@@ -3,7 +3,10 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { AnimatePresence, motion } from "motion/react";
 import { Menu, X, ChevronDown, Search } from "lucide-react";
+
+const EASE = [0.22, 1, 0.36, 1] as const;
 import { navGroups, type NavItem } from "@/lib/content";
 import { Button } from "../ui/Button";
 import { SearchPalette } from "../ui/SearchPalette";
@@ -161,6 +164,7 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [active, setActive] = useState<number | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -193,7 +197,10 @@ export function Header() {
       className={cn("fixed inset-x-0 top-0 z-50 transition-all duration-300", scrolled ? "py-2" : "py-4")}
       // Escape closes whichever mega panel currently holds focus.
       onKeyDown={(e) => {
-        if (e.key === "Escape") (document.activeElement as HTMLElement | null)?.blur();
+        if (e.key === "Escape") {
+          setActive(null);
+          (document.activeElement as HTMLElement | null)?.blur();
+        }
       }}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
@@ -211,57 +218,72 @@ export function Header() {
             <span className="font-display text-lg font-extrabold tracking-tight">Cheers Wisdom</span>
           </Link>
 
-          {/* Desktop mega-nav */}
-          <nav className="hidden items-center xl:flex">
-            {navGroups.map((g, i) => {
-              const alignRight = i >= Math.ceil(navGroups.length / 2);
-              const t = TINTS[i % TINTS.length];
-              return (
-                <div key={g.label} className="group relative">
-                  <Link
-                    href={g.href}
-                    className="flex items-center gap-0.5 rounded-lg px-2.5 py-2 text-[13px] font-semibold text-ink-soft transition-colors group-hover:text-accent group-focus-within:text-accent"
+          {/* Desktop mega-nav — one shared panel; content swaps by hovered group */}
+          <nav className="relative hidden items-center xl:flex" onMouseLeave={() => setActive(null)}>
+            {navGroups.map((g, i) => (
+              <Link
+                key={g.label}
+                href={g.href}
+                onMouseEnter={() => setActive(i)}
+                onFocus={() => setActive(i)}
+                className={cn(
+                  "flex items-center gap-0.5 rounded-lg px-2.5 py-2 text-[13px] font-semibold transition-colors",
+                  active === i ? "text-accent" : "text-ink-soft hover:text-accent",
+                )}
+              >
+                {g.label}
+                <ChevronDown className={cn("h-3.5 w-3.5 text-muted transition-transform duration-200", active === i && "rotate-180")} />
+              </Link>
+            ))}
+
+            {/* single shared background, centred under the nav */}
+            <div className="absolute left-1/2 top-full flex -translate-x-1/2 justify-center pt-3">
+              <AnimatePresence>
+                {active !== null && (
+                  <motion.div
+                    key="mega"
+                    initial={{ opacity: 0, y: 6, clipPath: "inset(0 0 100% 0)" }}
+                    animate={{ opacity: 1, y: 0, clipPath: "inset(0 0 0 0)" }}
+                    exit={{ opacity: 0, y: 4, clipPath: "inset(0 0 100% 0)" }}
+                    transition={{ duration: 0.26, ease: EASE }}
+                    className="relative h-[23rem] w-[46rem] overflow-hidden rounded-2xl border border-white/10 bg-[#191c23]/95 shadow-[0_30px_60px_-24px_rgba(0,0,0,0.65),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-2xl"
                   >
-                    {g.label}
-                    <ChevronDown className="h-3.5 w-3.5 text-muted transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180" />
-                  </Link>
-                  <div
-                    className={cn(
-                      "absolute top-full z-50 pt-3",
-                      alignRight ? "right-0" : "left-0",
-                      "pointer-events-none translate-y-1 opacity-0 transition-all duration-200",
-                      "group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100",
-                      "group-focus-within:pointer-events-auto group-focus-within:translate-y-0 group-focus-within:opacity-100",
-                    )}
-                  >
-                    <div className="relative h-[23rem] w-[46rem] overflow-hidden rounded-2xl border border-white/10 bg-[#191c23]/95 shadow-[0_30px_60px_-24px_rgba(0,0,0,0.65),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-2xl [clip-path:inset(0_0_100%_0)] transition-[clip-path] duration-300 ease-out group-hover:[clip-path:inset(0_0_0_0)] group-focus-within:[clip-path:inset(0_0_0_0)]">
-                      {/* gray + red tonal lights along the top */}
-                      <div aria-hidden className="pointer-events-none absolute -top-14 left-[18%] h-28 w-56 -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(224,45,36,0.22),transparent)] blur-2xl" />
-                      <div aria-hidden className="pointer-events-none absolute -top-16 right-[12%] h-28 w-64 rounded-full bg-[radial-gradient(closest-side,rgba(200,210,225,0.16),transparent)] blur-2xl" />
-                      <div className="relative grid h-full grid-cols-[13rem_1fr]">
+                    {/* gray + red tonal lights along the top */}
+                    <div aria-hidden className="pointer-events-none absolute -top-14 left-[18%] h-28 w-56 -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(224,45,36,0.22),transparent)] blur-2xl" />
+                    <div aria-hidden className="pointer-events-none absolute -top-16 right-[12%] h-28 w-64 rounded-full bg-[radial-gradient(closest-side,rgba(200,210,225,0.16),transparent)] blur-2xl" />
+
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={active}
+                        initial={{ opacity: 0, x: 12 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -12 }}
+                        transition={{ duration: 0.2, ease: EASE }}
+                        className="relative grid h-full grid-cols-[13rem_1fr]"
+                      >
                         {/* intro rail */}
                         <div className="flex flex-col gap-3 border-r border-white/10 bg-white/[0.03] p-5">
-                          <span className="grid h-11 w-11 place-items-center rounded-xl" style={{ background: t.soft, color: t.bar }}>
-                            <Sym name={GROUP_ICON[g.label] ?? "category"} className="text-[24px]" />
+                          <span className="grid h-11 w-11 place-items-center rounded-xl" style={{ background: TINTS[active % TINTS.length].soft, color: TINTS[active % TINTS.length].bar }}>
+                            <Sym name={GROUP_ICON[navGroups[active].label] ?? "category"} className="text-[24px]" />
                           </span>
-                          <p className="font-display text-base font-extrabold leading-tight text-white">{g.full ?? g.label}</p>
-                          <p className="text-[13px] leading-relaxed text-white/55">{GROUP_BLURB[g.label]}</p>
-                          <Link href={g.href} className="mt-1 inline-flex items-center gap-1 text-[13px] font-bold" style={{ color: t.bar }}>
+                          <p className="font-display text-base font-extrabold leading-tight text-white">{navGroups[active].full ?? navGroups[active].label}</p>
+                          <p className="text-[13px] leading-relaxed text-white/55">{GROUP_BLURB[navGroups[active].label]}</p>
+                          <Link href={navGroups[active].href} className="mt-1 inline-flex items-center gap-1 text-[13px] font-bold" style={{ color: TINTS[active % TINTS.length].bar }}>
                             Explore <Sym name="arrow_forward" className="text-[16px]" />
                           </Link>
                         </div>
                         {/* items */}
-                        <div className={cn("grid content-start gap-1 overflow-y-auto p-3", g.label === "Solutions" ? "grid-cols-1" : "grid-cols-2")}>
-                          {g.items.map((it) => (
-                            <PanelItem key={it.label} item={it} group={g.label} tintText={t.bar} />
+                        <div className={cn("grid content-start gap-1 overflow-y-auto p-3", navGroups[active].label === "Solutions" ? "grid-cols-1" : "grid-cols-2")}>
+                          {navGroups[active].items.map((it) => (
+                            <PanelItem key={it.label} item={it} group={navGroups[active].label} tintText={TINTS[active % TINTS.length].bar} />
                           ))}
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+                      </motion.div>
+                    </AnimatePresence>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </nav>
 
           <div className="hidden shrink-0 items-center gap-2 xl:flex">
