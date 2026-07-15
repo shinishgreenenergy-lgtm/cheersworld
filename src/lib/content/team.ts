@@ -4,6 +4,7 @@ export type TeamMember = {
   name: string;
   role: string;
   affiliation?: string;
+  bio?: string;
   photo?: string; // /public path
   href?: string;
 };
@@ -29,9 +30,24 @@ export const team = {
       blurb: "Company direction and strategy.",
       icon: "Compass" as IconName,
       members: [
-        { name: "Sohail", role: "Chief Executive Officer", photo: "/team/sohail.jpg" },
-        { name: "Javed", role: "Chief Technology Officer", photo: "/team/javed.jpg" },
-        { name: "Jayanth", role: "Chief Financial Officer", photo: "/team/jayanth.jpg" },
+        {
+          name: "Sohail",
+          role: "Chief Executive Officer",
+          bio: "Visionary leader driving Cheers Wisdom's mission to advance human consciousness through adaptive AI wellness companions.",
+          photo: "/team/sohail.jpg",
+        },
+        {
+          name: "Javed",
+          role: "Chief Technology Officer",
+          bio: "Technology architect building the next generation of emotionally intelligent AI systems for human wellness.",
+          photo: "/team/javed.jpg",
+        },
+        {
+          name: "Jayanth",
+          role: "Chief Financial Officer",
+          bio: "Strategic financial leader ensuring sustainable growth and impact in the AI wellness ecosystem.",
+          photo: "/team/jayanth.jpg",
+        },
       ] as TeamMember[],
     },
     {
@@ -39,10 +55,20 @@ export const team = {
       blurb: "Independent scientific oversight.",
       icon: "Microscope" as IconName,
       members: [
-        { name: "Prof. Jocelyn Faubert", role: "Chief Scientific Officer", affiliation: "NeuroTrackerX", photo: "/team/faubert.jpg" },
-        { name: "Prof. Kanad Ray", role: "Scientific Advisor", affiliation: "Cheers Health", photo: "/team/kanad-ray.jpg" },
+        {
+          name: "Prof. Jocelyn Faubert",
+          role: "Chief Scientific Officer",
+          affiliation: "NeuroTrackerX",
+          bio: "World-renowned neuroscientist and founder of NeuroTrackerX, pioneering cognitive performance research.",
+          photo: "/team/faubert.jpg",
+        },
+        {
+          name: "Prof. Kanad Ray",
+          role: "Scientific Advisor, Cheers Health",
+          bio: "Distinguished researcher in biomedical engineering and AI applications in healthcare systems.",
+          photo: "/team/kanad-ray.jpg",
+        },
       ] as TeamMember[],
     },
-    { name: "Clinical & Research", blurb: "Care pathways, studies and evidence.", icon: "HeartPulse" as IconName, members: [] as TeamMember[] },
   ],
 };
