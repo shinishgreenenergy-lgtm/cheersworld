@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Plus_Jakarta_Sans, Dancing_Script } from "next/font/google";
+import { Bricolage_Grotesque, Plus_Jakarta_Sans, Dancing_Script, Fraunces, Spline_Sans_Mono } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/providers/SmoothScroll";
 
@@ -27,6 +27,25 @@ const dancing = Dancing_Script({
   display: "swap",
 });
 
+// Editorial display serif for hero/section headlines — high-contrast, humane,
+// with true italics for accent words. Variable optical size keeps large
+// settings sharp.
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  axes: ["opsz", "SOFT", "WONK"],
+  style: ["normal", "italic"],
+  variable: "--font-serif-src",
+  display: "swap",
+});
+
+// Instrument mono for eyebrows, stage labels and data — the "lab" voice.
+const splineMono = Spline_Sans_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-mono-src",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.cheerswisdom.com"),
   title: "Cheers Wisdom · Human Intelligence Platform",
@@ -44,7 +63,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${bricolage.variable} ${jakarta.variable} ${dancing.variable}`}>
+    <html lang="en" className={`${bricolage.variable} ${jakarta.variable} ${dancing.variable} ${fraunces.variable} ${splineMono.variable}`}>
       <head>
         {/* Google Material Symbols (mega-menu icons). Subsetted to only the icons we
             actually use via &icon_names — the full variable font is ~346 KB, the subset

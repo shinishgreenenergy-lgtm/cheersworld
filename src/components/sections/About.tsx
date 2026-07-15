@@ -40,18 +40,10 @@ export function About() {
               {about.eyebrow}
             </span>
 
-            <h2 className="font-display text-[clamp(2rem,4.6vw,3.4rem)] font-extrabold leading-[1.05] tracking-tight text-white">
+            <h2 className="font-serif text-[clamp(2rem,4.6vw,3.4rem)] font-medium leading-[1.1] tracking-[-0.01em] text-white [font-variation-settings:'opsz'_48]">
               {words.map((w, i) => (
-                <span key={i} className="mr-[0.25em] inline-block overflow-hidden align-bottom">
-                  <motion.span
-                    className={i === 0 ? "inline-block" : "text-gradient inline-block"}
-                    initial={{ y: "115%" }}
-                    whileInView={{ y: 0 }}
-                    viewport={{ once: true, margin: "-60px" }}
-                    transition={{ duration: 0.7, delay: i * 0.09, ease }}
-                  >
-                    {w}
-                  </motion.span>
+                <span key={i} className={i === 0 ? "mr-[0.25em]" : "mr-[0.25em] italic text-accent-2 [font-variation-settings:'opsz'_48,'SOFT'_60]"}>
+                  {w}
                 </span>
               ))}
             </h2>

@@ -27,12 +27,17 @@ export function SectionHeading({
     >
       <Reveal>
         <div className={cn("flex flex-col gap-2.5", align === "center" ? "items-center" : "items-start")}>
-          <span className={cn("text-[12px] font-bold uppercase tracking-[0.2em]", dark ? "text-accent-2" : "text-accent")}>{eyebrow}</span>
-          <span className={cn("block h-[3px] w-10 rounded-full", dark ? "bg-accent-2" : "bg-accent")} />
+          <span className={cn("font-mono text-[11px] font-semibold uppercase tracking-[0.22em]", dark ? "text-accent-2" : "text-accent")}>{eyebrow}</span>
+          <span className={cn("block h-px w-10", dark ? "bg-accent-2" : "bg-accent")} />
         </div>
       </Reveal>
       <Reveal delay={0.06}>
-        <h2 className={cn("max-w-3xl text-balance text-[clamp(1.9rem,3.6vw,3rem)] font-light leading-[1.12] tracking-tight", dark ? "text-white" : "text-ink")}>
+        <h2
+          className={cn(
+            "max-w-3xl text-balance font-serif text-[clamp(1.9rem,3.6vw,3rem)] font-medium leading-[1.14] tracking-[-0.01em] [font-variation-settings:'opsz'_48]",
+            dark ? "text-white" : "text-ink",
+          )}
+        >
           {title}
         </h2>
       </Reveal>
