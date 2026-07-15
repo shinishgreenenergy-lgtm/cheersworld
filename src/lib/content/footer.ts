@@ -3,7 +3,7 @@ import type { SoonLink } from "./types";
 export const cta = {
   title: "Bring the platform to your organisation",
   body: "Hospitals, schools, mines, fleets, agencies and teams — start with a scoped pilot and measurable baselines.",
-  button: { label: "Get in Touch", href: "mailto:info@cheerswisdom.com" },
+  button: { label: "Get in Touch", href: "/contact" },
 };
 
 export const footer = {

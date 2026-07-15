@@ -35,7 +35,32 @@ export function Team() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading dark eyebrow={team.eyebrow} title={team.title} subtitle={team.subtitle} />
 
-        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Visionary spotlight */}
+        <Reveal className="mt-14">
+          <div className="beam-border relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] p-6 sm:p-8" style={{ ["--beam-color" as string]: "#8fbf4d" }}>
+            <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,#2e9e5b,#8fbf4d)]" />
+            <div className="grid items-center gap-6 sm:grid-cols-[auto_1fr] sm:gap-8">
+              <div className="relative mx-auto h-40 w-40 shrink-0 overflow-hidden rounded-2xl ring-1 ring-white/15 sm:h-48 sm:w-48">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={team.spotlight.photo} alt={team.spotlight.name} className="h-full w-full object-cover" />
+              </div>
+              <div>
+                <span className="inline-flex items-center gap-2 rounded-full border border-accent-2/30 bg-accent-2/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-accent-2">
+                  {team.spotlight.title}
+                </span>
+                <h3 className="mt-3 font-display text-2xl font-extrabold tracking-tight text-white">{team.spotlight.name}</h3>
+                <p className="text-[13px] font-semibold text-white/50">{team.spotlight.affiliation}</p>
+                <p className="mt-3 text-[14.5px] leading-relaxed text-white/70">{team.spotlight.bio}</p>
+                <blockquote className="mt-4 border-l-2 border-accent-2/60 pl-4 text-[15px] italic leading-relaxed text-white/85">
+                  “{team.spotlight.quote}”
+                </blockquote>
+                <p className="mt-3 text-[13px] leading-relaxed text-white/55">{team.spotlight.note}</p>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {team.groups.map((g, i) => {
             const t = TINTS[i % TINTS.length];
             return (
