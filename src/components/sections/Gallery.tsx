@@ -12,7 +12,7 @@ export function Gallery() {
   const items = filter ? gallery.items.filter((i) => i.category === filter) : gallery.items;
 
   return (
-    <section id="gallery" className="scroll-mt-24 py-24 sm:py-32">
+    <section id="gallery" className="min-h-[100svh] flex flex-col justify-center scroll-mt-24 py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading eyebrow={gallery.eyebrow} title={gallery.title} subtitle={gallery.subtitle} />
 

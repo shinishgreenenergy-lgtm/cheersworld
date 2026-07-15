@@ -17,10 +17,10 @@ export function Capabilities() {
     .map((p) => p.name);
 
   return (
-    <section id="capabilities" className="scroll-mt-24 px-3 py-6 sm:px-5">
-      <div className="mx-auto max-w-[86rem] overflow-hidden rounded-[2rem] bg-white shadow-[0_40px_100px_-50px_rgba(20,22,42,0.4)] sm:rounded-[2.5rem]">
-        {/* green gradient logo banner */}
-        <div className="relative overflow-hidden bg-[linear-gradient(115deg,#2e8b57_0%,#2e9e5b_45%,#14b8a6_100%)] px-6 py-7 sm:px-10">
+    <section id="capabilities" className="min-h-[100svh] flex flex-col justify-center scroll-mt-24 py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        {/* green gradient logo banner (contained) */}
+        <div className="relative overflow-hidden rounded-3xl bg-[linear-gradient(115deg,#2e8b57_0%,#2e9e5b_45%,#14b8a6_100%)] px-6 py-7 shadow-[0_24px_60px_-30px_rgba(46,158,91,0.5)] sm:px-10">
           {/* diagonal sheen */}
           <div aria-hidden className="pointer-events-none absolute -inset-y-8 left-[-10%] w-1/3 -rotate-12 bg-white/10 blur-md" />
           <p className="relative text-center text-[13px] font-semibold text-white/90">
@@ -37,7 +37,7 @@ export function Capabilities() {
         </div>
 
         {/* goals */}
-        <div className="px-6 py-16 text-center sm:px-12 sm:py-20">
+        <div className="pt-14 text-center sm:pt-20">
           <Reveal>
             <span className="inline-flex items-center rounded-full border border-line bg-canvas px-4 py-1.5 text-[13px] font-semibold text-ink shadow-sm">
               Our Goals
