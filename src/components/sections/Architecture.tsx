@@ -29,7 +29,7 @@ export function Architecture() {
                       <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl text-white" style={{ background: t.tile, boxShadow: `0 10px 22px -10px ${t.glow}` }}>
                         <Icon name={s.icon} className="h-5 w-5" strokeWidth={1.7} />
                       </span>
-                      <span className="font-display text-4xl font-black leading-none" style={{ color: t.bar, opacity: 0.35 }}>
+                      <span className="font-serif text-4xl font-medium leading-none [font-variation-settings:'opsz'_48]" style={{ color: t.bar, opacity: 0.4 }}>
                         {String(i + 1).padStart(2, "0")}
                       </span>
                     </div>
