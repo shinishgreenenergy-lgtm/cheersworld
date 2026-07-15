@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { DomainConstellation } from "../ui/DomainConstellation";
 
@@ -29,6 +29,33 @@ const PROOF: { label: string; detail: string; href?: string }[] = [
   { label: "Patent IN 510420", detail: "Wisdom Network · granted" },
   { label: "NeuroTrackerX", detail: "Founding science" },
 ];
+
+/* Scroll cue — hairline with a travelling pulse, instrument-voice label. */
+function ScrollCue({ reduce }: { reduce: boolean }) {
+  const { scrollY } = useScroll();
+  const opacity = useTransform(scrollY, [0, 160], [1, 0]);
+
+  return (
+    <motion.a
+      href="#trust"
+      aria-label="Scroll to explore"
+      style={{ opacity }}
+      initial={reduce ? false : { opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8, delay: 1.4 }}
+      className="absolute bottom-7 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2.5 lg:flex"
+    >
+      <span className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.3em] text-muted">Scroll</span>
+      <span className="relative h-11 w-px overflow-hidden bg-ink/15">
+        <motion.span
+          className="absolute left-0 top-0 h-3 w-px bg-accent"
+          animate={reduce ? undefined : { y: [-12, 44] }}
+          transition={{ duration: 1.6, repeat: Infinity, ease: [0.45, 0, 0.55, 1], repeatDelay: 0.4 }}
+        />
+      </span>
+    </motion.a>
+  );
+}
 
 export function Hero() {
   const reduce = useReducedMotion() ?? false;
@@ -155,6 +182,8 @@ export function Hero() {
           <DomainConstellation />
         </motion.div>
       </div>
+
+      <ScrollCue reduce={reduce} />
     </section>
   );
 }

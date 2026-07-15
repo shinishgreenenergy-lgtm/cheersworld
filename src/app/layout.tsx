@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Bricolage_Grotesque, Plus_Jakarta_Sans, Dancing_Script, Fraunces, Spline_Sans_Mono } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/providers/SmoothScroll";
+import { ScrollProgress } from "@/components/ui/ScrollProgress";
 
 // Premium pairing: Bricolage Grotesque for expressive headings, Plus Jakarta
 // Sans for crisp, highly readable body copy.
@@ -76,7 +77,10 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-dvh bg-canvas text-ink antialiased">
-        <SmoothScroll>{children}</SmoothScroll>
+        <SmoothScroll>
+          <ScrollProgress />
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );
