@@ -269,3 +269,10 @@ details[open] > summary .chev { transform: rotate(180deg); }
     animation: none !important;
   }
 }
+
+/* Visible keyboard focus — brand ring, only for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
