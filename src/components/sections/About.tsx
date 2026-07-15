@@ -35,10 +35,10 @@ export function About() {
         {/* centered header */}
         <Reveal>
           <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-accent-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent-2" />
-              {about.eyebrow}
-            </span>
+            <div className="flex flex-col items-center gap-2.5">
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-2">{about.eyebrow}</span>
+              <span className="block h-px w-10 bg-accent-2" />
+            </div>
 
             <h2 className="font-serif text-[clamp(2rem,4.6vw,3.4rem)] font-medium leading-[1.1] tracking-[-0.01em] text-white [font-variation-settings:'opsz'_48]">
               {words.map((w, i) => (

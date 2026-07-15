@@ -21,11 +21,11 @@ export function Science() {
         {/* header */}
         <Reveal>
           <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-accent-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent-2" />
-              {science.eyebrow}
-            </span>
-            <h2 className="font-display text-[clamp(1.7rem,3.7vw,2.7rem)] font-extrabold leading-tight tracking-tight text-white">
+            <div className="flex flex-col items-center gap-2.5">
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-2">{science.eyebrow}</span>
+              <span className="block h-px w-10 bg-accent-2" />
+            </div>
+            <h2 className="font-serif text-[clamp(1.7rem,3.7vw,2.7rem)] font-medium leading-[1.14] tracking-[-0.01em] text-white [font-variation-settings:'opsz'_48]">
               {science.title}
             </h2>
             <p className="text-[15px] leading-relaxed text-white/60">{science.subtitle}</p>
@@ -51,10 +51,10 @@ export function Science() {
                     style={{ background: t.bar }}
                   />
                   <div className="relative flex items-baseline justify-between">
-                    <span className="font-display text-[2.1rem] font-black leading-none tracking-tight" style={{ color: t.bar }}>
+                    <span className="font-serif text-[2.1rem] font-medium leading-none tracking-tight [font-variation-settings:'opsz'_48]" style={{ color: t.bar }}>
                       0{i + 1}
                     </span>
-                    <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-white/30">{d.short}</span>
+                    <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-white/35">{d.short}</span>
                   </div>
                   <h3 className="relative mt-4 font-display text-[17px] font-extrabold leading-tight tracking-tight text-white">
                     {d.name}
@@ -62,7 +62,7 @@ export function Science() {
                   <p className="relative mt-2 text-[13px] leading-relaxed text-white/55">{d.blurb}</p>
                   <div className="relative mt-auto pt-4">
                     <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
-                      <span className="text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: t.bar }}>
+                      <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em]" style={{ color: t.bar }}>
                         In the platform
                       </span>
                       <p className="mt-1 text-[12px] leading-relaxed text-white/55">{d.use}</p>
