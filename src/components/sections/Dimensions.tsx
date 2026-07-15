@@ -34,6 +34,16 @@ export function Dimensions() {
               <motion.div
                 key={dim.name}
                 onClick={() => setActive(i)}
+                role="button"
+                tabIndex={0}
+                aria-expanded={on}
+                aria-label={`${dim.name} dimension`}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setActive(i);
+                  }
+                }}
                 animate={{ flexGrow: on ? 2.6 : 1 }}
                 transition={{ duration: 0.6, ease }}
                 style={{
@@ -65,7 +75,7 @@ export function Dimensions() {
                     <Icon name={dim.icon} className="h-6 w-6" strokeWidth={1.7} />
                   </motion.span>
 
-                  <h3 className="mt-auto font-display text-xl font-extrabold tracking-tight text-ink">{dim.name}</h3>
+                  <h3 className="mt-auto font-serif text-[1.35rem] font-medium tracking-[-0.01em] text-ink [font-variation-settings:'opsz'_32]">{dim.name}</h3>
 
                   <AnimatePresence mode="wait">
                     {on ? (
@@ -81,7 +91,7 @@ export function Dimensions() {
                         <div className="mt-4 grid gap-x-8 gap-y-3 sm:grid-cols-2">
                           {FIELDS.map((f) => (
                             <div key={f.key}>
-                              <h4 className="text-[10.5px] font-bold uppercase tracking-[0.14em]" style={{ color: t.text }}>
+                              <h4 className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em]" style={{ color: t.text }}>
                                 {f.label}
                               </h4>
                               <p className="mt-1 text-[12.5px] leading-relaxed text-ink-soft/80">{dim[f.key]}</p>
