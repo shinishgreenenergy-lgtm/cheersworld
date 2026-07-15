@@ -47,14 +47,13 @@ function AppShowcase({
     <Reveal className="mt-16">
       <div className="relative overflow-hidden rounded-3xl border border-line px-5 py-10 sm:px-10 sm:py-12" style={{ background: bg }}>
         <div className="mx-auto max-w-2xl text-center">
-          <span
-            className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em]"
-            style={{ color: accent, borderColor: `${accent}40`, background: `${accent}14` }}
-          >
-            <span className="h-1.5 w-1.5 rounded-full" style={{ background: accent }} />
-            {eyebrow}
-          </span>
-          <h3 className="mt-4 font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">{title}</h3>
+          <div className="flex flex-col items-center gap-2.5">
+            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: accent }}>
+              {eyebrow}
+            </span>
+            <span className="block h-px w-10" style={{ background: accent }} />
+          </div>
+          <h3 className="mt-4 font-serif text-2xl font-medium tracking-[-0.01em] text-ink sm:text-3xl [font-variation-settings:'opsz'_40]">{title}</h3>
           <p className="mx-auto mt-3 max-w-xl text-[14.5px] leading-relaxed text-muted">{subtitle}</p>
         </div>
 
@@ -68,7 +67,7 @@ function AppShowcase({
               transition={{ duration: 0.5, delay: (i % 6) * 0.07, ease: [0.22, 1, 0.36, 1] }}
               className="group shrink-0 snap-center"
             >
-              <div className="relative w-[180px] rounded-[2rem] border border-ink/10 bg-ink p-1.5 shadow-[0_30px_60px_-30px_rgba(20,22,42,0.5)] transition-transform duration-300 group-hover:-translate-y-1.5 sm:w-[196px]">
+              <div className="relative w-[180px] rounded-[2rem] border border-ink/10 bg-ink p-1.5 shadow-[0_30px_60px_-30px_rgba(20,22,42,0.5)] transition-transform duration-500 group-hover:-translate-y-2 group-hover:rotate-[-1.5deg] group-hover:scale-[1.03] sm:w-[196px]">
                 <span aria-hidden className="absolute left-1/2 top-2 z-10 h-1.5 w-14 -translate-x-1/2 rounded-full bg-white/25" />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={shot.src} alt={`${title} — ${shot.caption}`} loading="lazy" className="w-full rounded-[1.6rem] object-cover" />
