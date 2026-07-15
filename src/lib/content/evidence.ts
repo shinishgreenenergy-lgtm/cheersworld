@@ -19,7 +19,7 @@ export interface EvidenceContent {
 
 export const evidence: EvidenceContent = {
   eyebrow: "Evidence",
-  title: "Challenge → Platform → Outcome → Evidence",
+  title: "Named. Applied. Measured. Published.",
   subtitle:
     "Every domain follows the same discipline: name the human challenge, apply the platform, measure the outcome, publish the evidence.",
   domains: [
