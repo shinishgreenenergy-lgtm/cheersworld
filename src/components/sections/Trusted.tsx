@@ -27,10 +27,10 @@ function MetricStat({ label, value }: { label: string; value: number }) {
       onViewportEnter={() => setN(value)}
       viewport={{ once: true, margin: "-40px" }}
     >
-      <span className="font-display text-[2.4rem] font-black leading-none tracking-tight text-accent-2">
+      <span className="font-serif text-[2.6rem] font-medium leading-none tracking-tight text-accent-2 [font-variation-settings:'opsz'_48]">
         <NumberFlow value={shown} animated={!reduce} />
       </span>
-      <span className="text-[12.5px] font-semibold text-white/65">{label}</span>
+      <span className="mt-0.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-white/60">{label}</span>
     </motion.div>
   );
 }
@@ -53,11 +53,11 @@ export function Trusted() {
         {/* header */}
         <Reveal>
           <div className="mx-auto flex max-w-2xl flex-col items-center gap-4 text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-accent-2 backdrop-blur">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent-2" />
-              Trusted Collaborations
-            </span>
-            <h2 className="font-display text-[clamp(1.6rem,3.4vw,2.4rem)] font-extrabold leading-tight tracking-tight text-white">
+            <div className="flex flex-col items-center gap-2.5">
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-2">Trusted Collaborations</span>
+              <span className="block h-px w-10 bg-accent-2" />
+            </div>
+            <h2 className="font-serif text-[clamp(1.7rem,3.4vw,2.6rem)] font-medium leading-[1.14] tracking-[-0.01em] text-white [font-variation-settings:'opsz'_48]">
               {trust.eyebrow}
             </h2>
             <p className="text-[15px] leading-relaxed text-white/65">{trust.subhead}</p>
@@ -95,14 +95,14 @@ export function Trusted() {
                       <div
                         key={p.name}
                         title={p.name}
-                        className="flex h-16 items-center justify-center rounded-xl border border-white/70 bg-white px-3"
+                        className="group/tile flex h-16 items-center justify-center rounded-xl border border-white/70 bg-white px-3 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_32px_-14px_rgba(0,0,0,0.55)]"
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={p.logo!}
                           alt={p.name}
                           loading="lazy"
-                          className="h-8 w-auto max-w-[104px] object-contain opacity-80 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0"
+                          className="h-8 w-auto max-w-[104px] object-contain opacity-80 grayscale transition-all duration-300 group-hover/tile:opacity-100 group-hover/tile:grayscale-0"
                         />
                       </div>
                     ))}
