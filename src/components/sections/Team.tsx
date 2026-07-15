@@ -72,10 +72,10 @@ export function Team() {
                 <span className="inline-flex items-center gap-2 rounded-full border border-accent-2/30 bg-accent-2/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-accent-2">
                   {team.spotlight.title}
                 </span>
-                <h3 className="mt-3 font-display text-2xl font-extrabold tracking-tight text-white">{team.spotlight.name}</h3>
+                <h3 className="mt-3 font-serif text-2xl font-medium tracking-[-0.01em] text-white [font-variation-settings:'opsz'_36]">{team.spotlight.name}</h3>
                 <p className="text-[13px] font-semibold text-white/50">{team.spotlight.affiliation}</p>
                 <p className="mt-3 text-[14.5px] leading-relaxed text-white/70">{team.spotlight.bio}</p>
-                <blockquote className="mt-4 border-l-2 border-accent-2/60 pl-4 text-[15px] italic leading-relaxed text-white/85">
+                <blockquote className="mt-4 border-l-2 border-accent-2/60 pl-4 font-serif text-[16px] font-medium italic leading-relaxed text-white/85 [font-variation-settings:'opsz'_20,'SOFT'_50]">
                   “{team.spotlight.quote}”
                 </blockquote>
                 <p className="mt-3 text-[13px] leading-relaxed text-white/55">{team.spotlight.note}</p>
