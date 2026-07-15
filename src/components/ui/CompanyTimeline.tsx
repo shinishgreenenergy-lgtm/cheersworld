@@ -12,7 +12,7 @@ const DOT: Record<string, string> = {
 };
 
 // Horizontal journey on desktop (scrollable if cramped), vertical rail on mobile.
-export function CompanyTimeline() {
+export function CompanyTimeline({ dark = false }: { dark?: boolean }) {
   const reduce = useReducedMotion();
   return (
     <ol className="relative mt-10 flex snap-x gap-4 overflow-x-auto pb-4 max-lg:flex-col max-lg:overflow-visible lg:gap-0" aria-label="Company timeline">
@@ -45,12 +45,12 @@ export function CompanyTimeline() {
           </span>
           {/* vertical connector on mobile */}
           {i < about.milestones.length - 1 && (
-            <span aria-hidden className="absolute left-[13px] top-8 h-[calc(100%-16px)] w-[2px] bg-line lg:hidden" />
+            <span aria-hidden className={cn("absolute left-[13px] top-8 h-[calc(100%-16px)] w-[2px] lg:hidden", dark ? "bg-white/15" : "bg-line")} />
           )}
           <div className="pb-6 lg:mt-4 lg:pb-0">
-            <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-accent">{m.label}</span>
-            <h3 className="mt-1 font-display text-[15px] font-extrabold tracking-tight text-ink">{m.title}</h3>
-            <p className="mt-1 max-w-[15rem] text-[13px] leading-relaxed text-muted">{m.body}</p>
+            <span className={cn("text-[11px] font-bold uppercase tracking-[0.16em]", dark ? "text-accent-2" : "text-accent")}>{m.label}</span>
+            <h3 className={cn("mt-1 font-display text-[15px] font-extrabold tracking-tight", dark ? "text-white" : "text-ink")}>{m.title}</h3>
+            <p className={cn("mt-1 max-w-[15rem] text-[13px] leading-relaxed", dark ? "text-white/60" : "text-muted")}>{m.body}</p>
           </div>
         </motion.li>
       ))}

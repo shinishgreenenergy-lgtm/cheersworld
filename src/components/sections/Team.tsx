@@ -11,7 +11,7 @@ function initials(name: string) {
 // Fully-designed member card — used the moment real profiles are added.
 function MemberCard({ m, tile, glow }: { m: TeamMember; tile: string; glow: string }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-line/70 bg-white/70 p-3">
+    <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.05] p-3">
       {m.photo ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={m.photo} alt={m.name} loading="lazy" className="h-11 w-11 rounded-full object-cover" />
@@ -21,8 +21,8 @@ function MemberCard({ m, tile, glow }: { m: TeamMember; tile: string; glow: stri
         </span>
       )}
       <span>
-        <span className="block text-[13.5px] font-bold text-ink">{m.name}</span>
-        <span className="block text-[11.5px] text-muted">{[m.role, m.affiliation].filter(Boolean).join(" · ")}</span>
+        <span className="block text-[13.5px] font-bold text-white">{m.name}</span>
+        <span className="block text-[11.5px] text-white/55">{[m.role, m.affiliation].filter(Boolean).join(" · ")}</span>
       </span>
     </div>
   );
@@ -30,34 +30,35 @@ function MemberCard({ m, tile, glow }: { m: TeamMember; tile: string; glow: stri
 
 export function Team() {
   return (
-    <section id="team" className="scroll-mt-24 py-24 sm:py-32">
+    <section id="team" className="relative isolate scroll-mt-24 overflow-hidden bg-[linear-gradient(180deg,#12161d_0%,#0a0d12_100%)] py-24 sm:py-32">
+      <div aria-hidden className="pointer-events-none absolute left-1/2 top-0 -z-10 h-72 w-[50rem] max-w-[92%] -translate-x-1/2 rounded-full bg-accent/12 blur-[130px]" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <SectionHeading eyebrow={team.eyebrow} title={team.title} subtitle={team.subtitle} />
+        <SectionHeading dark eyebrow={team.eyebrow} title={team.title} subtitle={team.subtitle} />
 
         <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {team.groups.map((g, i) => {
             const t = TINTS[i % TINTS.length];
             return (
               <Reveal key={g.name} delay={(i % 3) * 0.07}>
-                <div className="glass relative flex h-full flex-col overflow-hidden rounded-2xl p-6">
+                <div className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-6">
                   <span aria-hidden className="absolute inset-x-0 top-0 h-1" style={{ background: t.bar }} />
                   <div className="flex items-center gap-3">
-                    <span className="grid h-11 w-11 place-items-center rounded-xl" style={{ background: t.soft, color: t.text }}>
+                    <span className="grid h-11 w-11 place-items-center rounded-xl" style={{ background: t.soft, color: t.bar }}>
                       <Icon name={g.icon} className="h-5.5 w-5.5" strokeWidth={1.7} />
                     </span>
                     <div>
-                      <h3 className="font-display text-[16px] font-extrabold tracking-tight text-ink">{g.name}</h3>
-                      <p className="text-[12px] text-muted">{g.blurb}</p>
+                      <h3 className="font-display text-[16px] font-extrabold tracking-tight text-white">{g.name}</h3>
+                      <p className="text-[12px] text-white/60">{g.blurb}</p>
                     </div>
                   </div>
                   <div className="mt-5 flex flex-1 flex-col gap-2">
                     {g.members.length > 0 ? (
                       g.members.map((m) => <MemberCard key={m.name} m={m} tile={t.tile} glow={t.glow} />)
                     ) : (
-                      <div className="grid flex-1 place-items-center rounded-xl border-2 border-dashed border-line/80 bg-white/30 px-4 py-8 text-center">
-                        <p className="text-[12.5px] font-semibold text-muted">
+                      <div className="grid flex-1 place-items-center rounded-xl border-2 border-dashed border-white/15 bg-white/[0.03] px-4 py-8 text-center">
+                        <p className="text-[12.5px] font-semibold text-white/55">
                           Profiles being published
-                          <span className="mt-2 block rounded-full border border-dashed border-line px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.1em]">
+                          <span className="mt-2 block rounded-full border border-dashed border-white/25 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.1em]">
                             Coming Soon
                           </span>
                         </p>

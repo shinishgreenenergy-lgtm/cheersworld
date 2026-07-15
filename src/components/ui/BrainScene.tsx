@@ -77,17 +77,20 @@ function Brain() {
     s.scale.setScalar(scale);
     s.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
 
-    // Matte red — soft, non-reflective crimson tissue (no clearcoat/sheen/gloss).
+    // Calm, mindful green — soft, gently glossy tissue with a faint inner glow.
     const mat = new THREE.MeshPhysicalMaterial({
-      color: new THREE.Color("#d5342b"),
-      roughness: 0.85,
-      metalness: 0,
-      clearcoat: 0,
-      envMapIntensity: 0.35,
-      emissive: new THREE.Color("#5a0f0a"),
-      emissiveIntensity: 0.1,
+      color: new THREE.Color("#37b06a"),
+      roughness: 0.42,
+      metalness: 0.1,
+      clearcoat: 0.55,
+      clearcoatRoughness: 0.3,
+      sheen: 0.4,
+      sheenColor: new THREE.Color("#a7f0c4"),
+      envMapIntensity: 0.9,
+      emissive: new THREE.Color("#0f7a44"),
+      emissiveIntensity: 0.16,
       bumpMap: bump,
-      bumpScale: 0.5,
+      bumpScale: 0.4,
     });
 
     s.traverse((o) => {
@@ -116,34 +119,6 @@ function Brain() {
   );
 }
 
-// Translucent glass cranium enclosing the brain — a frosted head shell that turns
-// on its own axis (the skull/head stand-in, since no skull model is available).
-function HeadShell() {
-  const ref = useRef<THREE.Group>(null);
-  useFrame((_, dt) => {
-    if (ref.current) ref.current.rotation.y += dt * 0.18;
-  });
-  return (
-    <group ref={ref} rotation={[0.12, 0, 0]}>
-      <mesh scale={[1.55, 1.82, 1.7]}>
-        <sphereGeometry args={[1, 64, 48]} />
-        <meshPhysicalMaterial
-          color="#e2eaed"
-          transparent
-          opacity={0.16}
-          roughness={0.12}
-          metalness={0}
-          clearcoat={1}
-          clearcoatRoughness={0.18}
-          ior={1.4}
-          side={THREE.DoubleSide}
-          depthWrite={false}
-          envMapIntensity={1.3}
-        />
-      </mesh>
-    </group>
-  );
-}
 
 // Soft round sprite for the neuron dots (opaque centre → transparent edge).
 function useDotTexture() {
@@ -263,7 +238,6 @@ export function BrainScene() {
         <NeuronField />
         <Suspense fallback={null}>
           <Brain />
-          <HeadShell />
         </Suspense>
       </group>
     </Canvas>
