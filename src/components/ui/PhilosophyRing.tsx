@@ -10,7 +10,7 @@ const ICONS = [Eye, Brain, TrendingUp, Zap, Activity, Sparkles];
 // The Observe → Understand → Predict → Intervene → Measure → Improve loop, drawn as a
 // living ring: nodes sit around a circle, a light packet orbits, and each stage lights
 // up in turn — the signature "continuous loop" the whole company runs on.
-export function PhilosophyRing() {
+export function PhilosophyRing({ dark = false }: { dark?: boolean }) {
   const reduce = useReducedMotion();
   const steps = hero.philosophy;
   const [active, setActive] = useState(0);
@@ -93,7 +93,7 @@ export function PhilosophyRing() {
             <span
               className={
                 "text-[11px] font-bold tracking-tight transition-colors duration-300 " +
-                (on ? "text-ink" : "text-muted")
+                (on ? (dark ? "text-white" : "text-ink") : dark ? "text-white/55" : "text-muted")
               }
             >
               {n.label}

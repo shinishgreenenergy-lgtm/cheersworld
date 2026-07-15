@@ -81,7 +81,16 @@ export function DomainConstellation() {
   const reduce = useReducedMotion();
 
   return (
-    <div className="relative mx-auto aspect-square w-full max-w-[44rem]">
+    <div className="relative mx-auto aspect-square w-full max-w-[40rem]">
+      {/* slow-rotating dashed orbit */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[50%] border border-dashed border-emerald-400/25"
+        style={{ width: "71%", height: "74%" }}
+        animate={reduce ? {} : { rotate: 360 }}
+        transition={reduce ? {} : { duration: 60, repeat: Infinity, ease: "linear" }}
+      />
+
       {/* speckles */}
       <svg viewBox="0 0 1000 1000" className="absolute inset-0 h-full w-full" aria-hidden>
         {STARS.map((st, i) => (
@@ -123,20 +132,34 @@ export function DomainConstellation() {
           );
         })}
 
-        {/* tendrils from hub to each node */}
+        {/* tentacles — swaying, flowing energy along the whole leaf */}
         <g filter="url(#lineGlow)">
           {NODES.map((n, i) => {
-            const mx = (n.sx + n.x) / 2 + n.sin * 26;
-            const my = (n.sy + n.y) / 2 - n.cos * 26;
+            const midx = (n.sx + n.x) / 2;
+            const midy = (n.sy + n.y) / 2;
+            const px = n.sin; // perpendicular to the tendril
+            const py = -n.cos;
+            const d1 = `M${n.sx},${n.sy} Q${midx + px * 36},${midy + py * 36} ${n.x},${n.y}`;
+            const d2 = `M${n.sx},${n.sy} Q${midx + px * 4},${midy + py * 4} ${n.x},${n.y}`;
             return (
-              <path
+              <motion.path
                 key={`t-${i}`}
-                d={`M${n.sx},${n.sy} Q${mx},${my} ${n.x},${n.y}`}
                 fill="none"
                 stroke="url(#tendrilG)"
-                strokeOpacity={0.5}
-                strokeWidth={1.6}
+                strokeOpacity={0.8}
+                strokeWidth={2}
                 strokeLinecap="round"
+                strokeDasharray="5 11"
+                initial={{ d: d1 }}
+                animate={reduce ? { d: d1 } : { d: [d1, d2, d1], strokeDashoffset: [0, -16] }}
+                transition={
+                  reduce
+                    ? {}
+                    : {
+                        d: { duration: 4 + (i % 3), repeat: Infinity, ease: "easeInOut" },
+                        strokeDashoffset: { duration: 0.9, repeat: Infinity, ease: "linear" },
+                      }
+                }
               />
             );
           })}
@@ -151,7 +174,7 @@ export function DomainConstellation() {
               fill={n.color}
               initial={{ cx: n.sx, cy: n.sy, opacity: 0 }}
               animate={{ cx: [n.sx, n.x], cy: [n.sy, n.y], opacity: [0, 1, 0] }}
-              transition={{ duration: 2.6, delay: (i * 0.28) % 2.6, repeat: Infinity, repeatDelay: 1.4, ease: "easeInOut" }}
+              transition={{ duration: 2.1, delay: (i * 0.24) % 2.1, repeat: Infinity, repeatDelay: 0.5, ease: "easeInOut" }}
             />
           ))}
       </svg>
@@ -212,18 +235,22 @@ export function DomainConstellation() {
             style={{ left, top }}
           >
             <div className="relative">
-              <span
+              <motion.span
                 className="grid h-[clamp(2.4rem,4.8vw,3.4rem)] w-[clamp(2.4rem,4.8vw,3.4rem)] place-items-center rounded-full border bg-white"
                 style={{ borderColor: `${n.color}55`, color: n.color, boxShadow: `0 6px 18px -6px ${n.color}66` }}
+                animate={reduce ? {} : { scale: [1, 1.08, 1], y: [0, -3, 0] }}
+                transition={reduce ? {} : { duration: 3.4, delay: (i * 0.3) % 3.4, repeat: Infinity, ease: "easeInOut" }}
               >
                 <n.Icon className="h-[46%] w-[46%]" strokeWidth={1.8} />
-              </span>
-              <span
+              </motion.span>
+              <motion.span
                 className="absolute w-max max-w-[8.5rem] whitespace-pre-line text-[clamp(0.6rem,1.1vw,0.88rem)] font-semibold leading-tight text-ink-soft"
                 style={labelStyle}
+                animate={reduce ? {} : { opacity: [0.7, 1, 0.7] }}
+                transition={reduce ? {} : { duration: 3, delay: (i * 0.26) % 3, repeat: Infinity, ease: "easeInOut" }}
               >
                 {n.label}
-              </span>
+              </motion.span>
             </div>
           </motion.div>
         );

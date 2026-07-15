@@ -11,8 +11,7 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-[100svh] items-center overflow-hidden px-4 pb-10 pt-28 sm:px-8"
-      style={{ background: "linear-gradient(135deg,#f6f9f7 0%,#eaf2ec 60%,#dfeee6 100%)" }}
+      className="relative flex min-h-[100svh] items-center overflow-hidden bg-white px-4 pb-10 pt-28 sm:px-8"
     >
       <div className="relative mx-auto grid w-full max-w-[90rem] items-center gap-10 lg:grid-cols-[0.82fr_1.18fr]">
         {/* left — copy */}

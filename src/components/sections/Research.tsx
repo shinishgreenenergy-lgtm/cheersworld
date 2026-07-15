@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { FileText, Download, FlaskConical, Landmark } from "lucide-react";
 import { SectionHeading } from "../ui/SectionHeading";
 import { Reveal } from "../ui/Reveal";
-import { research, trust, type Publication } from "@/lib/content";
+import { research, trust, type Publication, type Patent } from "@/lib/content";
 import { TINTS } from "@/lib/tints";
 import { cn } from "@/lib/cn";
 
@@ -42,6 +42,45 @@ function PublicationCard({ p }: { p: Publication }) {
           </a>
         )}
       </div>
+    </article>
+  );
+}
+
+function PatentCard({ p }: { p: Patent }) {
+  return (
+    <article className="glass relative flex h-full flex-col overflow-hidden rounded-2xl p-6">
+      <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-accent" />
+      <div className="flex items-center justify-between">
+        <span className="rounded-full bg-canvas px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-muted">Patent</span>
+        <span className="rounded-full bg-accent px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-white">{p.status}</span>
+      </div>
+      <h3 className="mt-4 font-display text-[16px] font-extrabold leading-snug tracking-tight text-ink">{p.title}</h3>
+      {p.inventor && <p className="mt-2 text-[13px] italic text-muted">Inventor: {p.inventor}</p>}
+      <p className="mt-1 text-[13px] font-semibold text-ink-soft">{p.office}</p>
+      <dl className="mt-4 space-y-1.5 border-t border-line/70 pt-4 text-[12.5px]">
+        <div className="flex justify-between gap-3">
+          <dt className="font-bold text-ink-soft">Patent No.</dt>
+          <dd className="font-bold text-accent">{p.number}</dd>
+        </div>
+        {p.applicationNo && (
+          <div className="flex justify-between gap-3">
+            <dt className="font-semibold text-muted">Application</dt>
+            <dd className="text-muted">{p.applicationNo}</dd>
+          </div>
+        )}
+        {p.filed && (
+          <div className="flex justify-between gap-3">
+            <dt className="font-semibold text-muted">Filed</dt>
+            <dd className="text-muted">{p.filed}</dd>
+          </div>
+        )}
+        {p.granted && (
+          <div className="flex justify-between gap-3">
+            <dt className="font-semibold text-muted">Granted</dt>
+            <dd className="text-muted">{p.granted}</dd>
+          </div>
+        )}
+      </dl>
     </article>
   );
 }
@@ -128,7 +167,12 @@ export function Research() {
                   <SoonCard icon={FileText} text={research.publicationsSoon} />
                 ))}
 
-              {tab === 2 && <SoonCard icon={Landmark} text={research.patentsSoon} />}
+              {tab === 2 &&
+                (research.patents.length > 0 ? (
+                  research.patents.map((p) => <PatentCard key={p.number} p={p} />)
+                ) : (
+                  <SoonCard icon={Landmark} text={research.patentsSoon} />
+                ))}
 
               {tab === 3 && (
                 <div className="col-span-full grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
