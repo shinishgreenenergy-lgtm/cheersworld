@@ -35,23 +35,15 @@ export function About() {
         {/* centered header */}
         <Reveal>
           <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-accent-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent-2" />
-              {about.eyebrow}
-            </span>
+            <div className="flex flex-col items-center gap-2.5">
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-2">{about.eyebrow}</span>
+              <span className="block h-px w-10 bg-accent-2" />
+            </div>
 
-            <h2 className="font-display text-[clamp(2rem,4.6vw,3.4rem)] font-extrabold leading-[1.05] tracking-tight text-white">
+            <h2 className="font-serif text-[clamp(2rem,4.6vw,3.4rem)] font-medium leading-[1.1] tracking-[-0.01em] text-white [font-variation-settings:'opsz'_48]">
               {words.map((w, i) => (
-                <span key={i} className="mr-[0.25em] inline-block overflow-hidden align-bottom">
-                  <motion.span
-                    className={i === 0 ? "inline-block" : "text-gradient inline-block"}
-                    initial={{ y: "115%" }}
-                    whileInView={{ y: 0 }}
-                    viewport={{ once: true, margin: "-60px" }}
-                    transition={{ duration: 0.7, delay: i * 0.09, ease }}
-                  >
-                    {w}
-                  </motion.span>
+                <span key={i} className={i === 0 ? "mr-[0.25em]" : "mr-[0.25em] italic text-accent-2 [font-variation-settings:'opsz'_48,'SOFT'_60]"}>
+                  {w}
                 </span>
               ))}
             </h2>

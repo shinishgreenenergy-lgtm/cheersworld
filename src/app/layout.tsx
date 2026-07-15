@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Plus_Jakarta_Sans, Dancing_Script } from "next/font/google";
+import { Bricolage_Grotesque, Plus_Jakarta_Sans, Dancing_Script, Fraunces, Spline_Sans_Mono } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/providers/SmoothScroll";
+import { ScrollProgress } from "@/components/ui/ScrollProgress";
 
 // Premium pairing: Bricolage Grotesque for expressive headings, Plus Jakarta
 // Sans for crisp, highly readable body copy.
@@ -27,24 +28,63 @@ const dancing = Dancing_Script({
   display: "swap",
 });
 
+// Editorial display serif for hero/section headlines — high-contrast, humane,
+// with true italics for accent words. Variable optical size keeps large
+// settings sharp.
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  axes: ["opsz", "SOFT", "WONK"],
+  style: ["normal", "italic"],
+  variable: "--font-serif-src",
+  display: "swap",
+});
+
+// Instrument mono for eyebrows, stage labels and data — the "lab" voice.
+const splineMono = Spline_Sans_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-mono-src",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.cheerswisdom.com"),
   title: "Cheers Wisdom · Human Intelligence Platform",
   description:
     "One AI platform advancing human outcomes across healthcare, education, mining, transportation, finance, sports and government.",
+  alternates: { canonical: "/" },
   openGraph: {
     title: "Cheers Wisdom · Human Intelligence Platform",
     description:
       "One AI Platform. Multiple Human Outcomes. Continuous understanding and adaptive intervention, built on science.",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cheers Wisdom · Human Intelligence Platform",
+    description:
+      "One AI Platform. Multiple Human Outcomes. Continuous understanding and adaptive intervention, built on science.",
+  },
+};
+
+// JSON-LD structured data — real, verifiable credentials only.
+const ORG_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Cheers Wisdom",
+  legalName: "Cheers Wisdom Pvt. Ltd.",
+  url: "https://www.cheerswisdom.com",
+  logo: "https://www.cheerswisdom.com/cheers-logo.svg",
+  description:
+    "Human Intelligence Platform advancing human outcomes across healthcare, education, mining, transportation, finance, sports and government.",
+  email: "support@cheerswisdom.com",
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${bricolage.variable} ${jakarta.variable} ${dancing.variable}`}>
+    <html lang="en" className={`${bricolage.variable} ${jakarta.variable} ${dancing.variable} ${fraunces.variable} ${splineMono.variable}`}>
       <head>
         {/* Google Material Symbols (mega-menu icons). Subsetted to only the icons we
             actually use via &icon_names — the full variable font is ~346 KB, the subset
@@ -57,7 +97,14 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-dvh bg-canvas text-ink antialiased">
-        <SmoothScroll>{children}</SmoothScroll>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ORG_SCHEMA) }}
+        />
+        <SmoothScroll>
+          <ScrollProgress />
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );

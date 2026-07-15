@@ -1,0 +1,14 @@
+<!-- Static form so Netlify can detect and register the "contact" form at build time.
+     The real (JS) form on /contact posts to this same form-name. -->
+<html>
+  <head></head>
+  <body>
+    <form name="contact" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="organisation" />
+      <input type="text" name="role" />
+      <textarea name="message"></textarea>
+    </form>
+  </body>
+</html>

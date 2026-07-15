@@ -295,7 +295,7 @@ export function Header() {
               <Search className="h-4 w-4" />
               <kbd className="text-[10px] font-bold">⌘K</kbd>
             </button>
-            <Button href="#contact" className="px-5 py-2.5">
+            <Button href="/contact" className="px-5 py-2.5">
               Get in Touch
             </Button>
           </div>
@@ -371,7 +371,7 @@ export function Header() {
               })}
             </div>
             <div className="border-t border-line p-4">
-              <Button href="#contact" magnetic={false} className="w-full">
+              <Button href="/contact" magnetic={false} className="w-full">
                 Get in Touch
               </Button>
             </div>

@@ -62,13 +62,13 @@ export function Testimonials() {
               >
                 <span aria-hidden className="absolute inset-x-0 top-0 h-1" style={{ background: t.bar }} />
                 <span
-                  className="rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-[0.12em]"
+                  className="rounded-full px-3 py-1 font-mono text-[10.5px] font-semibold uppercase tracking-[0.12em]"
                   style={{ background: t.soft, color: t.text }}
                 >
                   {item.category}
                 </span>
                 <Quote className="h-10 w-10" style={{ color: t.text }} />
-                <blockquote className="mt-6 text-xl font-semibold leading-relaxed text-ink-soft sm:text-2xl">
+                <blockquote className="mt-6 font-serif text-xl font-medium italic leading-relaxed tracking-[-0.005em] text-ink-soft sm:text-2xl [font-variation-settings:'opsz'_28,'SOFT'_50]">
                   &ldquo;{item.quote}&rdquo;
                 </blockquote>
                 <figcaption className="mt-8 flex items-center gap-3">

@@ -45,7 +45,7 @@ export function Government() {
           {government.journey.map((j, i) => (
             <Reveal key={j.step} delay={i * 0.08} className="flex flex-1 items-stretch gap-3">
               <div className="flex-1 rounded-2xl border border-white/10 bg-white/[0.04] p-5">
-                <span className="font-display text-[12px] font-black uppercase tracking-[0.12em] text-accent-2">
+                <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-accent-2">
                   {String(i + 1).padStart(2, "0")} · {j.step}
                 </span>
                 <p className="mt-2 text-[13px] leading-relaxed text-white/60">{j.body}</p>

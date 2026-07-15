@@ -39,12 +39,12 @@ export function CTA() {
 
       <Reveal>
         <div className="relative mx-auto max-w-3xl">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-white backdrop-blur">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3.5 py-1.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.2em] text-white backdrop-blur">
             <span className="h-1.5 w-1.5 rounded-full bg-white" />
             Get started
           </span>
 
-          <h2 className="mx-auto mt-6 max-w-2xl text-balance font-display text-4xl font-black leading-[1.03] tracking-tight text-white sm:text-[3.5rem]">
+          <h2 className="mx-auto mt-6 max-w-2xl text-balance font-serif text-4xl font-medium leading-[1.08] tracking-[-0.01em] text-white sm:text-[3.4rem] [font-variation-settings:'opsz'_60]">
             {cta.title}
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-white/85">
@@ -78,7 +78,7 @@ export function CTA() {
               <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </Link>
             <Link
-              href="mailto:info@cheerswisdom.com?subject=Demo%20request"
+              href="mailto:support@cheerswisdom.com?subject=Demo%20request"
               className="inline-flex items-center rounded-full border border-white/40 px-8 py-4 text-[15px] font-bold text-white transition-colors hover:bg-white/10"
             >
               Request a Demo

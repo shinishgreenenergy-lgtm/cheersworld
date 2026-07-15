@@ -18,14 +18,14 @@ const STATUS_TINT: Record<Publication["status"], string> = {
 // Nature-style card; every field optional so real papers drop straight in.
 function PublicationCard({ p }: { p: Publication }) {
   return (
-    <article className="glass relative flex h-full flex-col overflow-hidden rounded-2xl p-6">
+    <article className="glass relative flex h-full flex-col overflow-hidden rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_28px_56px_-30px_rgba(20,22,42,0.4)]">
       <div className="flex items-center justify-between">
-        <span className="rounded-full bg-canvas px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-muted">{p.kind}</span>
-        <span className="rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-white" style={{ background: STATUS_TINT[p.status] }}>
+        <span className="rounded-full bg-canvas px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.1em] text-muted">{p.kind}</span>
+        <span className="rounded-full px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.1em] text-white" style={{ background: STATUS_TINT[p.status] }}>
           {p.status}
         </span>
       </div>
-      <h3 className="mt-4 font-display text-[16px] font-extrabold leading-snug tracking-tight text-ink">{p.title}</h3>
+      <h3 className="mt-4 font-serif text-[17px] font-medium leading-snug tracking-[-0.005em] text-ink [font-variation-settings:'opsz'_24]">{p.title}</h3>
       {p.authors && <p className="mt-2 text-[13px] italic text-muted">{p.authors}</p>}
       <p className="mt-1 text-[13px] font-semibold text-ink-soft">
         {[p.journal, p.year].filter(Boolean).join(" · ")}
@@ -48,19 +48,19 @@ function PublicationCard({ p }: { p: Publication }) {
 
 function PatentCard({ p }: { p: Patent }) {
   return (
-    <article className="glass relative flex h-full flex-col overflow-hidden rounded-2xl p-6">
+    <article className="glass relative flex h-full flex-col overflow-hidden rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_28px_56px_-30px_rgba(20,22,42,0.4)]">
       <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-accent" />
       <div className="flex items-center justify-between">
-        <span className="rounded-full bg-canvas px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-muted">Patent</span>
-        <span className="rounded-full bg-accent px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.1em] text-white">{p.status}</span>
+        <span className="rounded-full bg-canvas px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.1em] text-muted">Patent</span>
+        <span className="rounded-full bg-accent px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.1em] text-white">{p.status}</span>
       </div>
-      <h3 className="mt-4 font-display text-[16px] font-extrabold leading-snug tracking-tight text-ink">{p.title}</h3>
+      <h3 className="mt-4 font-serif text-[17px] font-medium leading-snug tracking-[-0.005em] text-ink [font-variation-settings:'opsz'_24]">{p.title}</h3>
       {p.inventor && <p className="mt-2 text-[13px] italic text-muted">Inventor: {p.inventor}</p>}
       <p className="mt-1 text-[13px] font-semibold text-ink-soft">{p.office}</p>
       <dl className="mt-4 space-y-1.5 border-t border-line/70 pt-4 text-[12.5px]">
         <div className="flex justify-between gap-3">
           <dt className="font-bold text-ink-soft">Patent No.</dt>
-          <dd className="font-bold text-accent">{p.number}</dd>
+          <dd className="font-mono font-semibold text-accent">{p.number}</dd>
         </div>
         {p.applicationNo && (
           <div className="flex justify-between gap-3">

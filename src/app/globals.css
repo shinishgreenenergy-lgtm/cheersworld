@@ -3,8 +3,9 @@
 @theme {
   --font-sans: var(--font-body), ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-display: var(--font-display-src), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: ui-serif, Georgia, "Times New Roman", serif;
+  --font-serif: var(--font-serif-src), ui-serif, Georgia, "Times New Roman", serif;
   --font-script: var(--font-dancing), "Brush Script MT", cursive;
+  --font-mono: var(--font-mono-src), ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* palette: premium light */
   --color-ink: #14162a;
@@ -38,10 +39,13 @@ body {
   overflow-x: hidden;
 }
 
-/* Headings + bold UI in the display face, body in the sans face */
-h1, h2, h3, h4, h5, h6,
-button, nav, .font-display {
-  font-family: var(--font-display);
+/* Headings + bold UI in the display face, body in the sans face.
+   Layered as base so font-* utilities (font-serif, font-mono) can override. */
+@layer base {
+  h1, h2, h3, h4, h5, h6,
+  button, nav, .font-display {
+    font-family: var(--font-display);
+  }
 }
 
 /* Google Material Symbols (Rounded) */
@@ -264,4 +268,11 @@ details[open] > summary .chev { transform: rotate(180deg); }
   .neuron-dot {
     animation: none !important;
   }
+}
+
+/* Visible keyboard focus — brand ring, only for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
 }

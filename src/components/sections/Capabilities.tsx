@@ -39,13 +39,14 @@ export function Capabilities() {
         {/* goals */}
         <div className="pt-14 text-center sm:pt-20">
           <Reveal>
-            <span className="inline-flex items-center rounded-full border border-line bg-canvas px-4 py-1.5 text-[13px] font-semibold text-ink shadow-sm">
-              Our Goals
-            </span>
+            <div className="flex flex-col items-center gap-2.5">
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">Our Goals</span>
+              <span className="block h-px w-10 bg-accent" />
+            </div>
           </Reveal>
           <Reveal delay={0.06}>
-            <h2 className="mx-auto mt-6 max-w-3xl font-display text-[clamp(1.9rem,4.4vw,3.2rem)] font-extrabold leading-[1.08] tracking-tight text-ink">
-              Empowering people to thrive with human intelligence.
+            <h2 className="mx-auto mt-6 max-w-3xl font-serif text-[clamp(1.9rem,4.4vw,3.2rem)] font-medium leading-[1.12] tracking-[-0.01em] text-ink [font-variation-settings:'opsz'_48]">
+              Empowering people to <em className="italic text-accent [font-variation-settings:'opsz'_48,'SOFT'_60]">thrive</em> with human intelligence.
             </h2>
           </Reveal>
           <Reveal delay={0.12}>
@@ -64,7 +65,7 @@ export function Capabilities() {
                   className="group h-full rounded-2xl border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.7),rgba(233,244,238,0.55))] p-6 text-left shadow-[0_20px_50px_-30px_rgba(20,22,42,0.4)] backdrop-blur-md"
                 >
                   <span
-                    className="grid h-14 w-14 place-items-center rounded-full text-white"
+                    className="grid h-14 w-14 place-items-center rounded-full text-white transition-transform duration-300 group-hover:scale-[1.07]"
                     style={{
                       background: "radial-gradient(circle at 34% 26%, #7fe6a6 0%, #2e9e5b 52%, #1c6e3f 100%)",
                       boxShadow:
