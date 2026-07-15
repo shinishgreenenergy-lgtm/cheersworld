@@ -64,13 +64,14 @@ export function Trusted() {
   const logos = realGroups.flatMap((g) => g.items.filter((p) => p.logo));
 
   return (
-    <section id="trust" className="scroll-mt-24 px-3 py-6 sm:px-5">
-      <div className="relative mx-auto max-w-[86rem] overflow-hidden rounded-[2rem] bg-[linear-gradient(180deg,#23262f_0%,#15171d_100%)] px-5 py-16 sm:rounded-[2.5rem] sm:px-10 sm:py-20 lg:px-14">
-        {/* atmosphere: grain + faint accent glow */}
-        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute left-1/2 top-0 h-64 w-[46rem] max-w-[92%] -translate-x-1/2 rounded-full bg-accent/12 blur-[130px]" />
-          <div className="absolute inset-0 bg-noise opacity-[0.35] mix-blend-overlay" />
-        </div>
+    <section id="trust" className="relative isolate scroll-mt-24 overflow-hidden bg-[linear-gradient(180deg,#12161d_0%,#0a0d12_100%)] py-24 sm:py-32">
+      {/* atmosphere: grain + faint accent glow */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute left-1/2 top-0 h-64 w-[46rem] max-w-[92%] -translate-x-1/2 rounded-full bg-accent/12 blur-[130px]" />
+        <div className="absolute inset-0 bg-noise opacity-[0.35] mix-blend-overlay" />
+      </div>
+
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
 
         {/* header */}
         <Reveal>

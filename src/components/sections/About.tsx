@@ -22,14 +22,15 @@ export function About() {
   const yRing = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [60, -60]);
 
   return (
-    <section ref={ref} id="about" className="scroll-mt-24 px-3 py-6 sm:px-5">
-      <div className="relative mx-auto max-w-[86rem] overflow-hidden rounded-[2rem] bg-[linear-gradient(180deg,#12161d_0%,#0a0d12_100%)] px-5 py-16 sm:rounded-[2.5rem] sm:px-10 sm:py-20 lg:px-14">
-        {/* atmosphere with parallax */}
-        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-          <motion.div style={{ y: yBlob1 }} className="absolute -left-20 top-4 h-[26rem] w-[26rem] rounded-full bg-accent/20 blur-[130px]" />
-          <motion.div style={{ y: yBlob2 }} className="absolute -right-20 bottom-0 h-[24rem] w-[24rem] rounded-full bg-accent-3/15 blur-[130px]" />
-          <div className="absolute inset-0 bg-noise opacity-[0.4] mix-blend-overlay" />
-        </div>
+    <section ref={ref} id="about" className="relative isolate scroll-mt-24 overflow-hidden bg-[linear-gradient(180deg,#12161d_0%,#0a0d12_100%)] py-24 sm:py-32">
+      {/* atmosphere with parallax */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+        <motion.div style={{ y: yBlob1 }} className="absolute -left-20 top-4 h-[26rem] w-[26rem] rounded-full bg-accent/20 blur-[130px]" />
+        <motion.div style={{ y: yBlob2 }} className="absolute -right-20 bottom-0 h-[24rem] w-[24rem] rounded-full bg-accent-3/15 blur-[130px]" />
+        <div className="absolute inset-0 bg-noise opacity-[0.4] mix-blend-overlay" />
+      </div>
+
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
 
         {/* centered header */}
         <Reveal>
