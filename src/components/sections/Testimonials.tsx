@@ -39,7 +39,7 @@ export function Testimonials() {
   };
 
   return (
-    <section id="testimonials" className="scroll-mt-24 py-24 sm:py-32">
+    <section id="testimonials" className="min-h-[100svh] flex flex-col justify-center scroll-mt-24 py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading
           eyebrow={testimonials.eyebrow}

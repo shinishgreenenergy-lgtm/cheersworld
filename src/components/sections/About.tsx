@@ -22,7 +22,7 @@ export function About() {
   const yRing = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [60, -60]);
 
   return (
-    <section ref={ref} id="about" className="relative isolate scroll-mt-24 overflow-hidden bg-[linear-gradient(180deg,#12161d_0%,#0a0d12_100%)] py-24 sm:py-32">
+    <section ref={ref} id="about" className="relative isolate min-h-[100svh] flex flex-col justify-center scroll-mt-24 overflow-hidden bg-[linear-gradient(180deg,#12161d_0%,#0a0d12_100%)] py-24 sm:py-32">
       {/* atmosphere with parallax */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <motion.div style={{ y: yBlob1 }} className="absolute -left-20 top-4 h-[26rem] w-[26rem] rounded-full bg-accent/20 blur-[130px]" />

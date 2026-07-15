@@ -102,7 +102,7 @@ export function Research() {
   const collaborators = trust.groups.filter((g) => !g.soon).flatMap((g) => g.items);
 
   return (
-    <section id="research" className="scroll-mt-24 py-24 sm:py-32">
+    <section id="research" className="min-h-[100svh] flex flex-col justify-center scroll-mt-24 py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading eyebrow={research.eyebrow} title={research.title} subtitle={research.subtitle} />
 

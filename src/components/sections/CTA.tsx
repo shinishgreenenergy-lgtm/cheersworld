@@ -4,7 +4,7 @@ import { cta } from "@/lib/content";
 
 export function CTA() {
   return (
-    <section id="contact" className="scroll-mt-24 px-4 py-20 sm:px-6">
+    <section id="contact" className="min-h-[100svh] flex flex-col justify-center scroll-mt-24 px-4 py-20 sm:px-6">
       <Reveal>
         <div className="relative mx-auto max-w-6xl overflow-hidden rounded-5xl bg-[linear-gradient(130deg,#2e8b57,#5bb873_55%,#2e9e5b)] px-6 py-20 text-center shadow-[0_40px_80px_-30px_rgba(46,158,91,0.5)]">
           <div className="absolute inset-0 bg-dots opacity-20" />

@@ -17,7 +17,7 @@ export function Dashboards() {
   const [tab, setTab] = useState(0);
 
   return (
-    <section id="dashboards" className="scroll-mt-24 py-24 sm:py-32">
+    <section id="dashboards" className="min-h-[100svh] flex flex-col justify-center scroll-mt-24 py-24 sm:py-32">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeading eyebrow={dashboardsIntro.eyebrow} title={dashboardsIntro.title} subtitle={dashboardsIntro.subtitle} />
 

@@ -17,7 +17,7 @@ export function Capabilities() {
     .map((p) => p.name);
 
   return (
-    <section id="capabilities" className="scroll-mt-24 py-24 sm:py-32">
+    <section id="capabilities" className="min-h-[100svh] flex flex-col justify-center scroll-mt-24 py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         {/* green gradient logo banner (contained) */}
         <div className="relative overflow-hidden rounded-3xl bg-[linear-gradient(115deg,#2e8b57_0%,#2e9e5b_45%,#14b8a6_100%)] px-6 py-7 shadow-[0_24px_60px_-30px_rgba(46,158,91,0.5)] sm:px-10">

@@ -30,7 +30,7 @@ function MemberCard({ m, tile, glow }: { m: TeamMember; tile: string; glow: stri
 
 export function Team() {
   return (
-    <section id="team" className="relative isolate scroll-mt-24 overflow-hidden bg-[linear-gradient(180deg,#12161d_0%,#0a0d12_100%)] py-24 sm:py-32">
+    <section id="team" className="relative isolate min-h-[100svh] flex flex-col justify-center scroll-mt-24 overflow-hidden bg-[linear-gradient(180deg,#12161d_0%,#0a0d12_100%)] py-24 sm:py-32">
       <div aria-hidden className="pointer-events-none absolute left-1/2 top-0 -z-10 h-72 w-[50rem] max-w-[92%] -translate-x-1/2 rounded-full bg-accent/12 blur-[130px]" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading dark eyebrow={team.eyebrow} title={team.title} subtitle={team.subtitle} />
