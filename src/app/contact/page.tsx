@@ -46,12 +46,12 @@ export default function ContactPage() {
         <div className="mx-auto grid max-w-6xl items-start gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           {/* left — copy + details */}
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-line bg-white/70 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-accent">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              Contact
-            </span>
-            <h1 className="mt-6 font-display text-[clamp(2.2rem,4.6vw,3.6rem)] font-extrabold leading-[1.05] tracking-tight text-ink">
-              Bring the platform to <span className="text-gradient">your organisation</span>
+            <div className="flex flex-col gap-2.5">
+              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">Contact</span>
+              <span className="block h-px w-10 bg-accent" />
+            </div>
+            <h1 className="mt-6 font-serif text-[clamp(2.2rem,4.6vw,3.5rem)] font-medium leading-[1.08] tracking-[-0.01em] text-ink [font-variation-settings:'opsz'_60]">
+              Bring the platform to <em className="italic text-accent [font-variation-settings:'opsz'_60,'SOFT'_60]">your organisation</em>
             </h1>
             <p className="mt-5 max-w-md text-[16px] leading-relaxed text-muted">
               Tell us about your organisation and goals. We&apos;ll set up a scoped pilot with measurable

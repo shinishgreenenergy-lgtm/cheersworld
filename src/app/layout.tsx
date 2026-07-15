@@ -52,12 +52,32 @@ export const metadata: Metadata = {
   title: "Cheers Wisdom · Human Intelligence Platform",
   description:
     "One AI platform advancing human outcomes across healthcare, education, mining, transportation, finance, sports and government.",
+  alternates: { canonical: "/" },
   openGraph: {
     title: "Cheers Wisdom · Human Intelligence Platform",
     description:
       "One AI Platform. Multiple Human Outcomes. Continuous understanding and adaptive intervention, built on science.",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cheers Wisdom · Human Intelligence Platform",
+    description:
+      "One AI Platform. Multiple Human Outcomes. Continuous understanding and adaptive intervention, built on science.",
+  },
+};
+
+// JSON-LD structured data — real, verifiable credentials only.
+const ORG_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Cheers Wisdom",
+  legalName: "Cheers Wisdom Pvt. Ltd.",
+  url: "https://www.cheerswisdom.com",
+  logo: "https://www.cheerswisdom.com/cheers-logo.svg",
+  description:
+    "Human Intelligence Platform advancing human outcomes across healthcare, education, mining, transportation, finance, sports and government.",
+  email: "support@cheerswisdom.com",
 };
 
 export default function RootLayout({
@@ -77,6 +97,10 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-dvh bg-canvas text-ink antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ORG_SCHEMA) }}
+        />
         <SmoothScroll>
           <ScrollProgress />
           {children}
