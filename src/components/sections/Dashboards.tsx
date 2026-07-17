@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, type CSSProperties } from "react";
+import { useState } from "react";
 import dynamic from "next/dynamic";
-import { AnimatePresence, motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { HeartPulse, GraduationCap, HardHat, Truck, Landmark, FlaskConical, ChevronRight, type LucideIcon } from "lucide-react";
 import { SectionHeading } from "../ui/SectionHeading";
 import { Reveal } from "../ui/Reveal";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
 import { dashboards, dashboardsIntro } from "@/lib/content";
 import { TINTS } from "@/lib/tints";
-import { cn } from "@/lib/cn";
 
 const ROLE_ICON: Record<string, LucideIcon> = {
   hospital: HeartPulse,
@@ -25,64 +25,75 @@ const DashboardFrame = dynamic(() => import("../dashboards/DashboardFrame").then
 });
 
 export function Dashboards() {
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState(dashboards[0].key);
+  const reduce = useReducedMotion();
+  const activeIndex = dashboards.findIndex((d) => d.key === tab);
 
   return (
     <section id="dashboards" className="flex min-h-[100svh] scroll-mt-24 flex-col justify-center py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6">
         <SectionHeading eyebrow={dashboardsIntro.eyebrow} title={dashboardsIntro.title} subtitle={dashboardsIntro.subtitle} />
 
-        <div className="mt-14 grid items-start gap-6 lg:grid-cols-[0.85fr_1.6fr]">
+        <Tabs
+          value={tab}
+          onValueChange={setTab}
+          orientation="vertical"
+          className="mt-14 gap-6 lg:flex-row lg:gap-8"
+        >
           {/* role selector */}
-          <Reveal>
-            <div role="tablist" aria-label="Dashboard roles" className="flex flex-col gap-2.5">
-              {dashboards.map((d, i) => {
-                const t = TINTS[i % TINTS.length];
-                const Icon = ROLE_ICON[d.key] ?? HeartPulse;
-                const on = i === tab;
-                return (
-                  <button
-                    key={d.key}
-                    role="tab"
-                    aria-selected={on}
-                    onClick={() => setTab(i)}
-                    style={on ? ({ borderColor: `${t.bar}66`, background: `${t.bar}0f` } as CSSProperties) : undefined}
-                    className={cn(
-                      "group flex items-center gap-3.5 rounded-2xl border p-3.5 text-left transition-all duration-200",
-                      on ? "shadow-[0_16px_36px_-24px_rgba(20,22,42,0.4)]" : "border-line bg-white/60 hover:border-accent/40 hover:bg-white",
-                    )}
-                  >
-                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl text-white" style={{ background: t.tile, boxShadow: `0 10px 22px -12px ${t.glow}` }}>
-                      <Icon className="h-5 w-5" strokeWidth={1.8} />
-                    </span>
-                    <span className="min-w-0">
-                      <span className="block font-display text-[15px] font-extrabold tracking-tight text-ink">{d.tab}</span>
-                      <span className="block truncate text-[12px] text-muted">{d.audience}</span>
-                    </span>
-                    <ChevronRight className={cn("ml-auto h-4 w-4 shrink-0 transition-all", on ? "translate-x-0 text-ink" : "-translate-x-1 text-muted/40 group-hover:translate-x-0")} />
-                  </button>
-                );
-              })}
-            </div>
-          </Reveal>
+          <TabsList className="h-auto w-full flex-col gap-2.5 bg-transparent p-0 lg:w-[20rem] lg:shrink-0">
+            {dashboards.map((d, i) => {
+              const t = TINTS[i % TINTS.length];
+              const Icon = ROLE_ICON[d.key] ?? HeartPulse;
+              return (
+                <TabsTrigger
+                  key={d.key}
+                  value={d.key}
+                  className="group h-auto w-full justify-start gap-3.5 rounded-2xl border border-line bg-white/60 p-3.5 text-left transition-all duration-200 after:hidden hover:border-accent/40 hover:bg-white data-[state=active]:shadow-[0_16px_36px_-24px_rgba(20,22,42,0.4)]"
+                  style={{ ["--on-border" as string]: `${t.bar}66`, ["--on-bg" as string]: `${t.bar}0f` }}
+                  data-tint
+                >
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl text-white" style={{ background: t.tile, boxShadow: `0 10px 22px -12px ${t.glow}` }}>
+                    <Icon className="h-5 w-5" strokeWidth={1.8} />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block font-display text-[15px] font-extrabold tracking-tight text-ink">{d.tab}</span>
+                    <span className="block truncate text-[12px] font-normal text-muted">{d.audience}</span>
+                  </span>
+                  <ChevronRight className="ml-auto h-4 w-4 shrink-0 -translate-x-1 text-muted/40 transition-all group-hover:translate-x-0 group-data-[state=active]:translate-x-0 group-data-[state=active]:text-ink" />
+                </TabsTrigger>
+              );
+            })}
+          </TabsList>
 
           {/* live preview */}
-          <Reveal delay={0.1}>
-            <div className="relative">
-              <AnimatePresence mode="wait">
+          {dashboards.map((d, i) => (
+            <TabsContent key={d.key} value={d.key} className="lg:flex-1">
+              <Reveal>
                 <motion.div
-                  key={dashboards[tab].key}
-                  initial={{ opacity: 0, y: 16, scale: 0.99 }}
+                  key={d.key}
+                  initial={reduce ? false : { opacity: 0, y: 14, scale: 0.99 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -10, scale: 0.99 }}
-                  transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <DashboardFrame config={dashboards[tab]} />
+                  <DashboardFrame config={d} accent={TINTS[i % TINTS.length].bar} />
                 </motion.div>
-              </AnimatePresence>
-            </div>
-          </Reveal>
-        </div>
+              </Reveal>
+            </TabsContent>
+          ))}
+        </Tabs>
+
+        {/* active-tab tint applied via inline style on the selected trigger */}
+        <style>{`
+          [data-tint][data-state="active"] {
+            border-color: var(--on-border) !important;
+            background: var(--on-bg) !important;
+          }
+        `}</style>
+
+        <span className="sr-only" aria-live="polite">
+          Showing {dashboards[activeIndex]?.tab} dashboard
+        </span>
       </div>
     </section>
   );
