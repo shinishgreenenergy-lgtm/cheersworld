@@ -21,5 +21,5 @@ export const government = {
     { step: "Reports", body: "Transparent reporting to the agency at every stage." },
     { step: "Expected Outcomes", body: "Measured impact against the baselines — published, not promised." },
   ],
-  cta: { label: "Talk to our government team", href: "#contact" },
+  cta: { label: "Talk to our government team", href: "/#contact" },
 };

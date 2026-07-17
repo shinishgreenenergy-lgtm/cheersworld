@@ -46,7 +46,7 @@ export function Capabilities() {
           </Reveal>
           <Reveal delay={0.06}>
             <h2 className="mx-auto mt-6 max-w-3xl font-serif text-[clamp(1.9rem,4.4vw,3.2rem)] font-medium leading-[1.12] tracking-[-0.01em] text-ink [font-variation-settings:'opsz'_48]">
-              Empowering people to <em className="italic text-accent [font-variation-settings:'opsz'_48,'SOFT'_60]">thrive</em> with human intelligence.
+              Empowering people to <em className="not-italic text-accent">thrive</em> with human intelligence.
             </h2>
           </Reveal>
           <Reveal delay={0.12}>
@@ -85,7 +85,7 @@ export function Capabilities() {
 
           <Reveal delay={0.2}>
             <Link
-              href="#solutions"
+              href="/#solutions"
               className="mt-12 inline-flex items-center gap-2 rounded-full bg-ink px-7 py-3.5 text-[14px] font-semibold text-white shadow-[0_16px_34px_-14px_rgba(20,22,42,0.6)] transition-transform duration-300 hover:-translate-y-0.5"
             >
               Learn More

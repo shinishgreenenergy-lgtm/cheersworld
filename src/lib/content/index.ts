@@ -16,4 +16,5 @@ export * from "./dashboards";
 export * from "./government";
 export * from "./gallery";
 export * from "./knowledge";
+export * from "./products";
 export * from "./footer";

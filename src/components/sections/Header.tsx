@@ -3,13 +3,21 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { AnimatePresence, motion } from "motion/react";
-import { Menu, X, ChevronDown, Search } from "lucide-react";
+import { Menu, X, Search, ChevronDown } from "lucide-react";
 
-const EASE = [0.22, 1, 0.36, 1] as const;
 import { navGroups, type NavItem } from "@/lib/content";
 import { Button } from "../ui/Button";
 import { SearchPalette } from "../ui/SearchPalette";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "../ui/navigation-menu";
+import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
 import { TINTS } from "@/lib/tints";
 import { cn } from "@/lib/cn";
 
@@ -41,7 +49,7 @@ const ICON_RULES: [RegExp, string][] = [
   [/whitepaper/i, "article"],
   [/clinical|trial/i, "clinical_notes"],
   [/education/i, "school"],
-  [/mining/i, "terrain"],
+  [/mining|foresite/i, "terrain"],
   [/drive|transport/i, "directions_car"],
   [/decision/i, "query_stats"],
   [/outcome/i, "trending_up"],
@@ -67,6 +75,8 @@ const ICON_RULES: [RegExp, string][] = [
   [/team|leadership|advisor/i, "groups"],
   [/health/i, "local_hospital"],
   [/digital/i, "verified_user"],
+  [/social/i, "diversity_3"],
+  [/fashion/i, "checkroom"],
   [/presence/i, "groups"],
   [/finance/i, "account_balance"],
   [/sport/i, "sports_soccer"],
@@ -131,9 +141,11 @@ function PanelItem({ item, group, tintText }: { item: NavItem; group: string; ti
     <span className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 pl-[42px]">
       {item.facets.map((f) =>
         f.href ? (
-          <Link key={f.label} href={f.href} className="text-[11px] font-semibold text-white/55 underline-offset-2 hover:text-white hover:underline">
-            {f.label}
-          </Link>
+          <NavigationMenuLink key={f.label} asChild>
+            <Link href={f.href} className="text-[11px] font-semibold text-white/55 underline-offset-2 hover:text-white hover:underline">
+              {f.label}
+            </Link>
+          </NavigationMenuLink>
         ) : (
           <span key={f.label} className="text-[11px] font-medium text-white/35">
             {f.label}
@@ -152,9 +164,11 @@ function PanelItem({ item, group, tintText }: { item: NavItem; group: string; ti
   }
   return (
     <span className="flex flex-col">
-      <Link href={item.href} className="group/i flex items-center gap-2.5 rounded-xl px-2.5 py-2 transition-colors hover:bg-white/[0.07]">
-        {inner}
-      </Link>
+      <NavigationMenuLink asChild>
+        <Link href={item.href} className="group/i flex items-center gap-2.5 rounded-xl px-2.5 py-2 transition-colors hover:bg-white/[0.07]">
+          {inner}
+        </Link>
+      </NavigationMenuLink>
       {facets}
     </span>
   );
@@ -164,7 +178,6 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [active, setActive] = useState<number | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -185,24 +198,8 @@ export function Header() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
-
   return (
-    <header
-      className={cn("fixed inset-x-0 top-0 z-50 transition-all duration-300", scrolled ? "py-2" : "py-4")}
-      // Escape closes whichever mega panel currently holds focus.
-      onKeyDown={(e) => {
-        if (e.key === "Escape") {
-          setActive(null);
-          (document.activeElement as HTMLElement | null)?.blur();
-        }
-      }}
-    >
+    <header className={cn("fixed inset-x-0 top-0 z-50 transition-all duration-300", scrolled ? "py-2" : "py-4")}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div
           className={cn(
@@ -211,80 +208,60 @@ export function Header() {
           )}
         >
           {/* Logo */}
-          <Link href="#top" className="flex shrink-0 items-center gap-2.5">
+          <Link href="/#top" className="flex shrink-0 items-center gap-2.5">
             <span className="grid h-10 w-10 place-items-center">
               <Image src="/cheers-logo.svg" alt="Cheers Wisdom" width={56} height={56} className="h-full w-full" />
             </span>
             <span className="font-display text-lg font-extrabold tracking-tight">Cheers Wisdom</span>
           </Link>
 
-          {/* Desktop mega-nav — one shared panel; content swaps by hovered group */}
-          <nav className="relative hidden items-center xl:flex" onMouseLeave={() => setActive(null)}>
-            {navGroups.map((g, i) => (
-              <Link
-                key={g.label}
-                href={g.href}
-                onMouseEnter={() => setActive(i)}
-                onFocus={() => setActive(i)}
-                className={cn(
-                  "flex items-center gap-0.5 rounded-lg px-2.5 py-2 text-[13px] font-semibold transition-colors",
-                  active === i ? "text-accent" : "text-ink-soft hover:text-accent",
-                )}
-              >
-                {g.label}
-                <ChevronDown className={cn("h-3.5 w-3.5 text-muted transition-transform duration-200", active === i && "rotate-180")} />
-              </Link>
-            ))}
+          {/* Desktop mega-nav — Radix NavigationMenu, one shared viewport */}
+          <NavigationMenu className="hidden xl:flex">
+            <NavigationMenuList>
+              {navGroups.map((g, i) => {
+                const t = TINTS[i % TINTS.length];
+                return (
+                  <NavigationMenuItem key={g.label}>
+                    <NavigationMenuTrigger>{g.label}</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <div className="relative w-[46rem] overflow-hidden">
+                        {/* gray + red tonal lights along the top */}
+                        <div aria-hidden className="pointer-events-none absolute -top-14 left-[18%] h-28 w-56 -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(224,45,36,0.22),transparent)] blur-2xl" />
+                        <div aria-hidden className="pointer-events-none absolute -top-16 right-[12%] h-28 w-64 rounded-full bg-[radial-gradient(closest-side,rgba(200,210,225,0.16),transparent)] blur-2xl" />
 
-            {/* single shared background, centred under the nav */}
-            <div className="absolute left-1/2 top-full flex -translate-x-1/2 justify-center pt-3">
-              <AnimatePresence>
-                {active !== null && (
-                  <motion.div
-                    key="mega"
-                    initial={{ opacity: 0, y: 6, clipPath: "inset(0 0 100% 0)" }}
-                    animate={{ opacity: 1, y: 0, clipPath: "inset(0 0 0 0)" }}
-                    exit={{ opacity: 0, y: 4, clipPath: "inset(0 0 100% 0)" }}
-                    transition={{ duration: 0.26, ease: EASE }}
-                    className="relative h-[23rem] w-[46rem] overflow-hidden rounded-2xl border border-white/10 bg-[#191c23]/95 shadow-[0_30px_60px_-24px_rgba(0,0,0,0.65),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-2xl"
-                  >
-                    {/* gray + red tonal lights along the top */}
-                    <div aria-hidden className="pointer-events-none absolute -top-14 left-[18%] h-28 w-56 -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(224,45,36,0.22),transparent)] blur-2xl" />
-                    <div aria-hidden className="pointer-events-none absolute -top-16 right-[12%] h-28 w-64 rounded-full bg-[radial-gradient(closest-side,rgba(200,210,225,0.16),transparent)] blur-2xl" />
-
-                    <AnimatePresence mode="wait">
-                      <motion.div
-                        key={active}
-                        initial={{ opacity: 0, x: 12 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -12 }}
-                        transition={{ duration: 0.2, ease: EASE }}
-                        className="relative grid h-full grid-cols-[13rem_1fr]"
-                      >
-                        {/* intro rail */}
-                        <div className="flex flex-col gap-3 border-r border-white/10 bg-white/[0.03] p-5">
-                          <span className="grid h-11 w-11 place-items-center rounded-xl" style={{ background: TINTS[active % TINTS.length].soft, color: TINTS[active % TINTS.length].bar }}>
-                            <Sym name={GROUP_ICON[navGroups[active].label] ?? "category"} className="text-[24px]" />
-                          </span>
-                          <p className="font-display text-base font-extrabold leading-tight text-white">{navGroups[active].full ?? navGroups[active].label}</p>
-                          <p className="text-[13px] leading-relaxed text-white/55">{GROUP_BLURB[navGroups[active].label]}</p>
-                          <Link href={navGroups[active].href} className="mt-1 inline-flex items-center gap-1 text-[13px] font-bold" style={{ color: TINTS[active % TINTS.length].bar }}>
-                            Explore <Sym name="arrow_forward" className="text-[16px]" />
-                          </Link>
+                        <div className="relative grid grid-cols-[13rem_1fr]">
+                          {/* intro rail */}
+                          <div className="flex flex-col gap-3 border-r border-white/10 bg-white/[0.03] p-5">
+                            <span className="grid h-11 w-11 place-items-center rounded-xl" style={{ background: t.soft, color: t.bar }}>
+                              <Sym name={GROUP_ICON[g.label] ?? "category"} className="text-[24px]" />
+                            </span>
+                            <p className="font-display text-base font-extrabold leading-tight text-white">{g.full ?? g.label}</p>
+                            <p className="text-[13px] leading-relaxed text-white/55">{GROUP_BLURB[g.label]}</p>
+                            <NavigationMenuLink asChild>
+                              <Link href={g.href} className="mt-1 inline-flex items-center gap-1 text-[13px] font-bold" style={{ color: t.bar }}>
+                                Explore <Sym name="arrow_forward" className="text-[16px]" />
+                              </Link>
+                            </NavigationMenuLink>
+                          </div>
+                          {/* items */}
+                          <div
+                            className={cn(
+                              "grid max-h-[23rem] content-start gap-1 overflow-y-auto p-3",
+                              g.label === "Solutions" ? "grid-cols-1" : "grid-cols-2",
+                            )}
+                          >
+                            {g.items.map((it) => (
+                              <PanelItem key={it.label} item={it} group={g.label} tintText={t.bar} />
+                            ))}
+                          </div>
                         </div>
-                        {/* items */}
-                        <div className={cn("grid content-start gap-1 overflow-y-auto p-3", navGroups[active].label === "Solutions" ? "grid-cols-1" : "grid-cols-2")}>
-                          {navGroups[active].items.map((it) => (
-                            <PanelItem key={it.label} item={it} group={navGroups[active].label} tintText={TINTS[active % TINTS.length].bar} />
-                          ))}
-                        </div>
-                      </motion.div>
-                    </AnimatePresence>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </nav>
+                      </div>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                );
+              })}
+            </NavigationMenuList>
+          </NavigationMenu>
 
           <div className="hidden shrink-0 items-center gap-2 xl:flex">
             <button
@@ -300,7 +277,7 @@ export function Header() {
             </Button>
           </div>
 
-          {/* Mobile search + toggle */}
+          {/* Mobile search + drawer */}
           <div className="flex items-center gap-2 xl:hidden">
             <button
               onClick={() => setSearchOpen(true)}
@@ -309,75 +286,79 @@ export function Header() {
             >
               <Search className="h-4.5 w-4.5" />
             </button>
-            <button
-              onClick={() => setOpen(true)}
-              className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-line bg-white/60"
-              aria-label="Open menu"
-            >
-              <Menu className="h-5 w-5" />
-            </button>
+
+            <Sheet open={open} onOpenChange={setOpen}>
+              <SheetTrigger asChild>
+                <button
+                  className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-line bg-white/60"
+                  aria-label="Open menu"
+                >
+                  <Menu className="h-5 w-5" />
+                </button>
+              </SheetTrigger>
+              <SheetContent
+                side="right"
+                aria-describedby={undefined}
+                className="bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(255,255,255,0.82))] backdrop-blur-2xl"
+              >
+                <div className="flex items-center justify-between border-b border-line px-5 py-4">
+                  <SheetTitle>Menu</SheetTitle>
+                  <SheetClose aria-label="Close menu">
+                    <X className="h-5 w-5" />
+                  </SheetClose>
+                </div>
+                <div className="flex-1 overflow-y-auto px-3 py-2">
+                  <Accordion type="single" collapsible>
+                    {navGroups.map((g, i) => {
+                      const t = TINTS[i % TINTS.length];
+                      return (
+                        <AccordionItem key={g.label} value={g.label} className="border-line/70">
+                          <AccordionTrigger className="px-2 py-3.5 text-[15px] font-bold text-ink hover:no-underline">
+                            <span className="flex items-center gap-2.5">
+                              <span className="grid h-8 w-8 place-items-center rounded-lg" style={{ background: t.soft, color: t.text }}>
+                                <Sym name={GROUP_ICON[g.label] ?? "category"} className="text-[18px]" />
+                              </span>
+                              {g.full ?? g.label}
+                            </span>
+                          </AccordionTrigger>
+                          <AccordionContent className="pb-2 pl-2">
+                            <div className="flex flex-col">
+                              {g.items.map((it) =>
+                                it.href ? (
+                                  <Link
+                                    key={it.label}
+                                    href={it.href}
+                                    onClick={() => setOpen(false)}
+                                    className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-ink-soft hover:bg-canvas"
+                                  >
+                                    <Sym name={itemIcon(it.label, g.label)} className="text-[18px] text-muted" />
+                                    {it.label}
+                                  </Link>
+                                ) : (
+                                  <span key={it.label} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-muted opacity-75">
+                                    <Sym name={itemIcon(it.label, g.label)} className="text-[18px] text-muted" />
+                                    {it.label}
+                                    <SoonChip />
+                                  </span>
+                                ),
+                              )}
+                            </div>
+                          </AccordionContent>
+                        </AccordionItem>
+                      );
+                    })}
+                  </Accordion>
+                </div>
+                <div className="border-t border-line p-4">
+                  <Button href="/contact" magnetic={false} className="w-full">
+                    Get in Touch
+                  </Button>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>
-
-      {/* Mobile drawer with accordions */}
-      {open && (
-        <div className="fixed inset-0 z-50 xl:hidden">
-          <div className="absolute inset-0 bg-ink/40 backdrop-blur-sm" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 top-0 flex h-full w-[88%] max-w-sm flex-col bg-[linear-gradient(180deg,rgba(255,255,255,0.85),rgba(255,255,255,0.7))] shadow-2xl backdrop-blur-2xl">
-            <div className="flex items-center justify-between border-b border-line px-5 py-4">
-              <span className="font-display font-extrabold">Menu</span>
-              <button onClick={() => setOpen(false)} aria-label="Close menu">
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-            <div className="flex-1 overflow-y-auto px-3 py-2">
-              {navGroups.map((g, i) => {
-                const t = TINTS[i % TINTS.length];
-                return (
-                  <details key={g.label} className="border-b border-line/70">
-                    <summary className="flex items-center justify-between px-2 py-3.5 text-[15px] font-bold text-ink">
-                      <span className="flex items-center gap-2.5">
-                        <span className="grid h-8 w-8 place-items-center rounded-lg" style={{ background: t.soft, color: t.text }}>
-                          <Sym name={GROUP_ICON[g.label] ?? "category"} className="text-[18px]" />
-                        </span>
-                        {g.full ?? g.label}
-                      </span>
-                      <ChevronDown className="chev h-4 w-4 text-muted" />
-                    </summary>
-                    <div className="flex flex-col pb-2 pl-2">
-                      {g.items.map((it) =>
-                        it.href ? (
-                          <Link
-                            key={it.label}
-                            href={it.href}
-                            onClick={() => setOpen(false)}
-                            className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-ink-soft hover:bg-canvas"
-                          >
-                            <Sym name={itemIcon(it.label, g.label)} className="text-[18px] text-muted" />
-                            {it.label}
-                          </Link>
-                        ) : (
-                          <span key={it.label} className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-muted opacity-75">
-                            <Sym name={itemIcon(it.label, g.label)} className="text-[18px] text-muted" />
-                            {it.label}
-                            <SoonChip />
-                          </span>
-                        ),
-                      )}
-                    </div>
-                  </details>
-                );
-              })}
-            </div>
-            <div className="border-t border-line p-4">
-              <Button href="/contact" magnetic={false} className="w-full">
-                Get in Touch
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
 
       <SearchPalette open={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>
