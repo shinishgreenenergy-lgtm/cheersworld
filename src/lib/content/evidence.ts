@@ -8,6 +8,10 @@ export interface EvidenceDomain {
   platform: string;
   outcome?: string;
   proof?: string;
+  // Stage 03 — set when outcomes have been measured (not just under study).
+  measured?: string;
+  // Stage 04 — set when peer-reviewed evidence exists.
+  published?: { label: string; href: string };
 }
 
 export interface EvidenceContent {
@@ -29,6 +33,11 @@ export const evidence: EvidenceContent = {
       solution: "Cheers Health",
       challenge: "Recovery doesn't end at discharge — patients lose guidance exactly when adherence matters most.",
       platform: "Continuous recovery awareness with adaptive nudges for medication, movement, rest and care routines.",
+      measured: "Post-PCI clinical trial demonstrating improved triage and reduced hospitalizations.",
+      published: {
+        label: "JACC · Vol. 86, No. 17S",
+        href: "https://www.jacc.org/doi/pdf/10.1016/j.jacc.2025.09.1117?download=true",
+      },
     },
     {
       name: "Education",
@@ -40,7 +49,7 @@ export const evidence: EvidenceContent = {
     {
       name: "Mining",
       icon: "Mountain" as IconName,
-      solution: "Cheers Mining",
+      solution: "Cheers ForeSite",
       challenge: "Fatigue and cognitive load drive incidents in one of the world's most hazardous industries.",
       platform: "Fatigue and readiness awareness for miners, with safety-manager dashboards for intervention.",
     },

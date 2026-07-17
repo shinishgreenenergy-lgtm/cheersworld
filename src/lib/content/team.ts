@@ -5,6 +5,7 @@ export type TeamMember = {
   role: string;
   affiliation?: string;
   bio?: string;
+  quote?: string;
   photo?: string; // /public path
   href?: string;
 };
@@ -14,16 +15,6 @@ export const team = {
   title: "Built by clinicians, scientists and engineers",
   subtitle:
     "The platform is shaped by the people who use it — profiles of our leadership, advisors and researchers are being published here.",
-  spotlight: {
-    name: "Prof. Raakesh Kriplani",
-    title: "The Visionary",
-    affiliation: "CIIPS",
-    photo: "/team/raakesh-kriplani.jpg",
-    bio: "A futurist, cyber psychologist, policy advisor and global thought leader. He stands at the intersection of technology, human behaviour and national development — pioneering a new discipline that redefines how the world understands mental health in the digital era.",
-    quote: "When the world raced into the digital age, I chose to pause and ask — what about the human mind navigating it?",
-    note: "From grassroots awareness to global policy forums, his work has impacted lakhs of individuals across sectors and nations.",
-    href: "https://ciipsindia.com",
-  },
   groups: [
     {
       name: "Leadership",
@@ -61,6 +52,15 @@ export const team = {
           affiliation: "NeuroTrackerX",
           bio: "World-renowned neuroscientist and founder of NeuroTrackerX, pioneering cognitive performance research.",
           photo: "/team/faubert.jpg",
+        },
+        {
+          name: "Prof. Raakesh Kriplani",
+          role: "The Visionary · Cyber Psychology Advisor",
+          affiliation: "CIIPS",
+          bio: "A futurist, cyber psychologist, policy advisor and global thought leader. He stands at the intersection of technology, human behaviour and national development — pioneering a new discipline that redefines how the world understands mental health in the digital era. From grassroots awareness to global policy forums, his work has impacted lakhs of individuals across sectors and nations.",
+          quote: "When the world raced into the digital age, I chose to pause and ask — what about the human mind navigating it?",
+          photo: "/team/raakesh-kriplani.jpg",
+          href: "https://ciipsindia.com",
         },
         {
           name: "Prof. Kanad Ray",

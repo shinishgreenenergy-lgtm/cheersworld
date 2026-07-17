@@ -7,8 +7,8 @@ export const hero = {
   rotating: ["hospitals", "schools", "mines", "fleets", "governments", "teams"],
   body:
     "Cheers Wisdom is one platform that continuously observes, understands and predicts human behaviour — then intervenes to advance wellbeing across healthcare, education, industry and government.",
-  ctaPrimary: { label: "Explore the Platform", href: "#solutions" },
-  ctaSecondary: { label: "Request a Demo", href: "#contact" },
+  ctaPrimary: { label: "Explore the Platform", href: "/#solutions" },
+  ctaSecondary: { label: "Request a Demo", href: "/#contact" },
   // Editorial "wordmark" hero (SAPFORCE-style card layout).
   wordmark: "CHEERS WISDOM.",
   tagline:
@@ -19,7 +19,7 @@ export const hero = {
     { n: "03", label: "Real-time" },
   ],
   stat: { value: "8", label: "Human domains, continuously sensed" },
-  howItWorks: { label: "How it works?", href: "#about" },
+  howItWorks: { label: "How it works?", href: "/#about" },
   // Structural stats (honest — counts of how the platform is built, not performance claims).
   metrics: [
     { value: 8, suffix: "", label: "Human domains" },

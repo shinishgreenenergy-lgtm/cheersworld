@@ -27,8 +27,8 @@ export const dimensions: Dimension[] = [
     why: "Physical state drives everything else: recovery speed, cognitive clarity, emotional resilience and safe performance at work.",
     assessment: "The platform observes activity, rest and self-reported recovery signals to build a continuous picture of physical state.",
     intervention: "Timely nudges for movement, rest and care routines — adapted to each person's recovery stage and daily context.",
-    solutions: ["Cheers Health", "Cheers Drive", "Cheers Mining", "Cheers Sports"],
-    links: [{ label: "Clinical studies", href: "#research" }, { label: "Healthcare evidence", href: "#evidence" }],
+    solutions: ["Cheers Health", "Cheers Drive", "Cheers ForeSite", "Cheers Sports"],
+    links: [{ label: "Clinical studies", href: "/#research" }, { label: "Healthcare evidence", href: "/#evidence" }],
   },
   {
     name: "Mental",
@@ -38,7 +38,7 @@ export const dimensions: Dimension[] = [
     assessment: "Signals of attention, stress and mood are understood in context — situational awareness, not snapshots.",
     intervention: "Adaptive guidance for focus, stress recovery and emotional balance, delivered when it actually helps.",
     solutions: ["Cheers Health", "Cheers Presence", "Cheers Sports"],
-    links: [{ label: "The science", href: "#science" }],
+    links: [{ label: "The science", href: "/#science" }],
   },
   {
     name: "Social",
@@ -48,7 +48,7 @@ export const dimensions: Dimension[] = [
     assessment: "The platform understands social context and engagement patterns as part of each person's situation.",
     intervention: "Prompts and programs that strengthen connection — for patients, students, teams and communities.",
     solutions: ["Cheers Presence", "Cheers Health"],
-    links: [{ label: "Success stories", href: "#testimonials" }],
+    links: [{ label: "Success stories", href: "/#testimonials" }],
   },
   {
     name: "Cyber",
@@ -58,7 +58,7 @@ export const dimensions: Dimension[] = [
     assessment: "Digital-behaviour patterns are understood through digital phenotyping — respectfully and transparently.",
     intervention: "Cheers Digital guides safer, emotionally healthier digital habits for students and families.",
     solutions: ["Cheers Digital"],
-    links: [{ label: "School pilots", href: "#research" }, { label: "Education evidence", href: "#evidence" }],
+    links: [{ label: "School pilots", href: "/#research" }, { label: "Education evidence", href: "/#evidence" }],
   },
   {
     name: "Financial",
@@ -68,6 +68,6 @@ export const dimensions: Dimension[] = [
     assessment: "Behavioural patterns around spending and financial stress are observed as part of whole-person context.",
     intervention: "Cheers Finance builds awareness-driven financial habits and emotional balance around money.",
     solutions: ["Cheers Finance"],
-    links: [{ label: "Solution overview", href: "#solutions" }],
+    links: [{ label: "Solution overview", href: "/#solutions" }],
   },
 ];

@@ -47,7 +47,7 @@ export function Footer() {
                 required
                 placeholder="Work email"
                 aria-label="Email address"
-                className="glass w-full rounded-xl px-4 py-2.5 text-sm text-ink outline-none placeholder:text-muted focus:border-accent/60"
+                className="w-full rounded-xl border border-ink/15 bg-white px-4 py-2.5 text-sm text-ink shadow-sm outline-none transition-colors placeholder:text-muted/80 hover:border-ink/25 focus:border-accent focus:ring-2 focus:ring-accent/25"
               />
               <button
                 type="submit"
@@ -79,11 +79,15 @@ export function Footer() {
           <p className="text-sm text-muted">{footer.copyright}</p>
           <ul className="flex flex-wrap items-center gap-x-5 gap-y-2">
             {footer.socials.map((s) => (
-              <li key={s} className="inline-flex items-center gap-1.5 text-sm text-muted/60">
-                {s}
-                <span className="rounded-full border border-dashed border-line px-1.5 py-px text-[8.5px] font-bold uppercase tracking-[0.08em] text-muted/70">
-                  Soon
-                </span>
+              <li key={s.label}>
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-medium text-muted transition-colors hover:text-accent"
+                >
+                  {s.label}
+                </a>
               </li>
             ))}
           </ul>

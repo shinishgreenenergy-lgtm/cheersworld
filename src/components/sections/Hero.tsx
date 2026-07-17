@@ -37,7 +37,7 @@ function ScrollCue({ reduce }: { reduce: boolean }) {
 
   return (
     <motion.a
-      href="#trust"
+      href="/#trust"
       aria-label="Scroll to explore"
       style={{ opacity }}
       initial={reduce ? false : { opacity: 0 }}
@@ -90,7 +90,7 @@ export function Hero() {
           <h1 className="mt-7 font-serif text-[clamp(2.7rem,5vw,4.5rem)] font-medium leading-[1.06] tracking-[-0.012em] text-ink [font-variation-settings:'opsz'_72]">
             <RevealLine delay={0.15} reduce={reduce}>One platform.</RevealLine>
             <RevealLine delay={0.26} reduce={reduce}>
-              Every <em className="italic text-accent [font-variation-settings:'opsz'_72,'SOFT'_60]">human</em> domain.
+              Every <em className="not-italic text-accent">human</em> domain.
             </RevealLine>
           </h1>
 
@@ -111,7 +111,7 @@ export function Hero() {
             className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-4"
           >
             <Link
-              href="#solutions"
+              href="/#solutions"
               className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-[linear-gradient(120deg,#5bb873,#2e8b57)] px-8 py-4 text-[15px] font-semibold text-white shadow-[0_18px_44px_-16px_rgba(46,158,91,0.6)] transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-[0_24px_52px_-18px_rgba(46,158,91,0.7)]"
             >
               {/* sheen sweep */}
@@ -123,7 +123,7 @@ export function Hero() {
               <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
             </Link>
             <Link
-              href="#about"
+              href="/#about"
               className="group inline-flex items-center gap-1.5 text-[15px] font-semibold text-ink"
             >
               <span className="relative">
