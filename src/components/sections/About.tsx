@@ -139,7 +139,8 @@ export function About() {
         </Reveal>
 
         {/* Journey — a connected roadmap rail with progress */}
-        <Reveal className="mt-16">
+        <Reveal as="div" className="mt-16">
+          <span id="timeline" className="block scroll-mt-28" aria-hidden />
           <div className="flex items-center gap-4">
             <span className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-accent-2">Our journey</span>
             <span className="h-px flex-1 bg-white/15" />

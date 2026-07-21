@@ -127,7 +127,7 @@ export const navGroups: NavGroup[] = [
     items: [
       { label: "Story", href: "/#about" },
       { label: "Vision & Mission", href: "/#about" },
-      { label: "Timeline", href: "/#about" },
+      { label: "Timeline", href: "/#timeline" },
       { label: "Leadership", href: "/#team" },
       { label: "Scientific Advisors", href: "/#team" },
       { label: "Team", href: "/#team" },
