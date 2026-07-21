@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Camera, X, ArrowLeft, ArrowRight, Expand } from "lucide-react";
 import { Reveal } from "../ui/Reveal";
@@ -10,8 +10,10 @@ const ALL = "All";
 
 export function Gallery() {
   const [filter, setFilter] = useState(ALL);
-  const [idx, setIdx] = useState<number | null>(null);
+  const [idx, setIdx] = useState(0);
+  const [full, setFull] = useState(false);
   const reduce = useReducedMotion();
+  const railRef = useRef<HTMLDivElement>(null);
 
   // Only offer categories that actually have photos.
   const categories = useMemo(
@@ -22,20 +24,25 @@ export function Gallery() {
     () => (filter === ALL ? gallery.items : gallery.items.filter((i) => i.category === filter)),
     [filter],
   );
+  const active = items[Math.min(idx, items.length - 1)];
 
-  const open = idx !== null;
-  const active = idx !== null ? items[idx] : null;
-  const close = useCallback(() => setIdx(null), []);
   const step = useCallback(
-    (d: number) => setIdx((i) => (i === null ? i : (i + d + items.length) % items.length)),
+    (d: number) => setIdx((i) => (i + d + items.length) % items.length),
     [items.length],
   );
 
-  // Lightbox keyboard navigation + scroll lock.
+  // Keep the active thumbnail in view as the exhibition advances.
   useEffect(() => {
-    if (!open) return;
+    const rail = railRef.current;
+    const thumb = rail?.children[idx] as HTMLElement | undefined;
+    thumb?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", inline: "center", block: "nearest" });
+  }, [idx, reduce]);
+
+  // Fullscreen: keyboard navigation + scroll lock.
+  useEffect(() => {
+    if (!full) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
+      if (e.key === "Escape") setFull(false);
       if (e.key === "ArrowLeft") step(-1);
       if (e.key === "ArrowRight") step(1);
     };
@@ -45,7 +52,7 @@ export function Gallery() {
       window.removeEventListener("keydown", onKey);
       document.documentElement.style.overflow = "";
     };
-  }, [open, close, step]);
+  }, [full, step]);
 
   return (
     <section id="gallery" className="flex min-h-[70svh] flex-col justify-center scroll-mt-24 py-24 sm:py-32">
@@ -65,75 +72,115 @@ export function Gallery() {
         {gallery.items.length > 0 ? (
           <Reveal className="mt-9">
             {/* filter rail */}
-            <div className="flex items-center gap-4">
-              <div className="flex flex-wrap gap-1.5">
-                {categories.map((c) => {
-                  const on = filter === c;
-                  const count = c === ALL ? gallery.items.length : gallery.items.filter((i) => i.category === c).length;
-                  return (
-                    <button
-                      key={c}
-                      type="button"
-                      onClick={() => {
-                        setFilter(c);
-                        setIdx(null);
-                      }}
-                      aria-pressed={on}
-                      className={`rounded-full border px-3.5 py-1.5 text-[12px] font-bold transition-colors ${
-                        on
-                          ? "border-accent/50 bg-accent text-white"
-                          : "border-line bg-white/60 text-ink-soft hover:border-accent/40"
-                      }`}
-                    >
-                      {c}
-                      <span className={`ml-1 font-mono text-[10px] ${on ? "text-white/70" : "opacity-60"}`}>{count}</span>
-                    </button>
-                  );
-                })}
-              </div>
-              <span aria-hidden className="hidden h-px flex-1 bg-line sm:block" />
-              <span className="hidden font-mono text-[11px] font-semibold tabular-nums text-muted/70 sm:block">
-                {String(items.length).padStart(2, "0")} moments
-              </span>
+            <div className="flex flex-wrap gap-1.5">
+              {categories.map((c) => {
+                const on = filter === c;
+                const count = c === ALL ? gallery.items.length : gallery.items.filter((i) => i.category === c).length;
+                return (
+                  <button
+                    key={c}
+                    type="button"
+                    onClick={() => {
+                      setFilter(c);
+                      setIdx(0);
+                    }}
+                    aria-pressed={on}
+                    className={`rounded-full border px-3.5 py-1.5 text-[12px] font-bold transition-colors ${
+                      on ? "border-accent/50 bg-accent text-white" : "border-line bg-white/60 text-ink-soft hover:border-accent/40"
+                    }`}
+                  >
+                    {c}
+                    <span className={`ml-1 font-mono text-[10px] ${on ? "text-white/70" : "opacity-60"}`}>{count}</span>
+                  </button>
+                );
+              })}
             </div>
 
-            {/* mosaic wall — natural heights, column flow */}
-            <motion.div
-              key={filter}
-              initial={reduce ? false : { opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-7 columns-2 gap-3 sm:gap-4 lg:columns-3 xl:columns-4"
-            >
-              {items.map((it, i) => (
-                <button
-                  key={it.src}
-                  type="button"
-                  onClick={() => setIdx(i)}
-                  aria-label={`Enlarge: ${it.caption}`}
-                  className="group relative mb-3 block w-full break-inside-avoid overflow-hidden rounded-2xl border border-line bg-white/50 text-left sm:mb-4"
-                >
+            {/* the stage */}
+            <div className="relative mt-6 overflow-hidden rounded-[2rem] border border-line bg-ink shadow-[0_50px_100px_-50px_rgba(20,22,42,0.6)]">
+              <div className="relative aspect-[16/10] w-full sm:aspect-[16/8.5]">
+                <AnimatePresence mode="wait">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={it.src}
-                    alt={it.caption}
-                    loading="lazy"
-                    className="w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                  <motion.img
+                    key={active.src}
+                    src={active.src}
+                    alt={active.caption}
+                    initial={reduce ? false : { opacity: 0, scale: 1.02 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={reduce ? undefined : { opacity: 0 }}
+                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                    className="absolute inset-0 h-full w-full object-cover"
                   />
-                  <span
-                    aria-hidden
-                    className="absolute inset-x-0 bottom-0 h-2/3 bg-[linear-gradient(180deg,transparent,rgba(10,12,20,0.72))] opacity-100 transition-opacity duration-300 sm:opacity-0 sm:group-hover:opacity-100"
-                  />
-                  <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 p-3.5 opacity-100 transition-opacity duration-300 sm:opacity-0 sm:group-hover:opacity-100">
-                    <span className="min-w-0">
-                      <span className="block font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-white/65">{it.category}</span>
-                      <span className="mt-0.5 line-clamp-2 text-[12px] font-semibold leading-snug text-white">{it.caption}</span>
-                    </span>
-                    <Expand className="mb-0.5 h-3.5 w-3.5 shrink-0 text-white/70 transition-transform group-hover:scale-110" />
+                </AnimatePresence>
+
+                {/* counter + expand */}
+                <div className="absolute right-4 top-4 flex items-center gap-2">
+                  <span className="rounded-full bg-black/40 px-3 py-1 font-mono text-[11px] tabular-nums text-white/90 backdrop-blur-sm">
+                    {idx + 1} / {items.length}
                   </span>
-                </button>
-              ))}
-            </motion.div>
+                  <button
+                    type="button"
+                    onClick={() => setFull(true)}
+                    aria-label="View fullscreen"
+                    className="grid h-8 w-8 place-items-center rounded-full bg-black/40 text-white/90 backdrop-blur-sm transition-colors hover:bg-accent"
+                  >
+                    <Expand className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+
+                {/* caption plate */}
+                <span aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-[linear-gradient(180deg,transparent,rgba(6,8,12,0.85))]" />
+                <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5 sm:p-6">
+                  <div className="min-w-0">
+                    <p className="font-mono text-[9.5px] font-bold uppercase tracking-[0.18em] text-accent-2">{active.category}</p>
+                    <p className="mt-1 max-w-2xl text-[13.5px] font-semibold leading-snug text-white sm:text-[15px]">{active.caption}</p>
+                  </div>
+                  <div className="flex shrink-0 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => step(-1)}
+                      aria-label="Previous photo"
+                      className="grid h-10 w-10 place-items-center rounded-full border border-white/20 bg-black/30 text-white/85 backdrop-blur-sm transition-colors hover:bg-accent"
+                    >
+                      <ArrowLeft className="h-4.5 w-4.5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => step(1)}
+                      aria-label="Next photo"
+                      className="grid h-10 w-10 place-items-center rounded-full border border-white/20 bg-black/30 text-white/85 backdrop-blur-sm transition-colors hover:bg-accent"
+                    >
+                      <ArrowRight className="h-4.5 w-4.5" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* thumbnail rail */}
+            <div
+              ref={railRef}
+              className="mt-4 flex gap-2.5 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
+              {items.map((it, i) => {
+                const on = i === idx;
+                return (
+                  <button
+                    key={it.src}
+                    type="button"
+                    onClick={() => setIdx(i)}
+                    aria-label={it.caption}
+                    aria-current={on}
+                    className={`relative h-16 w-24 shrink-0 overflow-hidden rounded-xl border transition-all duration-300 sm:h-[4.5rem] sm:w-28 ${
+                      on ? "border-accent ring-2 ring-accent/40" : "border-line opacity-60 hover:opacity-100"
+                    }`}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={it.src} alt="" loading="lazy" className="h-full w-full object-cover" />
+                  </button>
+                );
+              })}
+            </div>
           </Reveal>
         ) : (
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -152,9 +199,9 @@ export function Gallery() {
         )}
       </div>
 
-      {/* lightbox — navigate the whole filtered set without leaving it */}
+      {/* fullscreen viewer */}
       <AnimatePresence>
-        {active && (
+        {full && active && (
           <motion.div
             role="dialog"
             aria-modal="true"
@@ -164,26 +211,24 @@ export function Gallery() {
             exit={reduce ? undefined : { opacity: 0 }}
             transition={{ duration: 0.25 }}
             className="fixed inset-0 z-[80] flex flex-col bg-[#0a0d12]/95 backdrop-blur-sm"
-            onClick={close}
+            onClick={() => setFull(false)}
           >
-            {/* top bar */}
             <div className="flex items-center gap-3 px-4 py-4 sm:px-6" onClick={(e) => e.stopPropagation()}>
               <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-accent-2">{active.category}</span>
               <span aria-hidden className="h-px flex-1 bg-white/10" />
               <span className="font-mono text-[11px] tabular-nums text-white/50">
-                {(idx ?? 0) + 1} / {items.length}
+                {idx + 1} / {items.length}
               </span>
               <button
                 type="button"
-                onClick={close}
-                aria-label="Close gallery"
+                onClick={() => setFull(false)}
+                aria-label="Close fullscreen"
                 className="grid h-9 w-9 place-items-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-white/40 hover:text-white"
               >
                 <X className="h-4.5 w-4.5" />
               </button>
             </div>
 
-            {/* stage */}
             <div className="relative flex min-h-0 flex-1 items-center justify-center px-14 pb-2 sm:px-20">
               <AnimatePresence mode="wait">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -199,7 +244,6 @@ export function Gallery() {
                   onClick={(e) => e.stopPropagation()}
                 />
               </AnimatePresence>
-
               <button
                 type="button"
                 onClick={(e) => {
@@ -224,20 +268,9 @@ export function Gallery() {
               </button>
             </div>
 
-            {/* caption */}
             <p className="mx-auto max-w-3xl px-6 pb-7 pt-4 text-center text-[13.5px] font-medium leading-relaxed text-white/85" onClick={(e) => e.stopPropagation()}>
               {active.caption}
             </p>
-
-            {/* preload neighbours for instant stepping */}
-            {items.length > 1 && idx !== null && (
-              <div className="hidden" aria-hidden>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={items[(idx + 1) % items.length].src} alt="" />
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={items[(idx - 1 + items.length) % items.length].src} alt="" />
-              </div>
-            )}
           </motion.div>
         )}
       </AnimatePresence>
