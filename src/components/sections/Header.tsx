@@ -126,13 +126,16 @@ function PanelItem({ item, group, tintText }: { item: NavItem; group: string; ti
       >
         <Sym name={itemIcon(item.label, group)} className="text-[18px]" />
       </span>
-      <span
-        className={cn(
-          "text-[13px] font-semibold",
-          item.href ? "text-white/80 transition-colors group-hover/i:text-white" : "text-white/45",
-        )}
-      >
-        {item.label}
+      <span className="min-w-0">
+        <span
+          className={cn(
+            "block text-[13px] font-semibold leading-tight",
+            item.href ? "text-white/80 transition-colors group-hover/i:text-white" : "text-white/45",
+          )}
+        >
+          {item.label}
+        </span>
+        {item.desc && <span className="mt-0.5 block text-[11px] leading-snug text-white/45">{item.desc}</span>}
       </span>
       {!item.href && <SoonChip />}
     </>
@@ -244,12 +247,7 @@ export function Header() {
                             </NavigationMenuLink>
                           </div>
                           {/* items */}
-                          <div
-                            className={cn(
-                              "grid max-h-[23rem] content-start gap-1 overflow-y-auto p-3",
-                              g.label === "Solutions" ? "grid-cols-1" : "grid-cols-2",
-                            )}
-                          >
+                          <div className="grid max-h-[23rem] grid-cols-2 content-start gap-1 overflow-y-auto p-3">
                             {g.items.map((it) => (
                               <PanelItem key={it.label} item={it} group={g.label} tintText={t.bar} />
                             ))}
