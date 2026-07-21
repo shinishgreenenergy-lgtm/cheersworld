@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Mail, ArrowRight, Check, Building2, MessageSquare } from "lucide-react";
+import { Mail, ArrowRight, Check } from "lucide-react";
 import { Aurora } from "@/components/ui/Aurora";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
+import { Reveal } from "@/components/ui/Reveal";
 
 const SUPPORT_EMAIL = "support@cheerswisdom.com";
 
@@ -15,6 +16,13 @@ function encode(data: Record<string, string>) {
 }
 
 const AUDIENCES = ["Hospitals", "Schools", "Mines", "Fleets", "Agencies", "Teams"];
+
+// What actually happens after the form is sent — no black hole.
+const NEXT_STEPS = [
+  { n: "01", title: "Routed to the right team", body: "Clinical, education, industry or government — your enquiry goes to the people who run that domain." },
+  { n: "02", title: "Scoping conversation", body: "We talk through your organisation, the outcomes you're after, and what a meaningful baseline looks like." },
+  { n: "03", title: "Pilot proposal", body: "A scoped pilot with measurable baselines — see the outcomes before you scale." },
+];
 
 export default function ContactPage() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
@@ -42,119 +50,161 @@ export default function ContactPage() {
     <>
       <Aurora />
       <Header />
-      <main className="min-h-[100svh] bg-white px-4 pb-24 pt-32 sm:px-6">
-        <div className="mx-auto grid max-w-6xl items-start gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-          {/* left — copy + details */}
-          <div>
-            <div className="flex flex-col gap-2.5">
-              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">Contact</span>
-              <span className="block h-px w-10 bg-accent" />
-            </div>
-            <h1 className="mt-6 font-serif text-[clamp(2.2rem,4.6vw,3.5rem)] font-medium leading-[1.08] tracking-[-0.01em] text-ink [font-variation-settings:'opsz'_60]">
-              Bring the platform to <em className="italic text-accent [font-variation-settings:'opsz'_60,'SOFT'_60]">your organisation</em>
-            </h1>
-            <p className="mt-5 max-w-md text-[16px] leading-relaxed text-muted">
-              Tell us about your organisation and goals. We&apos;ll set up a scoped pilot with measurable
-              baselines — and show outcomes before you scale.
-            </p>
-
-            <a
-              href={`mailto:${SUPPORT_EMAIL}`}
-              className="mt-8 inline-flex items-center gap-3 rounded-2xl border border-line bg-canvas px-4 py-3 transition-colors hover:bg-white"
-            >
-              <span className="grid h-10 w-10 place-items-center rounded-xl bg-[linear-gradient(135deg,#5bb873,#2e8b57)] text-white">
-                <Mail className="h-5 w-5" />
-              </span>
-              <span className="leading-tight">
-                <span className="block text-[12px] font-semibold text-muted">Prefer email?</span>
-                <span className="block font-display text-[15px] font-extrabold tracking-tight text-ink">{SUPPORT_EMAIL}</span>
-              </span>
-            </a>
-
-            <div className="mt-8">
-              <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-muted">Who we work with</p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {AUDIENCES.map((a) => (
-                  <span key={a} className="rounded-full border border-line bg-white/60 px-3 py-1.5 text-[12.5px] font-semibold text-ink-soft">
-                    {a}
-                  </span>
-                ))}
+      <main className="min-h-[100svh] px-4 pb-24 pt-32 sm:px-6">
+        <div className="mx-auto w-full max-w-6xl">
+          {/* dossier header */}
+          <Reveal>
+            <div>
+              <div className="flex flex-col gap-2.5">
+                <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">Contact</span>
+                <span className="block h-px w-10 bg-accent" />
               </div>
-            </div>
-          </div>
-
-          {/* right — form */}
-          <div className="rounded-3xl border border-line bg-white p-6 shadow-[0_40px_100px_-50px_rgba(20,22,42,0.4)] sm:p-8">
-            {status === "sent" ? (
-              <div className="grid place-items-center py-16 text-center">
-                <span className="grid h-14 w-14 place-items-center rounded-full bg-[linear-gradient(135deg,#5bb873,#2e8b57)] text-white shadow-[0_16px_34px_-12px_rgba(46,158,91,0.6)]">
-                  <Check className="h-7 w-7" strokeWidth={3} />
-                </span>
-                <h2 className="mt-5 font-display text-xl font-extrabold tracking-tight text-ink">Message sent</h2>
-                <p className="mt-2 max-w-sm text-[14.5px] leading-relaxed text-muted">
-                  Thanks for reaching out — our team will get back to you shortly. You can also email us at{" "}
-                  <a href={`mailto:${SUPPORT_EMAIL}`} className="font-semibold text-accent hover:underline">{SUPPORT_EMAIL}</a>.
+              <div className="mt-6 grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+                <h1 className="max-w-2xl font-serif text-[clamp(2.2rem,4.6vw,3.4rem)] font-medium leading-[1.08] tracking-[-0.01em] text-ink [font-variation-settings:'opsz'_60]">
+                  Bring the platform to{" "}
+                  <em className="italic text-accent [font-variation-settings:'opsz'_60,'SOFT'_60]">your organisation</em>
+                </h1>
+                <p className="max-w-md text-[15px] leading-relaxed text-muted lg:pb-2">
+                  Tell us about your organisation and goals. We&apos;ll set up a scoped pilot with measurable
+                  baselines — and show outcomes before you scale.
                 </p>
               </div>
-            ) : (
-              <form
-                name="contact"
-                method="POST"
-                data-netlify="true"
-                data-netlify-honeypot="bot-field"
-                onSubmit={onSubmit}
-                className="flex flex-col gap-4"
+            </div>
+          </Reveal>
+
+          <Reveal className="mt-12 grid items-start gap-12 lg:mt-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+            {/* left — direct line + what happens next */}
+            <div>
+              <a
+                href={`mailto:${SUPPORT_EMAIL}`}
+                className="flex items-center gap-3.5 rounded-2xl border border-line bg-white/70 px-4 py-3.5 backdrop-blur transition-colors hover:border-accent/40"
               >
-                <input type="hidden" name="form-name" value="contact" />
-                <p className="hidden">
-                  <label>
-                    Don&apos;t fill this out: <input name="bot-field" onChange={() => {}} />
-                  </label>
-                </p>
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[linear-gradient(135deg,#5bb873,#2e8b57)] text-white">
+                  <Mail className="h-5 w-5" />
+                </span>
+                <span className="leading-tight">
+                  <span className="block text-[12px] font-semibold text-muted">Prefer email?</span>
+                  <span className="block font-display text-[15px] font-extrabold tracking-tight text-ink">{SUPPORT_EMAIL}</span>
+                </span>
+              </a>
 
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <Field label="Full name" name="name" value={form.name} onChange={set("name")} required />
-                  <Field label="Work email" name="email" type="email" value={form.email} onChange={set("email")} required />
+              <div className="mt-10">
+                <div className="flex items-center gap-4">
+                  <p className="font-mono text-[10.5px] font-bold uppercase tracking-[0.2em] text-muted">What happens next</p>
+                  <span aria-hidden className="h-px flex-1 bg-line" />
                 </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <Field label="Organisation" name="organisation" icon={<Building2 className="h-4 w-4" />} value={form.organisation} onChange={set("organisation")} />
-                  <Field label="Your role" name="role" value={form.role} onChange={set("role")} />
+                <ol className="mt-2">
+                  {NEXT_STEPS.map((s, i) => (
+                    <li key={s.n} className={`flex gap-4 py-4 ${i > 0 ? "border-t border-line" : ""}`}>
+                      <span className="pt-0.5 font-mono text-[12px] font-bold text-accent">{s.n}</span>
+                      <div>
+                        <h3 className="font-display text-[14.5px] font-extrabold tracking-tight text-ink">{s.title}</h3>
+                        <p className="mt-1 text-[13px] leading-relaxed text-muted">{s.body}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+
+              <div className="mt-6">
+                <div className="flex items-center gap-4">
+                  <p className="font-mono text-[10.5px] font-bold uppercase tracking-[0.2em] text-muted">Who we work with</p>
+                  <span aria-hidden className="h-px flex-1 bg-line" />
                 </div>
-                <label className="flex flex-col gap-1.5">
-                  <span className="flex items-center gap-1.5 text-[12.5px] font-bold text-ink-soft">
-                    <MessageSquare className="h-4 w-4 text-muted" /> How can we help?
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {AUDIENCES.map((a) => (
+                    <span key={a} className="rounded-full border border-line bg-white/60 px-3.5 py-1.5 text-[12.5px] font-semibold text-ink-soft">
+                      {a}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* right — the form */}
+            <div className="relative overflow-hidden rounded-3xl border border-line bg-white/80 p-6 backdrop-blur sm:p-9">
+              <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,#2e9e5b,#14b8a6)]" />
+              {status === "sent" ? (
+                <div className="grid place-items-center py-16 text-center">
+                  <span className="grid h-14 w-14 place-items-center rounded-full bg-[linear-gradient(135deg,#5bb873,#2e8b57)] text-white shadow-[0_16px_34px_-12px_rgba(46,158,91,0.6)]">
+                    <Check className="h-7 w-7" strokeWidth={3} />
                   </span>
-                  <textarea
-                    name="message"
-                    required
-                    rows={5}
-                    value={form.message}
-                    onChange={set("message")}
-                    placeholder="Tell us about your organisation, the outcomes you're after, and any timeline."
-                    className="rounded-xl border border-line bg-canvas px-3.5 py-3 text-[14.5px] text-ink outline-none transition-colors placeholder:text-muted/60 focus:border-accent/60 focus:bg-white"
-                  />
-                </label>
-
-                {status === "error" && (
-                  <p className="text-[13px] font-semibold text-red-600">
-                    Something went wrong. Please email us at {SUPPORT_EMAIL}.
+                  <h2 className="mt-5 font-display text-xl font-extrabold tracking-tight text-ink">Message sent</h2>
+                  <p className="mt-2 max-w-sm text-[14.5px] leading-relaxed text-muted">
+                    Thanks for reaching out — your enquiry is on its way to the right team. You can also email us at{" "}
+                    <a href={`mailto:${SUPPORT_EMAIL}`} className="font-semibold text-accent hover:underline">
+                      {SUPPORT_EMAIL}
+                    </a>
+                    .
                   </p>
-                )}
-
-                <button
-                  type="submit"
-                  disabled={status === "sending"}
-                  className="group mt-1 inline-flex items-center justify-center gap-2 rounded-full bg-[linear-gradient(120deg,#5bb873,#2e8b57)] px-7 py-3.5 text-[15px] font-semibold text-white shadow-[0_16px_40px_-14px_rgba(46,158,91,0.55)] transition-transform duration-300 hover:-translate-y-0.5 disabled:opacity-70"
+                </div>
+              ) : (
+                <form
+                  name="contact"
+                  method="POST"
+                  data-netlify="true"
+                  data-netlify-honeypot="bot-field"
+                  onSubmit={onSubmit}
+                  className="flex flex-col gap-6"
                 >
-                  {status === "sending" ? "Sending…" : "Send message"}
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                </button>
-                <p className="text-center text-[12px] text-muted">
-                  We&apos;ll only use your details to respond to your enquiry.
-                </p>
-              </form>
-            )}
-          </div>
+                  <input type="hidden" name="form-name" value="contact" />
+                  <p className="hidden">
+                    <label>
+                      Don&apos;t fill this out: <input name="bot-field" onChange={() => {}} />
+                    </label>
+                  </p>
+
+                  <div className="grid gap-6 sm:grid-cols-2">
+                    <Field label="Full name" name="name" value={form.name} onChange={set("name")} required placeholder="Dr. A. Sharma" />
+                    <Field label="Work email" name="email" type="email" value={form.email} onChange={set("email")} required placeholder="you@organisation.org" />
+                  </div>
+                  <div className="grid gap-6 sm:grid-cols-2">
+                    <Field label="Organisation" name="organisation" value={form.organisation} onChange={set("organisation")} placeholder="Hospital, school, company…" />
+                    <Field label="Your role" name="role" value={form.role} onChange={set("role")} placeholder="e.g. Head of Cardiology" />
+                  </div>
+
+                  <label className="flex flex-col gap-2">
+                    <span className="font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-ink-soft">
+                      How can we help? <span className="text-accent">*</span>
+                    </span>
+                    <textarea
+                      name="message"
+                      required
+                      rows={5}
+                      value={form.message}
+                      onChange={set("message")}
+                      placeholder="Tell us about your organisation, the outcomes you're after, and any timeline."
+                      className="rounded-none border-0 border-b border-line bg-transparent px-0 py-2 text-[15px] text-ink outline-none transition-colors placeholder:text-muted/50 focus:border-accent"
+                    />
+                  </label>
+
+                  {status === "error" && (
+                    <p className="text-[13px] font-semibold text-red-600">
+                      Something went wrong. Please email us at {SUPPORT_EMAIL}.
+                    </p>
+                  )}
+
+                  <div className="mt-1 flex flex-wrap items-center justify-between gap-4">
+                    <button
+                      type="submit"
+                      disabled={status === "sending"}
+                      className="group inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-[14.5px] font-semibold text-white shadow-[0_16px_34px_-14px_rgba(20,22,42,0.6)] transition-transform duration-300 hover:-translate-y-0.5 disabled:opacity-70"
+                    >
+                      {status === "sending" ? "Sending…" : "Send message"}
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                    </button>
+                    <p className="text-[12px] leading-relaxed text-muted">
+                      Used only to respond to your enquiry —{" "}
+                      <a href="/privacy" className="font-semibold text-accent underline-offset-2 hover:underline">
+                        privacy policy
+                      </a>
+                      .
+                    </p>
+                  </div>
+                </form>
+              )}
+            </div>
+          </Reveal>
         </div>
       </main>
       <Footer />
@@ -169,7 +219,7 @@ function Field({
   onChange,
   type = "text",
   required,
-  icon,
+  placeholder,
 }: {
   label: string;
   name: string;
@@ -177,14 +227,12 @@ function Field({
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type?: string;
   required?: boolean;
-  icon?: React.ReactNode;
+  placeholder?: string;
 }) {
   return (
-    <label className="flex flex-col gap-1.5">
-      <span className="flex items-center gap-1.5 text-[12.5px] font-bold text-ink-soft">
-        {icon && <span className="text-muted">{icon}</span>}
-        {label}
-        {required && <span className="text-accent">*</span>}
+    <label className="flex flex-col gap-2">
+      <span className="font-mono text-[10.5px] font-bold uppercase tracking-[0.16em] text-ink-soft">
+        {label} {required && <span className="text-accent">*</span>}
       </span>
       <input
         type={type}
@@ -192,7 +240,8 @@ function Field({
         value={value}
         onChange={onChange}
         required={required}
-        className="rounded-xl border border-line bg-canvas px-3.5 py-2.5 text-[14.5px] text-ink outline-none transition-colors placeholder:text-muted/60 focus:border-accent/60 focus:bg-white"
+        placeholder={placeholder}
+        className="rounded-none border-0 border-b border-line bg-transparent px-0 py-2 text-[15px] text-ink outline-none transition-colors placeholder:text-muted/50 focus:border-accent"
       />
     </label>
   );
