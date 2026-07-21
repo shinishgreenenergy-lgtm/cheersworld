@@ -76,6 +76,18 @@ function Section({ section, index }: { section: ProductSection; index: number })
                     </h3>
                   )}
                   {item.desc && <p className="mt-1.5 text-[13px] leading-relaxed text-muted">{item.desc}</p>}
+                  {item.href && (
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-3 inline-flex items-center gap-1 text-[12.5px] font-semibold transition-opacity hover:opacity-75"
+                      style={{ color: t.text }}
+                    >
+                      {item.href.includes("linkedin.com") ? "LinkedIn" : "Profile"}
+                      <ArrowUpRight className="h-3.5 w-3.5" />
+                    </a>
+                  )}
                 </div>
               </Reveal>
             ))}

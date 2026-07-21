@@ -11,9 +11,10 @@ const STATUS = {
   act: { label: "Action", color: "#f43f5e" },
 } as const;
 
-// Pure-CSS + SVG mock UI in a device frame. All data is illustrative by design.
-// `accent` tints each role's command centre in its own colour.
-export function DashboardFrame({ config, accent = "#2e9e5b" }: { config: DashboardConfig; accent?: string }) {
+// Pure-CSS + SVG mock UI. All data is illustrative by design. `accent` tints
+// each role's command centre in its own colour. `bare` renders the pane only —
+// no window chrome — for embedding inside an app shell.
+export function DashboardFrame({ config, accent = "#2e9e5b", bare }: { config: DashboardConfig; accent?: string; bare?: boolean }) {
   const max = Math.max(...config.chart);
   const n = config.chart.length;
   const linePts = config.chart.map((v, i) => `${((i + 0.5) / n) * 100},${100 - (v / max) * 100}`).join(" ");
@@ -22,26 +23,41 @@ export function DashboardFrame({ config, accent = "#2e9e5b" }: { config: Dashboa
   const areaPts = `${x0},100 ${linePts} ${xL},100`;
 
   return (
-    <div className="glass overflow-hidden rounded-3xl shadow-[0_40px_80px_-40px_rgba(20,22,42,0.45)]">
-      {/* window chrome */}
-      <div className="flex items-center gap-2 border-b border-line/70 bg-white/60 px-5 py-3">
-        <span className="h-2.5 w-2.5 rounded-full bg-rose-400" />
-        <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
-        <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
-        <span className="ml-3 text-[12px] font-bold text-ink-soft">{config.title}</span>
-        <span className="ml-2 hidden items-center gap-1.5 sm:inline-flex">
-          <span className="relative flex h-1.5 w-1.5">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-70" style={{ background: accent }} />
-            <span className="relative inline-flex h-1.5 w-1.5 rounded-full" style={{ background: accent }} />
+    <div className={bare ? undefined : "glass overflow-hidden rounded-3xl shadow-[0_40px_80px_-40px_rgba(20,22,42,0.45)]"}>
+      {bare ? (
+        /* pane header — the shell already provides window chrome */
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 px-5 pt-5">
+          <span className="font-display text-[15px] font-extrabold tracking-tight text-ink">{config.title}</span>
+          <span className="text-[11.5px] text-muted">{config.audience}</span>
+          <span className="ml-auto inline-flex items-center gap-1.5">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-70" style={{ background: accent }} />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full" style={{ background: accent }} />
+            </span>
+            <span className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-muted">Live</span>
           </span>
-          <span className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-muted">Live</span>
-        </span>
-        <Badge className="ml-auto border border-line bg-white/70 px-2.5 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.1em] text-muted">
-          Illustrative preview
-        </Badge>
-      </div>
+        </div>
+      ) : (
+        /* window chrome */
+        <div className="flex items-center gap-2 border-b border-line/70 bg-white/60 px-5 py-3">
+          <span className="h-2.5 w-2.5 rounded-full bg-rose-400" />
+          <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
+          <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
+          <span className="ml-3 text-[12px] font-bold text-ink-soft">{config.title}</span>
+          <span className="ml-2 hidden items-center gap-1.5 sm:inline-flex">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-70" style={{ background: accent }} />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full" style={{ background: accent }} />
+            </span>
+            <span className="font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-muted">Live</span>
+          </span>
+          <Badge className="ml-auto border border-line bg-white/70 px-2.5 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.1em] text-muted">
+            Illustrative preview
+          </Badge>
+        </div>
+      )}
 
-      <div className="grid gap-4 bg-white/40 p-5 sm:grid-cols-2">
+      <div className={`grid gap-4 p-5 sm:grid-cols-2 ${bare ? "" : "bg-white/40"}`}>
         {/* KPI row */}
         <div className="col-span-full grid grid-cols-3 gap-3">
           {config.kpis.map((k) => (
@@ -92,7 +108,7 @@ export function DashboardFrame({ config, accent = "#2e9e5b" }: { config: Dashboa
 
         {/* rows */}
         <div className="flex flex-col gap-2">
-          <p className="text-[11px] font-bold text-ink-soft">{config.audience}</p>
+          <p className="text-[11px] font-bold text-ink-soft">{bare ? "Attention list" : config.audience}</p>
           {config.rows.map((r) => {
             const s = STATUS[r.status];
             const color = s.color;

@@ -1,96 +1,90 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "../ui/Reveal";
 import { Icon } from "../ui/Icon";
-import { capabilities, trust } from "@/lib/content";
+import { capabilities } from "@/lib/content";
 
-const ease = [0.22, 1, 0.36, 1] as const;
+// The four capabilities are a real pipeline — each carries its verb and order.
+const STAGE_VERBS = ["Sense", "Understand", "Predict", "Act"];
 
 export function Capabilities() {
-  // Partner names as white text on the banner — reliable regardless of logo backgrounds.
-  const partners = trust.groups
-    .flatMap((g) => g.items)
-    .slice(0, 5)
-    .map((p) => p.name);
-
   return (
     <section id="capabilities" className="min-h-[100svh] flex flex-col justify-center scroll-mt-24 py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        {/* green gradient logo banner (contained) */}
-        <div className="relative overflow-hidden rounded-3xl bg-[linear-gradient(115deg,#2e8b57_0%,#2e9e5b_45%,#14b8a6_100%)] px-6 py-7 shadow-[0_24px_60px_-30px_rgba(46,158,91,0.5)] sm:px-10">
-          {/* diagonal sheen */}
-          <div aria-hidden className="pointer-events-none absolute -inset-y-8 left-[-10%] w-1/3 -rotate-12 bg-white/10 blur-md" />
-          <p className="relative text-center text-[13px] font-semibold text-white/90">
-            Advancing wellbeing with leading institutions
-          </p>
-          <div className="relative mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 sm:gap-x-7">
-            {partners.map((n, i) => (
-              <div key={n} className="flex items-center gap-x-5 sm:gap-x-7">
-                {i > 0 && <span aria-hidden className="h-3.5 w-px bg-white/30" />}
-                <span className="text-[14px] font-bold tracking-tight text-white/95 sm:text-[15px]">{n}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* goals */}
-        <div className="pt-14 text-center sm:pt-20">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+          {/* the goal, then the engine as a numbered ledger */}
           <Reveal>
-            <div className="flex flex-col items-center gap-2.5">
-              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">Our Goals</span>
-              <span className="block h-px w-10 bg-accent" />
+            <div>
+              <div className="flex flex-col gap-2.5">
+                <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">Our Goals</span>
+                <span className="block h-px w-10 bg-accent" />
+              </div>
+              <h2 className="mt-6 max-w-xl font-serif text-[clamp(1.9rem,4.2vw,3.1rem)] font-medium leading-[1.12] tracking-[-0.01em] text-ink [font-variation-settings:'opsz'_48]">
+                Empowering people to <em className="not-italic text-accent">thrive</em> with human intelligence.
+              </h2>
+              <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-muted">{capabilities.subhead}</p>
+
+              <div className="mt-10">
+                {capabilities.cards.map((c, i) => (
+                  <div
+                    key={c.title}
+                    className="group flex gap-5 border-t border-line py-5 transition-colors last:border-b hover:bg-accent/[0.04] sm:gap-6"
+                  >
+                    <span className="pt-0.5 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                        <h3 className="font-display text-[16.5px] font-extrabold tracking-tight text-ink">
+                          {c.title.replace("\n", " ")}
+                        </h3>
+                        <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.16em] text-muted/70">
+                          {STAGE_VERBS[i] ?? ""}
+                        </span>
+                      </div>
+                      <p className="mt-1.5 max-w-lg text-[13.5px] leading-relaxed text-muted">{c.body}</p>
+                    </div>
+                    <span className="hidden self-center text-accent/70 sm:block">
+                      <Icon name={c.icons[0]} className="h-5 w-5" strokeWidth={1.8} />
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              <Link
+                href="/#solutions"
+                className="mt-8 inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-[13.5px] font-semibold text-white shadow-[0_16px_34px_-14px_rgba(20,22,42,0.6)] transition-transform duration-300 hover:-translate-y-0.5"
+              >
+                See the solutions it powers
+                <ArrowUpRight className="h-4 w-4" />
+              </Link>
             </div>
           </Reveal>
-          <Reveal delay={0.06}>
-            <h2 className="mx-auto mt-6 max-w-3xl font-serif text-[clamp(1.9rem,4.4vw,3.2rem)] font-medium leading-[1.12] tracking-[-0.01em] text-ink [font-variation-settings:'opsz'_48]">
-              Empowering people to <em className="not-italic text-accent">thrive</em> with human intelligence.
-            </h2>
-          </Reveal>
-          <Reveal delay={0.12}>
-            <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-muted">
-              {capabilities.subhead}
-            </p>
-          </Reveal>
 
-          {/* frosted-glass feature cards with glossy green orb icons */}
-          <div className="mx-auto mt-12 grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {capabilities.cards.map((c, i) => (
-              <Reveal key={c.title} delay={i * 0.08}>
-                <motion.div
-                  whileHover={{ y: -6 }}
-                  transition={{ duration: 0.35, ease }}
-                  className="group h-full rounded-2xl border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.7),rgba(233,244,238,0.55))] p-6 text-left shadow-[0_20px_50px_-30px_rgba(20,22,42,0.4)] backdrop-blur-md"
-                >
-                  <span
-                    className="grid h-14 w-14 place-items-center rounded-full text-white transition-transform duration-300 group-hover:scale-[1.07]"
-                    style={{
-                      background: "radial-gradient(circle at 34% 26%, #7fe6a6 0%, #2e9e5b 52%, #1c6e3f 100%)",
-                      boxShadow:
-                        "0 12px 26px -10px rgba(46,158,91,0.65), inset 0 2px 5px rgba(255,255,255,0.55), inset 0 -4px 8px rgba(0,0,0,0.2)",
-                    }}
-                  >
-                    <Icon name={c.icons[0]} className="h-6 w-6" strokeWidth={1.9} />
-                  </span>
-                  <h3 className="mt-5 whitespace-pre-line font-display text-lg font-extrabold leading-tight tracking-tight text-ink">
-                    {c.title.replace("\n", " ")}
-                  </h3>
-                  <p className="mt-2 text-[13.5px] leading-relaxed text-muted">{c.body}</p>
-                </motion.div>
-              </Reveal>
-            ))}
-          </div>
-
-          <Reveal delay={0.2}>
-            <Link
-              href="/#solutions"
-              className="mt-12 inline-flex items-center gap-2 rounded-full bg-ink px-7 py-3.5 text-[14px] font-semibold text-white shadow-[0_16px_34px_-14px_rgba(20,22,42,0.6)] transition-transform duration-300 hover:-translate-y-0.5"
-            >
-              Learn More
-              <ArrowUpRight className="h-4 w-4" />
-            </Link>
+          {/* the product doing the work — real app, real greeting */}
+          <Reveal delay={0.1}>
+            <div className="relative overflow-hidden rounded-[2.5rem] bg-[linear-gradient(160deg,rgba(46,158,91,0.14),rgba(20,184,166,0.10))] px-8 py-10 sm:px-12 sm:py-14">
+              <div aria-hidden className="pointer-events-none absolute inset-0">
+                <div className="absolute -right-20 -top-24 h-72 w-72 rounded-full bg-accent/20 blur-[100px]" />
+                <div className="absolute inset-0 bg-noise opacity-[0.25] mix-blend-overlay" />
+              </div>
+              <div className="relative mx-auto max-w-[19rem]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/cheers-health/home.jpg"
+                  alt="Cheers Health companion greeting a patient with a daily check-in"
+                  loading="lazy"
+                  className="w-full rounded-[2rem] border-[6px] border-ink/90 object-cover shadow-[0_50px_90px_-40px_rgba(20,22,42,0.55)]"
+                />
+                {/* the moment that matters — a check-in, answered */}
+                <div className="absolute -left-10 bottom-10 hidden rounded-2xl border border-white/70 bg-white/90 px-4 py-3 shadow-[0_24px_50px_-24px_rgba(20,22,42,0.45)] backdrop-blur sm:block">
+                  <p className="font-display text-[13px] font-extrabold text-ink">“How are you today?”</p>
+                  <p className="mt-0.5 text-[11.5px] text-muted">Every day, for every person in recovery</p>
+                </div>
+              </div>
+            </div>
           </Reveal>
         </div>
       </div>

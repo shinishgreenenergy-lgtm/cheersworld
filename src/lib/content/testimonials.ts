@@ -11,6 +11,7 @@ export const testimonials = {
       role: "Ujala Cygnus",
       initials: "SM",
       category: "Clinician",
+      linkedin: "https://in.linkedin.com/in/sundeep-mishra-3a42bb1bb" as string | undefined,
       video: undefined as string | undefined,
     },
     {
@@ -19,6 +20,7 @@ export const testimonials = {
       role: "Modern School",
       initials: "MS",
       category: "Educator",
+      linkedin: undefined as string | undefined,
       video: undefined as string | undefined,
     },
     {
@@ -27,6 +29,7 @@ export const testimonials = {
       role: "Jaipur",
       initials: "TP",
       category: "Participant",
+      linkedin: undefined as string | undefined,
       video: undefined as string | undefined,
     },
   ],

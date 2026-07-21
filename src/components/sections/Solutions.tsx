@@ -3,7 +3,7 @@
 import type { CSSProperties } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
-import { BrainCircuit } from "lucide-react";
+import { BrainCircuit, ArrowUpRight } from "lucide-react";
 import { SectionHeading } from "../ui/SectionHeading";
 import { Reveal } from "../ui/Reveal";
 import { Icon } from "../ui/Icon";
@@ -33,49 +33,63 @@ function AppShowcase({
   subtitle,
   shots,
   accent,
-  bg,
+  href,
 }: {
   eyebrow: string;
   title: string;
   subtitle: string;
   shots: { src: string; caption: string }[];
   accent: string;
-  bg: string;
+  href: string;
 }) {
   const reduce = useReducedMotion();
   return (
-    <Reveal className="mt-16">
-      <div className="relative overflow-hidden rounded-3xl border border-line px-5 py-10 sm:px-10 sm:py-12" style={{ background: bg }}>
-        <div className="mx-auto max-w-2xl text-center">
-          <div className="flex flex-col items-center gap-2.5">
-            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: accent }}>
-              {eyebrow}
-            </span>
-            <span className="block h-px w-10" style={{ background: accent }} />
-          </div>
-          <h3 className="mt-4 font-serif text-2xl font-medium tracking-[-0.01em] text-ink sm:text-3xl [font-variation-settings:'opsz'_40]">{title}</h3>
-          <p className="mx-auto mt-3 max-w-xl text-[14.5px] leading-relaxed text-muted">{subtitle}</p>
-        </div>
+    <Reveal className="mt-20">
+      {/* ruled ledger header — no card, the rule carries the structure */}
+      <div className="flex items-center gap-4">
+        <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: accent }}>
+          {eyebrow}
+        </span>
+        <span aria-hidden className="h-px flex-1 bg-line" />
+        <span className="font-mono text-[11px] font-semibold tabular-nums text-muted/70">
+          {String(shots.length).padStart(2, "0")} screens
+        </span>
+      </div>
 
-        <div className="mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 sm:justify-center [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {shots.map((shot, i) => (
-            <motion.figure
-              key={shot.src}
-              initial={reduce ? false : { opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: (i % 6) * 0.07, ease: [0.22, 1, 0.36, 1] }}
-              className="group shrink-0 snap-center"
-            >
-              <div className="relative w-[180px] rounded-[2rem] border border-ink/10 bg-ink p-1.5 shadow-[0_30px_60px_-30px_rgba(20,22,42,0.5)] transition-transform duration-500 group-hover:-translate-y-2 group-hover:rotate-[-1.5deg] group-hover:scale-[1.03] sm:w-[196px]">
-                <span aria-hidden className="absolute left-1/2 top-2 z-10 h-1.5 w-14 -translate-x-1/2 rounded-full bg-white/25" />
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={shot.src} alt={`${title} — ${shot.caption}`} loading="lazy" className="w-full rounded-[1.6rem] object-cover" />
-              </div>
-              <figcaption className="mt-3 text-center text-[12.5px] font-semibold text-ink-soft">{shot.caption}</figcaption>
-            </motion.figure>
-          ))}
+      <div className="mt-7 grid gap-4 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
+        <h3 className="max-w-2xl font-serif text-2xl font-medium leading-[1.18] tracking-[-0.01em] text-ink sm:text-3xl [font-variation-settings:'opsz'_40]">
+          {title}
+        </h3>
+        <div className="lg:pb-1 lg:text-right">
+          <p className="max-w-xl text-[14px] leading-relaxed text-muted lg:ml-auto">{subtitle}</p>
+          <Link
+            href={href}
+            className="mt-3 inline-flex items-center gap-1.5 text-[13.5px] font-semibold underline-offset-4 transition-opacity hover:underline hover:opacity-80"
+            style={{ color: accent }}
+          >
+            Explore {eyebrow} <ArrowUpRight className="h-4 w-4" />
+          </Link>
         </div>
+      </div>
+
+      <div className="mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {shots.map((shot, i) => (
+          <motion.figure
+            key={shot.src}
+            initial={reduce ? false : { opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.5, delay: (i % 6) * 0.07, ease: [0.22, 1, 0.36, 1] }}
+            className="group shrink-0 snap-center"
+          >
+            <div className="relative w-[180px] rounded-[2rem] border border-ink/10 bg-ink p-1.5 shadow-[0_30px_60px_-30px_rgba(20,22,42,0.5)] transition-transform duration-500 group-hover:-translate-y-2 group-hover:rotate-[-1.5deg] group-hover:scale-[1.03] sm:w-[196px]">
+              <span aria-hidden className="absolute left-1/2 top-2 z-10 h-1.5 w-14 -translate-x-1/2 rounded-full bg-white/25" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={shot.src} alt={`${title} — ${shot.caption}`} loading="lazy" className="w-full rounded-[1.6rem] object-cover" />
+            </div>
+            <figcaption className="mt-3 text-center text-[12.5px] font-semibold text-ink-soft">{shot.caption}</figcaption>
+          </motion.figure>
+        ))}
       </div>
     </Reveal>
   );
@@ -85,7 +99,7 @@ export function Solutions() {
   const reduce = useReducedMotion();
   return (
     <section id="solutions" className="min-h-[100svh] flex flex-col justify-center scroll-mt-24 overflow-x-clip py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6">
         <SectionHeading eyebrow={solutions.eyebrow} title={solutions.title} subtitle={solutions.subtitle} />
 
         {/* hub node */}
@@ -153,16 +167,16 @@ export function Solutions() {
           title="Clinical recovery & patient wellbeing — in your pocket"
           subtitle="Patient, doctor and hospital portals, daily check-ins, appointments and clinical reports — powered by the same platform core."
           shots={HEALTH_SHOTS}
-          accent="#14b8a6"
-          bg="linear-gradient(180deg,#ffffff,rgba(20,184,166,0.06))"
+          accent="#0f8b80"
+          href="/products/cheers-health"
         />
         <AppShowcase
           eyebrow="Cheers Digital"
           title="Cyber safety & digital wellbeing — in your pocket"
           subtitle="Daily check-ins, guided screening, journal interventions and clear reports for parents, students and educators — powered by the same platform core."
           shots={DIGITAL_SHOTS}
-          accent="#2e9e5b"
-          bg="linear-gradient(180deg,#ffffff,rgba(143,191,77,0.06))"
+          accent="#2e8b57"
+          href="/products/cheers-digital"
         />
       </div>
     </section>

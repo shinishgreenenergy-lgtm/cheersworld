@@ -2,14 +2,12 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
-import { Check, Minus } from "lucide-react";
+import { Check, Minus, ArrowUpRight } from "lucide-react";
 import { Reveal } from "../ui/Reveal";
-import { SectionHeading } from "../ui/SectionHeading";
 import { Icon } from "../ui/Icon";
 import { PhilosophyRing } from "../ui/PhilosophyRing";
 import { Badge } from "../ui/badge";
 import { about } from "@/lib/content";
-import { TINTS } from "@/lib/tints";
 
 // Real, verifiable credentials — the same proofs surfaced in the hero. Grounds
 // the "global R&D company" claim in evidence rather than adjectives.
@@ -74,78 +72,78 @@ export function About() {
       </div>
 
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6">
-        <SectionHeading dark eyebrow={about.eyebrow} title={about.title} subtitle={about.paragraphs[0]} />
+        {/* dossier header + statement, ring as the counterweight */}
+        <Reveal className="grid items-center gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
+            <div>
+              <div className="flex flex-col gap-2.5">
+                <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-accent-2">{about.eyebrow}</span>
+                <span className="block h-px w-10 bg-accent-2" />
+              </div>
+              <h2 className="mt-6 font-serif text-[clamp(1.9rem,4vw,3rem)] font-medium leading-[1.12] tracking-[-0.01em] text-white [font-variation-settings:'opsz'_48]">
+                {about.title}
+              </h2>
+              <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-white/65">{about.paragraphs[0]}</p>
 
-        {/* Statement band — the loop as anchor, the credentials as proof */}
-        <div className="mt-14 grid items-center gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16">
-          <Reveal delay={0.1} className="order-2 lg:order-1">
+              <p className="mt-8 max-w-xl border-l-2 border-accent-2/70 pl-5 font-serif text-[1.25rem] font-medium leading-[1.5] text-white/90 sm:text-[1.4rem] [font-variation-settings:'opsz'_28]">
+                {about.paragraphs[1]}
+              </p>
+
+              {/* proof ledger — claims backed by records */}
+              <dl className="mt-9 max-w-xl">
+                {CREDENTIALS.map((c) => {
+                  const inner = (
+                    <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-3.5">
+                      <dt className="font-mono text-[12.5px] font-bold uppercase tracking-[0.06em] text-white">
+                        {c.value}
+                        {c.href && <ArrowUpRight className="ml-1.5 inline h-3.5 w-3.5 align-[-2px] text-white/40" />}
+                      </dt>
+                      <dd className="text-[12.5px] leading-snug text-white/50">{c.label}</dd>
+                    </div>
+                  );
+                  return c.href ? (
+                    <a key={c.value} href={c.href} target="_blank" rel="noreferrer" className="block border-t border-white/12 transition-colors last:border-b hover:[&_dt]:text-accent-2">
+                      {inner}
+                    </a>
+                  ) : (
+                    <div key={c.value} className="border-t border-white/12 last:border-b">
+                      {inner}
+                    </div>
+                  );
+                })}
+              </dl>
+            </div>
+
+          <div>
             <motion.div style={{ y: yRing }}>
               <PhilosophyRing dark />
             </motion.div>
             <p className="mt-4 text-center font-mono text-[10.5px] uppercase tracking-[0.2em] text-white/40">
               Observe · Understand · Predict · Intervene · Measure · Improve
             </p>
-          </Reveal>
+          </div>
+        </Reveal>
 
-          <Reveal delay={0.16} className="order-1 lg:order-2">
-            <p className="max-w-xl text-[1.35rem] font-medium leading-[1.5] tracking-[-0.005em] text-white/85 sm:text-[1.5rem]">
-              {about.paragraphs[1]}
-            </p>
-
-            <dl className="mt-9 grid grid-cols-1 gap-y-5 border-t border-white/12 pt-7 sm:grid-cols-3 sm:gap-x-6">
-              {CREDENTIALS.map((c) => {
-                const inner = (
-                  <>
-                    <dt className="font-mono text-[12.5px] font-bold uppercase tracking-[0.06em] text-white">{c.value}</dt>
-                    <dd className="mt-1 text-[12px] leading-snug text-white/50">{c.label}</dd>
-                  </>
-                );
-                return c.href ? (
-                  <a key={c.value} href={c.href} target="_blank" rel="noreferrer" className="group block sm:border-l sm:border-white/10 sm:pl-5 sm:first:border-l-0 sm:first:pl-0">
-                    <span className="transition-colors group-hover:[&>dt]:text-accent-2">{inner}</span>
-                  </a>
-                ) : (
-                  <div key={c.value} className="sm:border-l sm:border-white/10 sm:pl-5 sm:first:border-l-0 sm:first:pl-0">
-                    {inner}
-                  </div>
-                );
-              })}
-            </dl>
-          </Reveal>
-        </div>
-
-        {/* Pillars — Mission / Vision / Philosophy, shown openly */}
-        <div className="mt-16 grid gap-5 md:grid-cols-3">
-          {about.pillars.map((p, i) => {
-            const t = TINTS[i % TINTS.length];
-            return (
-              <Reveal key={p.title} delay={i * 0.08}>
-                <div
-                  className="beam-border relative h-full overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-7 transition-transform duration-300 hover:-translate-y-1.5"
-                  style={{ "--beam-color": t.bar } as React.CSSProperties}
-                >
-                  <span aria-hidden className="absolute inset-x-0 top-0 h-1" style={{ background: t.bar }} />
-                  <div className="flex items-center justify-between">
-                    <span className="grid h-12 w-12 place-items-center rounded-xl text-white" style={{ background: t.tile, boxShadow: `0 14px 30px -16px ${t.glow}` }}>
-                      <Icon name={p.icon} className="h-6 w-6" strokeWidth={1.7} />
-                    </span>
-                    <span className="font-serif text-4xl font-medium leading-none [font-variation-settings:'opsz'_48]" style={{ color: t.bar, opacity: 0.38 }}>
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                  </div>
-                  <h3 className="mt-5 font-display text-lg font-extrabold tracking-tight text-white">{p.title}</h3>
-                  <p className="mt-2 text-[14.5px] leading-relaxed text-white/60">{p.body}</p>
+        {/* Mission / Vision / Philosophy — three ruled columns, no ornament */}
+        <Reveal className="mt-16">
+          <div className="grid gap-8 border-t border-white/12 pt-10 md:grid-cols-3 md:gap-0">
+            {about.pillars.map((p, i) => (
+              <div key={p.title} className={`md:px-8 ${i === 0 ? "md:pl-0" : "md:border-l md:border-white/10"} ${i === about.pillars.length - 1 ? "md:pr-0" : ""}`}>
+                <div className="flex items-center gap-2.5">
+                  <Icon name={p.icon} className="h-4 w-4 text-accent-2" strokeWidth={1.8} />
+                  <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-accent-2">{p.title}</h3>
                 </div>
-              </Reveal>
-            );
-          })}
-        </div>
+                <p className="mt-3.5 text-[14.5px] leading-relaxed text-white/70">{p.body}</p>
+              </div>
+            ))}
+          </div>
+        </Reveal>
 
         {/* Journey — a connected roadmap rail with progress */}
         <Reveal className="mt-16">
           <div className="flex items-center gap-4">
-            <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-accent-2">Our journey</span>
+            <span className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-accent-2">Our journey</span>
             <span className="h-px flex-1 bg-white/15" />
+            <span className="font-mono text-[11px] text-white/40">2019 — today</span>
           </div>
 
           <div className="mt-8 overflow-x-auto pb-2">

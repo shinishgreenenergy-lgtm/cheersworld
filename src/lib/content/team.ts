@@ -8,6 +8,7 @@ export type TeamMember = {
   quote?: string;
   photo?: string; // /public path
   href?: string;
+  linkedin?: string;
 };
 
 export const team = {
@@ -26,18 +27,23 @@ export const team = {
           role: "Chief Executive Officer",
           bio: "Visionary leader driving Cheers Wisdom's mission to advance human consciousness through adaptive AI wellness companions.",
           photo: "/team/sohail.jpg",
+          href: "https://cheerswisdom.com/team#",
+          linkedin: "https://www.linkedin.com/in/sohail-m-6412b2171",
         },
         {
           name: "Javed",
           role: "Chief Technology Officer",
           bio: "Technology architect building the next generation of emotionally intelligent AI systems for human wellness.",
           photo: "/team/javed.jpg",
+          href: "https://cheerswisdom.com/team#",
+          linkedin: "https://www.linkedin.com/in/cheerswisdom/",
         },
         {
           name: "Jayanth",
           role: "Chief Financial Officer",
           bio: "Strategic financial leader ensuring sustainable growth and impact in the AI wellness ecosystem.",
           photo: "/team/jayanth.jpg",
+          linkedin: "https://www.linkedin.com/in/reddy-sai-shiva-jayanth",
         },
       ] as TeamMember[],
     },
@@ -52,21 +58,24 @@ export const team = {
           affiliation: "NeuroTrackerX",
           bio: "World-renowned neuroscientist and founder of NeuroTrackerX, pioneering cognitive performance research.",
           photo: "/team/faubert.jpg",
+          href: "https://faubertlab.com",
+          linkedin: "https://www.linkedin.com/in/jocelyn-faubert-255725a/",
         },
         {
           name: "Prof. Raakesh Kriplani",
-          role: "The Visionary · Cyber Psychology Advisor",
+          role: "Cyber Psychology Advisor",
           affiliation: "CIIPS",
-          bio: "A futurist, cyber psychologist, policy advisor and global thought leader. He stands at the intersection of technology, human behaviour and national development — pioneering a new discipline that redefines how the world understands mental health in the digital era. From grassroots awareness to global policy forums, his work has impacted lakhs of individuals across sectors and nations.",
-          quote: "When the world raced into the digital age, I chose to pause and ask — what about the human mind navigating it?",
+          bio: "Futurist, cyber psychologist and policy advisor — pioneering how the world understands mental health in the digital era.",
           photo: "/team/raakesh-kriplani.jpg",
           href: "https://ciipsindia.com",
+          linkedin: "https://in.linkedin.com/in/prof-dr-raakesh-kriplani-21449222",
         },
         {
           name: "Prof. Kanad Ray",
           role: "Scientific Advisor, Cheers Health",
           bio: "Distinguished researcher in biomedical engineering and AI applications in healthcare systems.",
           photo: "/team/kanad-ray.jpg",
+          linkedin: "https://www.linkedin.com/in/kanad-ray-45373b86/",
         },
       ] as TeamMember[],
     },

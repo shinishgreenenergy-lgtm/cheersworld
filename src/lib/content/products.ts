@@ -6,6 +6,8 @@ export type ProductSectionItem = {
   icon?: string;
   title?: string;
   desc?: string;
+  href?: string; // external profile/source link rendered on the card
+
   // Stat items: `value` present ⇒ rendered in the stats grid instead of a card.
   value?: string;
   label?: string;
@@ -220,16 +222,19 @@ export const products: Product[] = [
             icon: "🩺",
             title: "Prof. Dr. Sundeep Mishra",
             desc: "Vice-Chancellor, NIMS University Jaipur. Former Director Professor of Cardiology, AIIMS Delhi. Board of Trustee, SCAI (USA).",
+            href: "https://in.linkedin.com/in/sundeep-mishra-3a42bb1bb",
           },
           {
             icon: "🩺",
             title: "Dr. G. Swarnalatha",
             desc: "Professor and Head of Nephrology, NIMS Hyderabad. 20+ years of experience and 1,700+ transplants.",
+            href: "https://www.skedoc.com/hyderabad/doctor/dr-swarnalatha-guditi-nephrologist",
           },
           {
             icon: "🩺",
             title: "Dr. Hassana",
             desc: "VP of Clinical Operations. Clinical research and operations leadership.",
+            href: "https://www.linkedin.com/in/dr-hassana-jabeen-1b219a182/",
           },
         ],
       },

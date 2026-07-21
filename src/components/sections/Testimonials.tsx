@@ -79,7 +79,18 @@ export function Testimonials() {
                     {item.initials}
                   </span>
                   <span className="text-left">
-                    <span className="block text-sm font-bold">{item.name}</span>
+                    {item.linkedin ? (
+                      <a
+                        href={item.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block text-sm font-bold underline-offset-2 transition-colors hover:text-accent hover:underline"
+                      >
+                        {item.name}
+                      </a>
+                    ) : (
+                      <span className="block text-sm font-bold">{item.name}</span>
+                    )}
                     <span className="block text-xs text-muted">{item.role}</span>
                   </span>
                 </figcaption>
