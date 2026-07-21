@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
 import { Reveal } from "../ui/Reveal";
 import { team, type TeamMember } from "@/lib/content";
 
@@ -15,42 +14,49 @@ function LinkedinIcon({ className }: { className?: string }) {
   );
 }
 
-type Member = TeamMember & { group: string };
-
-const MEMBERS: Member[] = team.groups.flatMap((g) => g.members.map((m) => ({ ...m, group: g.name })));
-
 function initials(name: string) {
   return name.split(" ").map((w) => w[0]).slice(0, 2).join("").toUpperCase();
 }
 
-/* The spotlight — portrait, identity, bio and links for the member in focus. */
-function Spotlight({ m }: { m: Member }) {
+function PortraitCard({ m, index }: { m: TeamMember; index: number }) {
+  const reduce = useReducedMotion();
   return (
-    <div>
-      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04]">
-        {m.photo ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={m.photo} alt={m.name} loading="lazy" className="aspect-[4/5] w-full object-cover" />
-        ) : (
-          <span className="grid aspect-[4/5] w-full place-items-center text-4xl font-black text-white/25">{initials(m.name)}</span>
-        )}
-        <span aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-[linear-gradient(180deg,transparent,rgba(8,10,14,0.85))]" />
-        <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
-          <p className="font-mono text-[9.5px] font-bold uppercase tracking-[0.18em] text-accent-2">{m.group}</p>
-          <h3 className="mt-1 font-display text-xl font-extrabold tracking-tight text-white sm:text-2xl">{m.name}</h3>
-          <p className="mt-0.5 text-[12.5px] font-semibold text-white/75">{[m.role, m.affiliation].filter(Boolean).join(" · ")}</p>
-        </div>
-      </div>
-      {m.bio && <p className="mt-4 text-[13.5px] leading-relaxed text-white/60">{m.bio}</p>}
+    <motion.article
+      whileHover={reduce ? undefined : { y: -8 }}
+      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04]"
+    >
+      {/* portrait */}
+      {m.photo ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={m.photo}
+          alt={m.name}
+          loading="lazy"
+          className="aspect-[3/4] w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+        />
+      ) : (
+        <span className="grid aspect-[3/4] w-full place-items-center text-4xl font-black text-white/25">{initials(m.name)}</span>
+      )}
+
+      {/* index */}
+      <span
+        aria-hidden
+        className="absolute left-4 top-4 rounded-full bg-black/35 px-2.5 py-1 font-mono text-[10px] font-bold tabular-nums text-white/85 backdrop-blur-sm"
+      >
+        {String(index + 1).padStart(2, "0")}
+      </span>
+
+      {/* links — float in from the corner */}
       {(m.linkedin || m.href) && (
-        <div className="mt-4 flex items-center gap-2">
+        <span className="absolute right-4 top-4 flex gap-1.5">
           {m.linkedin && (
             <a
               href={m.linkedin}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${m.name} on LinkedIn`}
-              className="grid h-9 w-9 place-items-center rounded-full border border-white/15 text-white/60 transition-colors hover:border-accent-2/60 hover:text-accent-2"
+              className="grid h-9 w-9 place-items-center rounded-full bg-black/35 text-white/85 backdrop-blur-sm transition-colors hover:bg-accent hover:text-white"
             >
               <LinkedinIcon className="h-4 w-4" />
             </a>
@@ -60,23 +66,32 @@ function Spotlight({ m }: { m: Member }) {
               href={m.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-9 items-center gap-1 rounded-full border border-white/15 px-3.5 text-[12px] font-semibold text-white/60 transition-colors hover:border-accent-2/60 hover:text-accent-2"
+              aria-label={`${m.name} profile`}
+              className="grid h-9 w-9 place-items-center rounded-full bg-black/35 text-white/85 backdrop-blur-sm transition-colors hover:bg-accent hover:text-white"
             >
-              Profile <ArrowUpRight className="h-3.5 w-3.5" />
+              <ArrowUpRight className="h-4 w-4" />
             </a>
           )}
-        </div>
+        </span>
       )}
-    </div>
+
+      {/* identity */}
+      <span aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-3/5 bg-[linear-gradient(180deg,transparent,rgba(6,8,12,0.9))]" />
+      <div className="absolute inset-x-0 bottom-0 p-5">
+        <h4 className="font-display text-[19px] font-extrabold tracking-tight text-white">{m.name}</h4>
+        <p className="mt-0.5 text-[12.5px] font-semibold text-accent-2">{[m.role, m.affiliation].filter(Boolean).join(" · ")}</p>
+        {m.bio && (
+          <p className="mt-2 line-clamp-2 text-[12px] leading-relaxed text-white/65 sm:line-clamp-none sm:max-h-0 sm:opacity-0 sm:transition-all sm:duration-500 sm:group-hover:max-h-24 sm:group-hover:opacity-100">
+            {m.bio}
+          </p>
+        )}
+      </div>
+    </motion.article>
   );
 }
 
 export function Team() {
-  const [active, setActive] = useState(0);
-  const reduce = useReducedMotion();
-  const current = MEMBERS[active];
   let idx = -1;
-
   return (
     <section id="team" className="relative isolate flex min-h-[100svh] flex-col justify-center scroll-mt-24 overflow-hidden bg-[linear-gradient(180deg,#12161d_0%,#0a0d12_100%)] py-24 sm:py-32">
       <div aria-hidden className="pointer-events-none absolute left-1/2 top-0 -z-10 h-72 w-[50rem] max-w-[92%] -translate-x-1/2 rounded-full bg-accent/12 blur-[130px]" />
@@ -98,87 +113,24 @@ export function Team() {
           </div>
         </Reveal>
 
-        {/* the roster + the spotlight */}
-        <Reveal className="mt-12 grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
-          <div>
-            {team.groups.map((g) => (
-              <div key={g.name} className="mb-9 last:mb-0">
-                <div className="mb-1 flex items-center gap-4">
-                  <h3 className="font-mono text-[10.5px] font-bold uppercase tracking-[0.2em] text-white/45">{g.name}</h3>
-                  <span aria-hidden className="h-px flex-1 bg-white/10" />
-                  <span className="font-mono text-[10.5px] tabular-nums text-white/35">{String(g.members.length).padStart(2, "0")}</span>
-                </div>
-
+        {/* portrait wall — everyone visible, grouped and ruled */}
+        <div className="mt-12 space-y-12">
+          {team.groups.map((g) => (
+            <Reveal key={g.name}>
+              <div className="mb-5 flex items-center gap-4">
+                <h3 className="font-mono text-[10.5px] font-bold uppercase tracking-[0.2em] text-white/50">{g.name}</h3>
+                <span aria-hidden className="h-px flex-1 bg-white/10" />
+                <span className="font-mono text-[10.5px] tabular-nums text-white/35">{String(g.members.length).padStart(2, "0")}</span>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
                 {g.members.map((m) => {
                   idx += 1;
-                  const i = idx;
-                  const on = active === i;
-                  return (
-                    <div key={m.name} className="border-b border-white/10 first-of-type:border-t">
-                      <button
-                        type="button"
-                        onClick={() => setActive(i)}
-                        onMouseEnter={() => setActive(i)}
-                        onFocus={() => setActive(i)}
-                        aria-pressed={on}
-                        className="group flex w-full items-baseline gap-4 py-4 text-left sm:py-5"
-                      >
-                        <span className={`font-mono text-[11px] tabular-nums transition-colors ${on ? "text-accent-2" : "text-white/35"}`}>
-                          {String(i + 1).padStart(2, "0")}
-                        </span>
-                        <span
-                          className={`font-display text-[clamp(1.35rem,3vw,2.1rem)] font-extrabold leading-none tracking-tight transition-colors duration-300 ${
-                            on ? "text-accent-2" : "text-white/80 group-hover:text-white"
-                          }`}
-                        >
-                          {m.name}
-                        </span>
-                        <span className="ml-auto hidden max-w-[16rem] shrink-0 text-right text-[12px] leading-snug text-white/45 sm:block">
-                          {m.role}
-                        </span>
-                      </button>
-
-                      {/* focused detail expands in place below lg */}
-                      <AnimatePresence initial={false}>
-                        {on && (
-                          <motion.div
-                            key="detail"
-                            initial={reduce ? false : { height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={reduce ? undefined : { height: 0, opacity: 0 }}
-                            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                            className="overflow-hidden lg:hidden"
-                          >
-                            <div className="max-w-sm pb-6">
-                              <Spotlight m={{ ...m, group: g.name }} />
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  );
+                  return <PortraitCard key={m.name} m={m} index={idx} />;
                 })}
               </div>
-            ))}
-          </div>
-
-          {/* sticky spotlight (desktop) */}
-          <div className="hidden lg:block">
-            <div className="sticky top-28">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={current.name}
-                  initial={reduce ? false : { opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={reduce ? undefined : { opacity: 0, y: -8 }}
-                  transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  <Spotlight m={current} />
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </div>
-        </Reveal>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );
