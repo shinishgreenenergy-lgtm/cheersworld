@@ -69,9 +69,9 @@ export const footer = {
     {
       heading: "Trust Centre",
       links: [
-        { label: "Privacy" },
-        { label: "Responsible AI" },
-        { label: "Accessibility" },
+        { label: "Privacy", href: "/privacy" },
+        { label: "Responsible AI", href: "/responsible-ai" },
+        { label: "Accessibility", href: "/accessibility" },
       ] as SoonLink[],
     },
   ],

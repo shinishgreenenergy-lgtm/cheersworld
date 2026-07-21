@@ -12,6 +12,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/contact`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE}/platform`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE}/careers`, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${BASE}/privacy`, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${BASE}/responsible-ai`, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${BASE}/accessibility`, changeFrequency: "yearly", priority: 0.3 },
     ...products.map((p) => ({
       url: `${BASE}/products/${p.slug}`,
       changeFrequency: "monthly" as const,

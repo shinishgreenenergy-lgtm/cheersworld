@@ -18,3 +18,4 @@ export * from "./gallery";
 export * from "./knowledge";
 export * from "./products";
 export * from "./footer";
+export * from "./trust-centre";
