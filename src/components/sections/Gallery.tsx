@@ -31,11 +31,17 @@ export function Gallery() {
     [items.length],
   );
 
-  // Keep the active thumbnail in view as the exhibition advances.
+  // Keep the active thumbnail centred as the exhibition advances. Scroll the
+  // rail itself — scrollIntoView would also scroll the page to the gallery,
+  // including on initial load.
   useEffect(() => {
     const rail = railRef.current;
     const thumb = rail?.children[idx] as HTMLElement | undefined;
-    thumb?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", inline: "center", block: "nearest" });
+    if (!rail || !thumb) return;
+    rail.scrollTo({
+      left: thumb.offsetLeft - (rail.clientWidth - thumb.clientWidth) / 2,
+      behavior: reduce ? "auto" : "smooth",
+    });
   }, [idx, reduce]);
 
   // Fullscreen: keyboard navigation + scroll lock.
