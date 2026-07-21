@@ -11,7 +11,7 @@ export const testimonials = {
       role: "Ujala Cygnus",
       initials: "SM",
       category: "Clinician",
-      linkedin: "https://in.linkedin.com/in/sundeep-mishra-3a42bb1bb" as string | undefined,
+      linkedin: "https://www.linkedin.com/in/sundeep-mishra-3a42bb1bb" as string | undefined,
       video: undefined as string | undefined,
     },
     {

@@ -222,7 +222,7 @@ export const products: Product[] = [
             icon: "🩺",
             title: "Prof. Dr. Sundeep Mishra",
             desc: "Vice-Chancellor, NIMS University Jaipur. Former Director Professor of Cardiology, AIIMS Delhi. Board of Trustee, SCAI (USA).",
-            href: "https://in.linkedin.com/in/sundeep-mishra-3a42bb1bb",
+            href: "https://www.linkedin.com/in/sundeep-mishra-3a42bb1bb",
           },
           {
             icon: "🩺",

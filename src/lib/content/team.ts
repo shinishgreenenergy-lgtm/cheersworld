@@ -68,7 +68,7 @@ export const team = {
           bio: "Futurist, cyber psychologist and policy advisor — pioneering how the world understands mental health in the digital era.",
           photo: "/team/raakesh-kriplani.jpg",
           href: "https://ciipsindia.com",
-          linkedin: "https://in.linkedin.com/in/prof-dr-raakesh-kriplani-21449222",
+          linkedin: "https://www.linkedin.com/in/prof-dr-raakesh-kriplani-21449222",
         },
         {
           name: "Prof. Kanad Ray",
