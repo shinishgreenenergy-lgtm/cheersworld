@@ -86,6 +86,15 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${bricolage.variable} ${jakarta.variable} ${dancing.variable} ${fraunces.variable} ${splineMono.variable}`}>
       <head>
+        {/* On refresh, always start at the very top: disable the browser's
+            scroll restoration before it can re-apply the old position.
+            Hash targets (/#contact) still scroll natively on load. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if('scrollRestoration' in history)history.scrollRestoration='manual';if(!location.hash)window.scrollTo(0,0)}catch(e){}",
+          }}
+        />
         {/* Google Material Symbols (mega-menu icons). Subsetted to only the icons we
             actually use via &icon_names — the full variable font is ~346 KB, the subset
             is a few KB. preconnect warms the font origins so the small fetch is fast. */}
