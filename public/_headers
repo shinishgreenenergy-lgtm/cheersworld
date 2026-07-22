@@ -1,0 +1,28 @@
+# Netlify cache headers (shipped into out/ by the static export).
+# Hashed build assets (JS, CSS, fonts) never change under the same URL.
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Content images: cache for a week, serve stale while revalidating.
+/gallery/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/products/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/partners/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/team/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/cheers-health/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/cheers-digital/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/brain-model.glb
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/brain-neural.webp
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/grass.jpg
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/cheers-mark.png
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/cheers-logo-full.png
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400

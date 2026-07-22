@@ -44,7 +44,7 @@ export const products: Product[] = [
     heroTitle: "AI-powered recovery intelligence for clinical guidance",
     heroBody:
       "A longitudinal clinical intelligence platform that traces patient recovery trajectories and guides early intervention — published in JACC, the Journal of the American College of Cardiology.",
-    heroImage: "/products/cheers-health/cheers-health-hero.png",
+    heroImage: "/products/cheers-health/cheers-health-hero.jpg",
     ctas: [
       { label: "Request a clinical demo", href: "/#contact" },
       { label: "View clinical evidence", href: JACC_PDF },

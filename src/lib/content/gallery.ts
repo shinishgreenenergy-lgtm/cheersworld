@@ -6,12 +6,12 @@ export const gallery = {
   categories: ["Hospitals", "Schools", "Conferences", "Research", "Workshops", "Government Meetings", "Awards", "Media Coverage"],
   items: [
     {
-      src: "/gallery/ciips-summit-cheers-wisdom-launch.png",
+      src: "/gallery/ciips-summit-cheers-wisdom-launch.jpg",
       caption: "Cheers Wisdom on stage at the AI Cyber Psychology National & International Summit, New Delhi",
       category: "Conferences",
     },
     {
-      src: "/gallery/ciips-grand-launch.png",
+      src: "/gallery/ciips-grand-launch.jpg",
       caption: "Grand launch of the world's first AI Cyber Psychology Eco-System, New Delhi",
       category: "Conferences",
     },
@@ -36,7 +36,7 @@ export const gallery = {
       category: "Conferences",
     },
     {
-      src: "/gallery/tct-2025-san-francisco.png",
+      src: "/gallery/tct-2025-san-francisco.jpg",
       caption: "At the TCT 2025 conference, San Francisco",
       category: "Conferences",
     },

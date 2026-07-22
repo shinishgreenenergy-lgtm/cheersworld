@@ -6,7 +6,7 @@
 // surrounded by an orbiting neuron point-field + great-circle rings (in-scene, so they
 // interleave with the brain at the correct depth). Client-only (ssr:false from wrapper).
 
-import { Suspense, useMemo, useRef } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { mergeVertices } from "three/examples/jsm/utils/BufferGeometryUtils.js";
@@ -218,10 +218,28 @@ function NeuronField() {
 }
 
 export function BrainScene() {
+  // Render frames only while the hero is actually on screen. Without this the
+  // scene burns GPU/CPU on every frame for the whole session, long after the
+  // user has scrolled past it — the single biggest scroll-perf cost on the page.
+  const wrapRef = useRef<HTMLDivElement | null>(null);
+  const [visible, setVisible] = useState(true);
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => setVisible(entries.some((e) => e.isIntersecting)),
+      { rootMargin: "80px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
+    <div ref={wrapRef} className="h-full w-full">
     <Canvas
       camera={{ position: [0, 0, 5], fov: 42 }}
-      dpr={[1, 3]}
+      dpr={[1, 2]}
+      frameloop={visible ? "always" : "never"}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       style={{ background: "transparent" }}
       onCreated={setupStudioEnv}
@@ -241,5 +259,6 @@ export function BrainScene() {
         </Suspense>
       </group>
     </Canvas>
+    </div>
   );
 }
