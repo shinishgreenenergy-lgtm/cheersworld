@@ -72,7 +72,7 @@ export const evidence: EvidenceContent = {
       icon: "Trophy" as IconName,
       solution: "Cheers Sports",
       challenge: "Athletic performance is cognitive as much as physical — and cognition is rarely trained.",
-      platform: "Perceptual-cognitive training and readiness awareness, building on NeuroTrackerX research.",
+      platform: "Perceptual-cognitive training and readiness awareness, building on Faubert Lab research.",
     },
     {
       name: "Government",

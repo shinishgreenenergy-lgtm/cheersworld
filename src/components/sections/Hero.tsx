@@ -27,7 +27,7 @@ function RevealLine({ children, delay, reduce }: { children: React.ReactNode; de
 const PROOF: { label: string; detail: string; href?: string }[] = [
   { label: "JACC · 2025", detail: "Peer-reviewed clinical trial", href: "https://www.jacc.org/doi/abs/10.1016/j.jacc.2025.09.1117" },
   { label: "Patent IN 510420", detail: "Wisdom Network · granted" },
-  { label: "NeuroTrackerX", detail: "Founding science" },
+  { label: "Faubert Lab", detail: "Founding science" },
 ];
 
 /* Scroll cue — hairline with a travelling pulse, instrument-voice label. */

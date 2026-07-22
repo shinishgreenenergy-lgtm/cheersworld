@@ -30,7 +30,7 @@ export const research = {
     { title: "Cardiac recovery & patient awareness", partner: "NIMS Jaipur", status: "In progress", kind: "Clinical study" },
     { title: "Adolescent cyber-wellbeing pilot", partner: "Modern School", status: "In progress", kind: "School pilot" },
     { title: "Cyber-wellbeing pilot", partner: "Sancheti School", status: "In progress", kind: "School pilot" },
-    { title: "Perceptual-cognitive training", partner: "Faubert Lab (NeuroTrackerX)", status: "Active", kind: "Research collaboration" },
+    { title: "Perceptual-cognitive training", partner: "Faubert Lab", status: "Active", kind: "Research collaboration" },
     { title: "Cognitive computing research", partner: "Amity Cognitive Computing Lab", status: "Active", kind: "Research collaboration" },
     { title: "Cyber AI research", partner: "CIIPS", status: "Active", kind: "Research collaboration" },
   ],

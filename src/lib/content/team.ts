@@ -55,8 +55,8 @@ export const team = {
         {
           name: "Prof. Jocelyn Faubert",
           role: "Chief Scientific Officer",
-          affiliation: "NeuroTrackerX",
-          bio: "World-renowned neuroscientist and founder of NeuroTrackerX, pioneering cognitive performance research.",
+          affiliation: "Faubert Lab",
+          bio: "World-renowned neuroscientist leading the Faubert Lab, pioneering cognitive performance research.",
           photo: "/team/faubert.jpg",
           href: "https://faubertlab.com",
           linkedin: "https://www.linkedin.com/in/jocelyn-faubert-255725a/",

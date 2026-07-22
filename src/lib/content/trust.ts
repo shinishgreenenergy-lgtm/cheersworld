@@ -1,6 +1,13 @@
 // Only verifiably real partners appear here. Metrics without a `value`
 // render as "Coming Soon" — never invent numbers.
-export const trust = {
+type Partner = { name: string; logo?: string };
+
+export const trust: {
+  eyebrow: string;
+  subhead: string;
+  groups: { label: string; soon?: boolean; items: Partner[] }[];
+  metrics: { label: string; value?: number }[];
+} = {
   eyebrow: "In collaboration with leading institutions",
   subhead:
     "Every institution below is a real, named partner we work with today — hospitals, schools and research labs advancing the science with us. Nothing here is aspirational.",
@@ -13,6 +20,7 @@ export const trust = {
         { name: "Medtrina Hospitals", logo: "/partners/meditrina.png" },
         { name: "Renova Hospitals", logo: "/partners/renova.svg" },
         { name: "Ujala Cygnus Hospitals", logo: "/partners/ujala-cygnus.jpeg" },
+        { name: "PGIMER Chandigarh" },
       ],
     },
     {
@@ -25,7 +33,7 @@ export const trust = {
     {
       label: "Research",
       items: [
-        { name: "Faubert Lab (NeuroTrackerX)", logo: "/partners/faubert.png" },
+        { name: "Faubert Lab", logo: "/partners/faubert.png" },
         { name: "CIIPS (Cyber AI Research)", logo: "/partners/ciips.png" },
         { name: "Amity Cognitive Computing Lab", logo: "/partners/amity-accbi.png" },
       ],
@@ -34,7 +42,7 @@ export const trust = {
     { label: "Technology", soon: true, items: [] },
   ],
   metrics: [
-    { label: "Partner hospitals", value: 5 },
+    { label: "Partner hospitals", value: 6 },
     { label: "Partner schools", value: 2 },
     { label: "Research labs", value: 3 },
     { label: "Publications" },
