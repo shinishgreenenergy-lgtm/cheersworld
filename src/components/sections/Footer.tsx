@@ -29,7 +29,7 @@ export function Footer() {
           <div>
             <Link href="#top" className="inline-flex items-center gap-3">
               <span className="grid h-16 w-16 place-items-center">
-                <Image src="/cheers-logo.svg" alt={site.name} width={96} height={96} className="h-full w-full" />
+                <Image src="/cheers-mark.png" alt={site.name} width={96} height={96} className="h-full w-full object-contain" />
               </span>
               <span className="font-display text-lg font-extrabold tracking-tight text-ink">{site.name}</span>
             </Link>

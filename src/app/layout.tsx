@@ -75,7 +75,7 @@ const ORG_SCHEMA = {
   name: "Cheers Wisdom",
   legalName: "Cheers Wisdom Pvt. Ltd.",
   url: "https://www.cheerswisdom.com",
-  logo: "https://www.cheerswisdom.com/cheers-logo.svg",
+  logo: "https://www.cheerswisdom.com/cheers-logo-full.png",
   description:
     "Human Intelligence Platform advancing human outcomes across healthcare, education, mining, transportation, finance, sports and government.",
   email: "support@cheerswisdom.com",
