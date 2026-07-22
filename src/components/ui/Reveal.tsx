@@ -3,23 +3,12 @@
 import { motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
-export function Reveal({
-  children,
-  delay = 0,
-  y = 24,
-  className,
-  as = "div",
-}: {
-  children: ReactNode;
-  delay?: number;
-  y?: number;
-  className?: string;
-  as?: "div" | "span" | "li";
-}) {
-  const MotionTag = motion[as];
+// Robust "has scrolled into view" detection: IntersectionObserver plus
+// geometry re-checks, so anchor jumps and programmatic scrolls can never
+// leave content invisible. Shared by Reveal and bespoke section choreography.
+export function useRevealed() {
   const ref = useRef<HTMLElement | null>(null);
   const [shown, setShown] = useState(false);
-  const reduce = useReducedMotion();
 
   useEffect(() => {
     const el = ref.current;
@@ -54,6 +43,26 @@ export function Reveal({
       window.removeEventListener("hashchange", check);
     };
   }, [shown]);
+
+  return { ref, shown };
+}
+
+export function Reveal({
+  children,
+  delay = 0,
+  y = 24,
+  className,
+  as = "div",
+}: {
+  children: ReactNode;
+  delay?: number;
+  y?: number;
+  className?: string;
+  as?: "div" | "span" | "li";
+}) {
+  const MotionTag = motion[as];
+  const { ref, shown } = useRevealed();
+  const reduce = useReducedMotion();
 
   return (
     <MotionTag

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { useRevealed } from "../ui/Reveal";
 import { Icon } from "../ui/Icon";
 import { Badge } from "../ui/badge";
 import { dimensions, dimensionsIntro } from "@/lib/content";
@@ -28,20 +29,39 @@ export function Dimensions() {
   const reduce = useReducedMotion();
   const dim = dimensions[active];
   const t = TINTS[active % TINTS.length];
+  const { ref, shown } = useRevealed();
+  const revealed = shown || !!reduce;
 
   return (
     <section id="dimensions" className="relative isolate min-h-[100svh] flex flex-col justify-center scroll-mt-24 overflow-hidden bg-canvas py-24 sm:py-32">
-      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6">
+      <div ref={(el) => void (ref.current = el)} className="mx-auto w-full max-w-7xl px-4 sm:px-6">
         {/* editorial header */}
-        <div className="flex flex-col gap-2.5">
+        <motion.div
+          className="flex flex-col gap-2.5"
+          initial={reduce ? false : { opacity: 0, y: 14 }}
+          animate={revealed ? { opacity: 1, y: 0 } : undefined}
+          transition={{ duration: 0.6, ease }}
+        >
           <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">{dimensionsIntro.eyebrow}</span>
           <span className="block h-px w-10 bg-accent" />
-        </div>
+        </motion.div>
         <div className="mt-6 grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
-          <h2 className="max-w-2xl font-serif text-[clamp(1.8rem,3.8vw,2.8rem)] font-medium leading-[1.13] tracking-[-0.01em] text-ink [font-variation-settings:'opsz'_48]">
+          <motion.h2
+            className="max-w-2xl font-serif text-[clamp(1.8rem,3.8vw,2.8rem)] font-medium leading-[1.13] tracking-[-0.01em] text-ink [font-variation-settings:'opsz'_48]"
+            initial={reduce ? false : { opacity: 0, y: 18, filter: "blur(6px)" }}
+            animate={revealed ? { opacity: 1, y: 0, filter: "blur(0px)" } : undefined}
+            transition={{ duration: 0.7, ease, delay: 0.08 }}
+          >
             {dimensionsIntro.title}
-          </h2>
-          <p className="max-w-md text-[14.5px] leading-relaxed text-muted lg:pb-1.5">{dimensionsIntro.subtitle}</p>
+          </motion.h2>
+          <motion.p
+            className="max-w-md text-[14.5px] leading-relaxed text-muted lg:pb-1.5"
+            initial={reduce ? false : { opacity: 0, y: 14 }}
+            animate={revealed ? { opacity: 1, y: 0 } : undefined}
+            transition={{ duration: 0.6, ease, delay: 0.18 }}
+          >
+            {dimensionsIntro.subtitle}
+          </motion.p>
         </div>
 
         <div className="mt-12 grid items-center gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-14">
@@ -50,9 +70,26 @@ export function Dimensions() {
             <div className="relative h-full w-full">
               {/* orbit + spokes */}
               <svg aria-hidden viewBox="0 0 100 100" className="absolute inset-0 h-full w-full">
-                <circle cx="50" cy="50" r={RADIUS} fill="none" stroke="rgba(20,22,42,0.14)" strokeWidth="0.35" strokeDasharray="1.6 2.2" />
+                {/* dashed orbit — fades in, then slowly revolves */}
+                <motion.circle
+                  cx="50"
+                  cy="50"
+                  r={RADIUS}
+                  fill="none"
+                  stroke="rgba(20,22,42,0.14)"
+                  strokeWidth="0.35"
+                  strokeDasharray="1.6 2.2"
+                  style={{ transformOrigin: "50px 50px" }}
+                  initial={reduce ? false : { opacity: 0 }}
+                  animate={revealed ? { opacity: 1, rotate: reduce ? 0 : 360 } : undefined}
+                  transition={{
+                    opacity: { duration: 0.8, delay: 0.3 },
+                    rotate: { repeat: Infinity, duration: 120, ease: "linear" },
+                  }}
+                />
+                {/* spokes draw outward from the person */}
                 {POS.map((p, i) => (
-                  <line
+                  <motion.line
                     key={i}
                     x1="50"
                     y1="50"
@@ -60,23 +97,33 @@ export function Dimensions() {
                     y2={p.y}
                     stroke={i === active ? TINTS[i % TINTS.length].bar : "rgba(20,22,42,0.1)"}
                     strokeWidth={i === active ? 0.7 : 0.35}
-                    className="transition-all duration-500"
+                    className="transition-[stroke,stroke-width] duration-500"
+                    initial={reduce ? false : { pathLength: 0, opacity: 0 }}
+                    animate={revealed ? { pathLength: 1, opacity: 1 } : undefined}
+                    transition={{ duration: 0.55, ease, delay: 0.4 + i * 0.09 }}
                   />
                 ))}
               </svg>
 
               {/* the person */}
-              <div className="absolute left-1/2 top-1/2 grid h-[31%] w-[31%] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-line bg-white text-center shadow-[0_30px_60px_-30px_rgba(20,22,42,0.35)]">
-                <div>
-                  <p className="font-serif text-[clamp(0.95rem,2.2vw,1.25rem)] font-medium leading-tight text-ink [font-variation-settings:'opsz'_28]">
-                    One
-                    <br />
-                    person
-                  </p>
-                  <p className="mt-1 font-mono text-[max(0.5rem,min(0.6rem,1.4vw))] font-semibold uppercase tracking-[0.14em] text-muted">
-                    5 dimensions
-                  </p>
-                </div>
+              <div className="absolute left-1/2 top-1/2 h-[31%] w-[31%] -translate-x-1/2 -translate-y-1/2">
+                <motion.div
+                  className="grid h-full w-full place-items-center rounded-full border border-line bg-white text-center shadow-[0_30px_60px_-30px_rgba(20,22,42,0.35)]"
+                  initial={reduce ? false : { scale: 0.5, opacity: 0 }}
+                  animate={revealed ? { scale: 1, opacity: 1 } : undefined}
+                  transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.2 }}
+                >
+                  <div>
+                    <p className="font-serif text-[clamp(0.95rem,2.2vw,1.25rem)] font-medium leading-tight text-ink [font-variation-settings:'opsz'_28]">
+                      One
+                      <br />
+                      person
+                    </p>
+                    <p className="mt-1 font-mono text-[max(0.5rem,min(0.6rem,1.4vw))] font-semibold uppercase tracking-[0.14em] text-muted">
+                      5 dimensions
+                    </p>
+                  </div>
+                </motion.div>
               </div>
 
               {/* dimension nodes */}
@@ -93,6 +140,12 @@ export function Dimensions() {
                     className="group absolute z-10 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1.5 outline-none"
                     style={{ left: `${POS[i].x}%`, top: `${POS[i].y}%` }}
                   >
+                    <motion.div
+                      className="flex flex-col items-center gap-1.5"
+                      initial={reduce ? false : { scale: 0, opacity: 0 }}
+                      animate={revealed ? { scale: 1, opacity: 1 } : undefined}
+                      transition={{ type: "spring", stiffness: 400, damping: 19, delay: 0.5 + i * 0.1 }}
+                    >
                     <span
                       className="grid h-12 w-12 place-items-center rounded-2xl border transition-all duration-300 group-focus-visible:ring-2 group-focus-visible:ring-accent sm:h-14 sm:w-14"
                       style={
@@ -109,6 +162,7 @@ export function Dimensions() {
                     >
                       {d.name}
                     </span>
+                    </motion.div>
                   </button>
                 );
               })}
@@ -116,7 +170,12 @@ export function Dimensions() {
           </div>
 
           {/* the active dimension, in full */}
-          <div className="min-w-0">
+          <motion.div
+            className="min-w-0"
+            initial={reduce ? false : { opacity: 0, y: 22 }}
+            animate={revealed ? { opacity: 1, y: 0 } : undefined}
+            transition={{ duration: 0.65, ease, delay: 0.45 }}
+          >
             <AnimatePresence mode="wait">
               <motion.article
                 key={dim.name}
@@ -165,7 +224,7 @@ export function Dimensions() {
                 </div>
               </motion.article>
             </AnimatePresence>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

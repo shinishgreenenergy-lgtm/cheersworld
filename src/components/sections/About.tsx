@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { Check, Minus, ArrowUpRight } from "lucide-react";
-import { Reveal } from "../ui/Reveal";
+import { Reveal, useRevealed } from "../ui/Reveal";
 import { Icon } from "../ui/Icon";
 import { PhilosophyRing } from "../ui/PhilosophyRing";
 import { Badge } from "../ui/badge";
@@ -14,7 +14,7 @@ import { about } from "@/lib/content";
 const CREDENTIALS: { value: string; label: string; href?: string }[] = [
   { value: "JACC · 2025", label: "Peer-reviewed clinical trial", href: "https://www.jacc.org/doi/abs/10.1016/j.jacc.2025.09.1117" },
   { value: "Patent IN 510420", label: "Wisdom Network · granted" },
-  { value: "NeuroTrackerX", label: "Founding science" },
+  { value: "Faubert Lab", label: "Founding science" },
 ];
 
 const STATUS = {
@@ -124,84 +124,141 @@ export function About() {
         </Reveal>
 
         {/* Mission / Vision / Philosophy — three ruled columns, no ornament */}
-        <Reveal className="mt-16">
-          <div className="grid gap-8 border-t border-white/12 pt-10 md:grid-cols-3 md:gap-0">
-            {about.pillars.map((p, i) => (
-              <div key={p.title} className={`md:px-8 ${i === 0 ? "md:pl-0" : "md:border-l md:border-white/10"} ${i === about.pillars.length - 1 ? "md:pr-0" : ""}`}>
-                <div className="flex items-center gap-2.5">
-                  <Icon name={p.icon} className="h-4 w-4 text-accent-2" strokeWidth={1.8} />
-                  <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-accent-2">{p.title}</h3>
-                </div>
-                <p className="mt-3.5 text-[14.5px] leading-relaxed text-white/70">{p.body}</p>
+        <div className="mt-16 grid gap-8 border-t border-white/12 pt-10 md:grid-cols-3 md:gap-0">
+          {about.pillars.map((p, i) => (
+            <Reveal key={p.title} delay={i * 0.12} y={18} className={`md:px-8 ${i === 0 ? "md:pl-0" : "md:border-l md:border-white/10"} ${i === about.pillars.length - 1 ? "md:pr-0" : ""}`}>
+              <div className="flex items-center gap-2.5">
+                <Icon name={p.icon} className="h-4 w-4 text-accent-2" strokeWidth={1.8} />
+                <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-accent-2">{p.title}</h3>
               </div>
-            ))}
-          </div>
-        </Reveal>
+              <p className="mt-3.5 text-[14.5px] leading-relaxed text-white/70">{p.body}</p>
+            </Reveal>
+          ))}
+        </div>
 
-        {/* Journey — a connected roadmap rail with progress */}
-        <Reveal as="div" className="mt-16">
-          <span id="timeline" className="block scroll-mt-28" aria-hidden />
-          <div className="flex items-center gap-4">
-            <span className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-accent-2">Our journey</span>
-            <span className="h-px flex-1 bg-white/15" />
-            <span className="font-mono text-[11px] text-white/40">2019 — today</span>
-          </div>
-
-          <div className="mt-8 overflow-x-auto pb-2">
-            <div className="relative min-w-[60rem] lg:min-w-0">
-              {/* rail */}
-              <div aria-hidden className="absolute left-0 right-0 top-[13px] h-px bg-white/12" />
-              <div
-                aria-hidden
-                className="absolute top-[13px] h-px"
-                style={{ left: `${leftPct}%`, width: `${railWidth}%`, background: "linear-gradient(90deg,#2e9e5b,#14b8a6)" }}
-              />
-
-              <ol className="relative grid grid-cols-7 gap-3">
-                {about.milestones.map((m) => {
-                  const s = STATUS[m.status];
-                  return (
-                    <li key={m.title} className="flex flex-col">
-                      {/* node */}
-                      <span className="relative mx-auto grid h-[27px] w-[27px] place-items-center">
-                        {m.status === "current" && !reduce && (
-                          <span className="absolute inset-0 rounded-full" style={{ border: `1.5px solid ${s.color}`, animation: "ping 1.8s cubic-bezier(0,0,0.2,1) infinite" }} />
-                        )}
-                        <span
-                          className="grid h-[15px] w-[15px] place-items-center rounded-full"
-                          style={
-                            m.status === "future"
-                              ? { border: "1.5px dashed rgba(255,255,255,0.3)", background: "#0d1015" }
-                              : { background: s.color, boxShadow: `0 0 0 4px ${s.color}22` }
-                          }
-                        >
-                          {m.status === "done" && <Check className="h-2.5 w-2.5 text-[#06110b]" strokeWidth={4} />}
-                        </span>
-                      </span>
-
-                      {/* card */}
-                      <div
-                        className="mt-4 flex flex-1 flex-col rounded-xl border p-4"
-                        style={{
-                          borderColor: m.status === "current" ? "rgba(20,184,166,0.35)" : "rgba(255,255,255,0.1)",
-                          background: m.status === "current" ? "rgba(20,184,166,0.06)" : "rgba(255,255,255,0.03)",
-                        }}
-                      >
-                        <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1.5">
-                          <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-white/40">{m.label}</span>
-                          <StatusBadge status={m.status} />
-                        </div>
-                        <h4 className="mt-2.5 font-display text-[14px] font-extrabold leading-tight tracking-tight text-white">{m.title}</h4>
-                        <p className="mt-1.5 text-[12px] leading-relaxed text-white/55">{m.body}</p>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ol>
-            </div>
-          </div>
-        </Reveal>
+        {/* Journey — a connected roadmap rail with progress. One viewport
+            trigger for the whole rail, then milestones land one by one while
+            the progress line draws across underneath them. */}
+        <Journey milestones={about.milestones} leftPct={leftPct} railWidth={railWidth} />
       </div>
     </section>
+  );
+}
+
+const EASE = [0.22, 1, 0.36, 1] as const;
+const STEP = 0.16; // seconds between one milestone landing and the next
+
+function Journey({
+  milestones,
+  leftPct,
+  railWidth,
+}: {
+  milestones: typeof about.milestones;
+  leftPct: number;
+  railWidth: number;
+}) {
+  const { ref, shown } = useRevealed();
+  const reduce = useReducedMotion();
+  const on = shown || !!reduce;
+
+  return (
+    <div ref={(el) => void (ref.current = el)} className="mt-16">
+      <span id="timeline" className="block scroll-mt-28" aria-hidden />
+      <div className="flex items-center gap-4">
+        <motion.span
+          className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-accent-2"
+          initial={reduce ? false : { opacity: 0, y: 8 }}
+          animate={on ? { opacity: 1, y: 0 } : undefined}
+          transition={{ duration: 0.5, ease: EASE }}
+        >
+          Our journey
+        </motion.span>
+        <motion.span
+          className="h-px flex-1 origin-left bg-white/15"
+          initial={reduce ? false : { scaleX: 0 }}
+          animate={on ? { scaleX: 1 } : undefined}
+          transition={{ duration: 0.9, ease: EASE, delay: 0.1 }}
+        />
+        <motion.span
+          className="font-mono text-[11px] text-white/40"
+          initial={reduce ? false : { opacity: 0 }}
+          animate={on ? { opacity: 1 } : undefined}
+          transition={{ duration: 0.5, delay: 0.5 }}
+        >
+          2019 — today
+        </motion.span>
+      </div>
+
+      <div className="mt-8 overflow-x-auto pb-2">
+        <div className="relative min-w-[60rem] lg:min-w-0">
+          {/* rail */}
+          <motion.div
+            aria-hidden
+            className="absolute left-0 right-0 top-[13px] h-px origin-left bg-white/12"
+            initial={reduce ? false : { scaleX: 0 }}
+            animate={on ? { scaleX: 1 } : undefined}
+            transition={{ duration: 1.1, ease: EASE, delay: 0.15 }}
+          />
+          {/* progress — draws in step with the cards landing on it */}
+          <motion.div
+            aria-hidden
+            className="absolute top-[13px] h-px origin-left"
+            style={{ left: `${leftPct}%`, width: `${railWidth}%`, background: "linear-gradient(90deg,#2e9e5b,#14b8a6)" }}
+            initial={reduce ? false : { scaleX: 0 }}
+            animate={on ? { scaleX: 1 } : undefined}
+            transition={{ duration: STEP * (milestones.length - 1), ease: "linear", delay: 0.35 }}
+          />
+
+          <ol className="relative grid grid-cols-7 gap-3">
+            {milestones.map((m, i) => {
+              const s = STATUS[m.status];
+              const d = 0.25 + i * STEP;
+              return (
+                <li key={m.title} className="flex flex-col">
+                  {/* node */}
+                  <span className="relative mx-auto grid h-[27px] w-[27px] place-items-center">
+                    {m.status === "current" && !reduce && (
+                      <span className="absolute inset-0 rounded-full" style={{ border: `1.5px solid ${s.color}`, animation: "ping 1.8s cubic-bezier(0,0,0.2,1) infinite" }} />
+                    )}
+                    <motion.span
+                      className="grid h-[15px] w-[15px] place-items-center rounded-full"
+                      style={
+                        m.status === "future"
+                          ? { border: "1.5px dashed rgba(255,255,255,0.3)", background: "#0d1015" }
+                          : { background: s.color, boxShadow: `0 0 0 4px ${s.color}22` }
+                      }
+                      initial={reduce ? false : { scale: 0, opacity: 0 }}
+                      animate={on ? { scale: 1, opacity: 1 } : undefined}
+                      transition={{ type: "spring", stiffness: 480, damping: 20, delay: d }}
+                    >
+                      {m.status === "done" && <Check className="h-2.5 w-2.5 text-[#06110b]" strokeWidth={4} />}
+                    </motion.span>
+                  </span>
+
+                  {/* card */}
+                  <motion.div
+                    className="mt-4 flex flex-1 flex-col rounded-xl border p-4"
+                    style={{
+                      borderColor: m.status === "current" ? "rgba(20,184,166,0.35)" : "rgba(255,255,255,0.1)",
+                      background: m.status === "current" ? "rgba(20,184,166,0.06)" : "rgba(255,255,255,0.03)",
+                    }}
+                    initial={reduce ? false : { opacity: 0, y: 22, scale: 0.96, filter: "blur(5px)" }}
+                    animate={on ? { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" } : undefined}
+                    transition={{ duration: 0.6, ease: EASE, delay: d + 0.06 }}
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1.5">
+                      <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-white/40">{m.label}</span>
+                      <StatusBadge status={m.status} />
+                    </div>
+                    <h4 className="mt-2.5 font-display text-[14px] font-extrabold leading-tight tracking-tight text-white">{m.title}</h4>
+                    <p className="mt-1.5 text-[12px] leading-relaxed text-white/55">{m.body}</p>
+                  </motion.div>
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+      </div>
+    </div>
   );
 }

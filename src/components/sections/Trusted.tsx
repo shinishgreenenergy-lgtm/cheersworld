@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import NumberFlow from "@number-flow/react";
-import { Reveal } from "../ui/Reveal";
-import type { IconName } from "../ui/Icon";
+import { Reveal, useRevealed } from "../ui/Reveal";
+import { Icon, type IconName } from "../ui/Icon";
 import { trust } from "@/lib/content";
 import { TINTS } from "@/lib/tints";
 
@@ -32,6 +32,122 @@ function ProvenStat({ label, value }: { label: string; value: number }) {
       </span>
       <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-white/60">{label}</span>
     </motion.div>
+  );
+}
+
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+// The partner register with one viewport trigger for the whole column
+// (per-group triggers can miss on anchor jumps and leave partners invisible),
+// then a choreographed cascade: dot pops, rule draws, count ticks, cards rise.
+function PartnerRegister({ groups }: { groups: typeof trust.groups }) {
+  const { ref, shown } = useRevealed();
+  const reduce = useReducedMotion();
+  const on = shown || !!reduce;
+
+  let slot = 0; // running stagger index across headers and cards
+  const at = (span = 1) => {
+    const d = 0.08 + slot * 0.055;
+    slot += span;
+    return d;
+  };
+
+  return (
+    <div ref={(el) => void (ref.current = el)} className="flex flex-col gap-9">
+      {groups.map((g, gi) => {
+        const s = GROUP_STYLE[g.label] ?? { tint: gi % TINTS.length, icon: "Sparkles" as IconName, blurb: "" };
+        const t = TINTS[s.tint % TINTS.length];
+        const head = at();
+        return (
+          <div key={g.label}>
+            <div className="flex items-center gap-3">
+              <motion.span
+                aria-hidden
+                className="h-2 w-2 rounded-full"
+                style={{ background: t.bar }}
+                initial={reduce ? false : { scale: 0, opacity: 0 }}
+                animate={on ? { scale: 1, opacity: 1 } : undefined}
+                transition={{ type: "spring", stiffness: 500, damping: 22, delay: head }}
+              />
+              <motion.h3
+                className="font-display text-[13px] font-extrabold uppercase tracking-[0.14em] text-white"
+                initial={reduce ? false : { opacity: 0, y: 8 }}
+                animate={on ? { opacity: 1, y: 0 } : undefined}
+                transition={{ duration: 0.5, ease: EASE, delay: head + 0.04 }}
+              >
+                {g.label}
+              </motion.h3>
+              <motion.span
+                className="hidden text-[12px] text-white/45 sm:block"
+                initial={reduce ? false : { opacity: 0 }}
+                animate={on ? { opacity: 1 } : undefined}
+                transition={{ duration: 0.5, delay: head + 0.12 }}
+              >
+                {s.blurb}
+              </motion.span>
+              <motion.span
+                aria-hidden
+                className="h-px flex-1 origin-left bg-white/10"
+                initial={reduce ? false : { scaleX: 0 }}
+                animate={on ? { scaleX: 1 } : undefined}
+                transition={{ duration: 0.9, ease: EASE, delay: head + 0.08 }}
+              />
+              <motion.span
+                className="font-mono text-[11.5px] font-semibold tabular-nums"
+                style={{ color: t.bar }}
+                initial={reduce ? false : { opacity: 0 }}
+                animate={on ? { opacity: 1 } : undefined}
+                transition={{ duration: 0.4, delay: head + 0.1 }}
+              >
+                <NumberFlow
+                  value={on ? g.items.length : 0}
+                  animated={!reduce}
+                  format={{ minimumIntegerDigits: 2 }}
+                />
+              </motion.span>
+            </div>
+            <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
+              {g.items.map((p) => {
+                const d = at();
+                return (
+                  <motion.div
+                    key={p.name}
+                    initial={reduce ? false : { opacity: 0, y: 18, scale: 0.96, filter: "blur(5px)" }}
+                    animate={on ? { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" } : undefined}
+                    transition={{ duration: 0.55, ease: EASE, delay: d }}
+                  >
+                  <motion.div
+                    className="group flex items-center gap-4 rounded-2xl bg-white px-4 py-3.5 shadow-[0_10px_28px_-16px_rgba(0,0,0,0.6)] transition-shadow duration-300 hover:shadow-[0_18px_38px_-16px_rgba(0,0,0,0.7)]"
+                    whileHover={reduce ? undefined : { y: -3 }}
+                    transition={{ duration: 0.25, ease: EASE }}
+                  >
+                    {p.logo ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={p.logo}
+                        alt=""
+                        loading="lazy"
+                        className="h-10 w-auto max-w-[6rem] shrink-0 object-contain transition-transform duration-300 group-hover:scale-[1.06]"
+                      />
+                    ) : (
+                      <span
+                        aria-hidden
+                        className="grid h-10 w-10 shrink-0 place-items-center rounded-xl transition-transform duration-300 group-hover:scale-[1.06]"
+                        style={{ background: t.soft, color: t.bar }}
+                      >
+                        <Icon name={s.icon} className="h-5 w-5" />
+                      </span>
+                    )}
+                    <span className="text-[13.5px] font-semibold leading-snug text-ink">{p.name}</span>
+                  </motion.div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
+    </div>
   );
 }
 
@@ -89,46 +205,8 @@ export function Trusted() {
             </div>
           </Reveal>
 
-          {/* the register — every partner, grouped, ruled, countable.
-              One Reveal for the whole column: per-group reveals can miss their
-              viewport trigger on anchor jumps and leave partners invisible. */}
-          <Reveal className="flex flex-col gap-9">
-            {realGroups.map((g, gi) => {
-              const s = GROUP_STYLE[g.label] ?? { tint: gi % TINTS.length, icon: "Sparkles" as IconName, blurb: "" };
-              const t = TINTS[s.tint % TINTS.length];
-              const withLogos = g.items.filter((p) => p.logo);
-              return (
-                  <div key={g.label}>
-                    <div className="flex items-center gap-3">
-                      <span aria-hidden className="h-2 w-2 rounded-full" style={{ background: t.bar }} />
-                      <h3 className="font-display text-[13px] font-extrabold uppercase tracking-[0.14em] text-white">{g.label}</h3>
-                      <span className="hidden text-[12px] text-white/45 sm:block">{s.blurb}</span>
-                      <span aria-hidden className="h-px flex-1 bg-white/10" />
-                      <span className="font-mono text-[11.5px] font-semibold tabular-nums" style={{ color: t.bar }}>
-                        {String(withLogos.length).padStart(2, "0")}
-                      </span>
-                    </div>
-                    <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
-                      {withLogos.map((p) => (
-                        <div
-                          key={p.name}
-                          className="group flex items-center gap-4 rounded-2xl bg-white px-4 py-3.5 shadow-[0_10px_28px_-16px_rgba(0,0,0,0.6)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_38px_-16px_rgba(0,0,0,0.7)]"
-                        >
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={p.logo!}
-                            alt=""
-                            loading="lazy"
-                            className="h-10 w-auto max-w-[6rem] shrink-0 object-contain"
-                          />
-                          <span className="text-[13.5px] font-semibold leading-snug text-ink">{p.name}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-              );
-            })}
-          </Reveal>
+          {/* the register — every partner, grouped, ruled, countable. */}
+          <PartnerRegister groups={realGroups} />
         </div>
       </div>
     </section>
