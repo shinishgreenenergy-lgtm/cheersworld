@@ -9,7 +9,7 @@ import { esc, buildEmail, receivedNow, makeTransportConfig } from "./lib/email.m
 //   ZEPTO_SMTP_PASS  (ZeptoMail send-mail token)
 //   ZEPTO_FROM       (verified sender, e.g. noreply@nextdooh.com)
 //   CONTACT_TO       (where submissions land; defaults to support@cheerswisdom.com)
-//   CONTACT_CC       (optional CC; defaults to shinish@kryil.com)
+//   CONTACT_CC       (optional CC; no CC by default)
 
 const MAX_FIELD = 200;
 const MAX_MESSAGE = 5000;
@@ -42,7 +42,7 @@ const handler = async (req) => {
   const transporter = nodemailer.createTransport(makeTransportConfig());
   const from = process.env.ZEPTO_FROM ?? "noreply@nextdooh.com";
   const to = process.env.CONTACT_TO ?? "support@cheerswisdom.com";
-  const cc = process.env.CONTACT_CC ?? "shinish@kryil.com";
+  const cc = process.env.CONTACT_CC ?? "";
   const receivedAt = receivedNow();
 
   const rows = [

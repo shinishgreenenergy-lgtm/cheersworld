@@ -46,9 +46,9 @@ and Netlify's env store, never in git or this file.
 | `ZEPTO_SMTP_PASS` | *(secret — see `.env.local` / Netlify env, prod-context secret)* | ZeptoMail send-mail token for the nextdooh.com Mail Agent |
 | `ZEPTO_FROM` | `noreply@nextdooh.com` | Verified sender domain on ZeptoMail |
 | `CONTACT_TO` | `support@cheerswisdom.com` *(default, optional override)* | Where contact-form mail lands |
-| `CONTACT_CC` | `shinish@kryil.com` *(default, optional override)* | CC on contact mail; set empty to disable |
+| `CONTACT_CC` | *(unset — no CC by default)* | Optional CC on contact mail |
 | `CAREERS_TO` | `careers@cheerswisdom.com` *(default, optional override)* | Where applications land |
-| `CAREERS_CC` | `shinish@kryil.com` *(default, optional override)* | CC on applications; set empty to disable |
+| `CAREERS_CC` | *(unset — no CC by default)* | Optional CC on applications |
 | `NEXT_PUBLIC_FORMS_ENDPOINT` | *(unset on Netlify)* | Build-time. Set to the mail API base URL (e.g. `https://api.cheerswisdom.com`) when hosting the static site off Netlify |
 | `ALLOWED_ORIGIN` | *(standalone server only)* | CORS origin for `scripts/email-server.mjs`, e.g. `https://www.cheerswisdom.com` |
 | `PORT` | `8787` *(default)* | Port for the standalone mail server |

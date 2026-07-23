@@ -5,7 +5,7 @@ import { esc, buildEmail, receivedNow, makeTransportConfig } from "./lib/email.m
 // as base64) and relays it through ZeptoMail SMTP.
 // Env: ZEPTO_* as in contact.mjs, plus
 //   CAREERS_TO  (defaults to careers@cheerswisdom.com)
-//   CAREERS_CC  (defaults to shinish@kryil.com)
+//   CAREERS_CC  (optional CC; no CC by default)
 
 const MAX_FIELD = 200;
 const MAX_MESSAGE = 5000;
@@ -85,7 +85,7 @@ const handler = async (req) => {
   const transporter = nodemailer.createTransport(makeTransportConfig());
   const from = process.env.ZEPTO_FROM ?? "noreply@nextdooh.com";
   const to = process.env.CAREERS_TO ?? "careers@cheerswisdom.com";
-  const cc = process.env.CAREERS_CC ?? "shinish@kryil.com";
+  const cc = process.env.CAREERS_CC ?? "";
   const receivedAt = receivedNow();
 
   const rows = [
