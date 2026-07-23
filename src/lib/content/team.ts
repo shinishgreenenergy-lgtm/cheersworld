@@ -27,7 +27,6 @@ export const team = {
           role: "Chief Executive Officer",
           bio: "Visionary leader driving Cheers Wisdom's mission to advance human consciousness through adaptive AI wellness companions.",
           photo: "/team/sohail.jpg",
-          href: "https://cheerswisdom.com/team#",
           linkedin: "https://www.linkedin.com/in/sohail-m-6412b2171",
         },
         {
@@ -35,7 +34,6 @@ export const team = {
           role: "Chief Technology Officer",
           bio: "Technology architect building the next generation of emotionally intelligent AI systems for human wellness.",
           photo: "/team/javed.jpg",
-          href: "https://cheerswisdom.com/team#",
           linkedin: "https://www.linkedin.com/in/cheerswisdom/",
         },
         {
