@@ -56,17 +56,17 @@ export const dashboards: DashboardConfig[] = [
   {
     key: "mining",
     tab: "Mining",
-    title: "Shift Readiness Board",
+    title: "Operational Intelligence Dashboard",
     audience: "Site safety managers",
     kpis: [
-      { label: "Crew on shift", value: "86" },
-      { label: "Readiness average", value: "88%", trend: "up" },
-      { label: "Fatigue alerts", value: "3", trend: "down" },
+      { label: "Workforce readiness", value: "88.5%", trend: "up" },
+      { label: "Absenteeism", value: "4.2%", trend: "down" },
+      { label: "Machine utilization", value: "79.1%", trend: "up" },
     ],
     chartLabel: "Fatigue risk · rolling 14 shifts",
     chart: [30, 34, 28, 40, 38, 32, 26, 30, 24, 28, 22, 26, 20, 18],
     rows: [
-      { label: "Night shift · Pit 2", meta: "3 fatigue alerts", status: "act" },
+      { label: "Night shift · Pit 2", meta: "High fatigue alert", status: "act" },
       { label: "Day shift · Pit 1", meta: "Readiness 92%", status: "ok" },
       { label: "Haul crew", meta: "Recovery time trending up", status: "watch" },
     ],

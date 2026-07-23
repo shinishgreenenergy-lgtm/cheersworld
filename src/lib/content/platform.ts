@@ -45,11 +45,11 @@ export const solutions = {
       facets: soon("/products/cheers-finance"),
     },
     {
-      name: "Cheers ForeSite",
+      name: "Cheers Miner",
       tagline: "Workforce readiness & fatigue-risk awareness",
       domain: "Industry",
       icon: "Mountain" as IconName,
-      facets: soon("/products/cheers-foresite"),
+      facets: soon("/products/cheers-miner"),
     },
     {
       name: "Cheers Fashion",

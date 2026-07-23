@@ -49,7 +49,7 @@ export const evidence: EvidenceContent = {
     {
       name: "Mining",
       icon: "Mountain" as IconName,
-      solution: "Cheers ForeSite",
+      solution: "Cheers Miner",
       challenge: "Fatigue and cognitive load drive incidents in one of the world's most hazardous industries.",
       platform: "Fatigue and readiness awareness for miners, with safety-manager dashboards for intervention.",
     },

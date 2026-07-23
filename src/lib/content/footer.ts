@@ -26,7 +26,7 @@ export const footer = {
       links: [
         { label: "Cheers Health", href: "/products/cheers-health" },
         { label: "Cheers Digital", href: "/products/cheers-digital" },
-        { label: "Cheers ForeSite", href: "/products/cheers-foresite" },
+        { label: "Cheers Miner", href: "/products/cheers-miner" },
         { label: "Cheers Social", href: "/products/cheers-social" },
         { label: "Cheers Fashion", href: "/products/cheers-fashion" },
         { label: "Cheers Finance", href: "/products/cheers-finance" },

@@ -49,7 +49,7 @@ const ICON_RULES: [RegExp, string][] = [
   [/whitepaper/i, "article"],
   [/clinical|trial/i, "clinical_notes"],
   [/education/i, "school"],
-  [/mining|foresite/i, "terrain"],
+  [/mining|miner/i, "terrain"],
   [/drive|transport/i, "directions_car"],
   [/decision/i, "query_stats"],
   [/outcome/i, "trending_up"],

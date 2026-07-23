@@ -585,118 +585,151 @@ export const products: Product[] = [
     ],
   },
   {
-    slug: "cheers-foresite",
-    name: "Cheers ForeSite",
-    tagline: "Cheers ForeSite — Research",
-    heroTitle: "AI-powered behavioural intelligence for safer operations",
+    slug: "cheers-miner",
+    name: "Cheers Miner",
+    tagline: "Cheers Miner — Mining",
+    heroTitle: "AI workforce intelligence for mining productivity & safety",
     heroBody:
-      "An AI-powered workforce safety platform designed to detect early human-performance risks before they lead to incidents — combining behavioural science with occupational health research to monitor worker readiness, detect fatigue patterns, and support preventive safety decisions.",
+      "Cheers Miner turns workforce signals into operational intelligence — enhancing workforce readiness, machine efficiency and operational performance. Workers spend 15–30 seconds a day; the AI combines their inputs with the mine data you already have.",
     heroImage: "/products/signals-to-trajectories.jpg",
-    ctas: [{ label: "Join the research program", href: "/#contact" }],
+    ctas: [{ label: "Start a pilot", href: "/#contact" }],
     sections: [
       {
         eyebrow: "The Problem",
-        heading: "The safety monitoring gap",
+        heading: "Hidden workforce challenges affect mine performance",
         body:
-          "In mining, railways, heavy industry, and infrastructure operations, safety incidents are rarely sudden. Worker fatigue builds over shifts. Stress accumulates across weeks. Readiness declines gradually. Yet most safety systems only detect problems after an incident has occurred — a reactive approach that costs lives and resources. Behavioral signals appear early; without longitudinal monitoring, those signals remain invisible.",
+          "Many operational losses begin long before incidents occur: worker fatigue leads to reduced focus, machine inefficiency, safety events and downtime. Workforce challenges become operational costs (sources: WHO, ILO, NIOSH) — and early intervention costs less than delayed intervention.",
+        items: [
+          {
+            icon: "🕳️",
+            title: "Absenteeism",
+            desc: "Shift gaps and workforce shortages disrupt planning and output.",
+          },
+          {
+            icon: "😴",
+            title: "Fatigue accumulation",
+            desc: "Reduced attention and performance, especially across consecutive night shifts.",
+          },
+          {
+            icon: "⛏️",
+            title: "Machine efficiency loss",
+            desc: "Lower output and increased idle time when operators aren't at their best.",
+          },
+          {
+            icon: "🚨",
+            title: "Safety incidents",
+            desc: "Downtime and operational disruption — with direct and indirect costs.",
+          },
+          {
+            icon: "🔁",
+            title: "Employee turnover",
+            desc: "Hiring and training costs that compound with every departure.",
+          },
+          {
+            icon: "🫁",
+            title: "Delayed health issues",
+            desc: "Respiratory problems, chronic fatigue, stress and untreated conditions increase workforce costs and reduce productivity.",
+          },
+        ],
       },
       {
         eyebrow: "What Makes Us Different",
-        heading: "Predictive behavioral safety intelligence",
-        body: "Detecting workforce risk before incidents occur.",
+        heading: "Current systems detect problems late",
+        body:
+          "The traditional approach — incident reports, manual observations, health checks after issues occur — moves from problem to incident to action. Cheers Miner moves from signals to AI intelligence to early intervention.",
         items: [
           {
-            icon: "😴",
-            title: "Fatigue monitoring",
-            desc: "Continuous tracking of behavioral fatigue indicators across shifts, detecting accumulation patterns that precede safety incidents.",
-          },
-          {
             icon: "✅",
-            title: "Worker readiness assessment",
-            desc: "Pre-shift and ongoing readiness evaluation using behavioral and cognitive indicators to determine fitness for duty.",
-          },
-          {
-            icon: "🛡️",
-            title: "Accident prevention intelligence",
-            desc: "Predictive models that identify high-risk periods and conditions before incidents occur, enabling preventive action.",
+            title: "Daily workforce readiness",
+            desc: "A live picture of who is fit for shift, refreshed every day — not after something goes wrong.",
           },
           {
             icon: "🧠",
-            title: "Occupational stress detection",
-            desc: "Longitudinal monitoring of stress indicators across the workforce, identifying individuals and teams at elevated risk.",
+            title: "AI risk detection",
+            desc: "The intelligence engine spots fatigue and health-risk patterns as they build.",
           },
           {
-            icon: "🏭",
-            title: "Industry-specific models",
-            desc: "Behavioral intelligence calibrated for mining, railways, manufacturing, and infrastructure environments.",
+            icon: "📈",
+            title: "Predictive interventions",
+            desc: "Recommendations arrive while there is still time to act — recovery breaks, shift adjustments, supervisor follow-ups.",
+          },
+          {
+            icon: "⏰",
+            title: "Early alerts",
+            desc: "Supervisors see high-risk workers and conditions before incidents, not in the post-mortem.",
           },
         ],
       },
       {
         eyebrow: "How It Works",
-        heading: "From baseline to prevention",
+        heading: "Workforce signals become operational intelligence",
         body:
-          "A four-stage process that transforms workforce behavioral data into preventive safety intelligence.",
+          "Worker inputs + existing mine data + AI = business outcomes. We are not relying on questionnaires: the daily check-in contributes ~20%, while operational data you already collect — attendance, shift patterns, machine productivity, near-miss logs, supervisor observations and environmental sensors — contributes ~60–70% of the signal.",
         items: [
           {
             icon: "1",
-            title: "Workforce baseline",
-            desc: "Behavioral patterns are established for each worker through structured assessments and operational data.",
+            title: "Worker daily interaction",
+            desc: "15–30 seconds a day: sleep, energy, any issues, ready-for-shift — from the employee app.",
           },
           {
             icon: "2",
-            title: "Continuous monitoring",
-            desc: "The system tracks fatigue, stress, and readiness indicators across shifts and over weeks.",
+            title: "Existing mine data",
+            desc: "Attendance systems, shift patterns, machine productivity, near-miss logs, supervisor observations, environmental sensors.",
           },
           {
             icon: "3",
-            title: "Risk pattern detection",
-            desc: "AI identifies behavioral trajectories that indicate declining safety readiness.",
+            title: "AI intelligence engine",
+            desc: "Weighs every signal — operational data ~35%, questionnaire ~20%, supervisor input ~15%, environment ~10%, wearables ~10%, NeuroTrackerX ~10% — into a per-worker risk score.",
           },
           {
             icon: "4",
-            title: "Preventive alerts",
-            desc: "Safety teams receive contextualized alerts with recommended interventions before incidents occur.",
+            title: "Dashboard, actions & interventions",
+            desc: "Workforce dashboard with readiness, fatigue heatmaps, productivity trends, high-risk workers and system alerts — driving recommendations and interventions.",
           },
         ],
       },
       {
-        eyebrow: "Who It's For",
-        heading: "Built for high-risk industries",
+        eyebrow: "Example",
+        heading: "A drill operator's day",
         body:
-          "Cheers ForeSite delivers predictive safety intelligence to the industries where workforce readiness is a matter of life and safety.",
+          "A 15-second check-in — sleep poor, energy low, body pain, ready for shift with some concerns — is combined with automatic signals: consecutive shifts, machine productivity, supervisor observations and dust exposure. The AI returns Fatigue Risk 82/100 (high risk) and recommends a recovery break, a supervisor alert and a shift adjustment. AI combines multiple signals — not only worker inputs.",
+      },
+      {
+        eyebrow: "Outcomes",
+        heading: "Workforce health creates operational value",
+        body:
+          "Improving employee wellbeing supports productivity and reduces operational losses: healthy workforce → better productivity → better operational performance. Employees get better respiratory monitoring, fatigue management, reduced stress and burnout, early health-risk identification and better work-life wellbeing. The mine gets:",
         items: [
-          {
-            icon: "⛏️",
-            title: "Mining operations",
-            desc: "Underground and surface mining environments where fatigue accumulation, shift rotation patterns, and environmental stress create compounding safety risks.",
-          },
-          {
-            icon: "🚂",
-            title: "Railways & transport",
-            desc: "Long-haul operations and safety-critical transport roles where operator fatigue and alertness degradation directly impact passenger and crew safety.",
-          },
-          {
-            icon: "🏭",
-            title: "Heavy manufacturing",
-            desc: "Industrial environments with heavy machinery, repetitive operations, and shift work where cognitive fatigue leads to increased incident rates.",
-          },
-          {
-            icon: "🔌",
-            title: "Infrastructure & utilities",
-            desc: "Power generation, water treatment, and utility operations where continuous staffing and shift work create cumulative fatigue risks.",
-          },
-          {
-            icon: "🏗️",
-            title: "Construction & industrial projects",
-            desc: "Large-scale projects where distributed workforces, harsh conditions, and high-consequence tasks demand proactive readiness assessment.",
-          },
+          { icon: "📉", title: "Lower absenteeism", desc: "Fewer unplanned shift gaps as risks are addressed early." },
+          { icon: "🛡️", title: "Fewer near misses", desc: "Early alerts reduce incident risk and its direct and indirect costs." },
+          { icon: "🚜", title: "Higher machine utilization", desc: "Ready operators keep output up and idle time down." },
+          { icon: "📊", title: "Higher productivity", desc: "Better task allocation and workforce readiness lift performance above baseline." },
+          { icon: "💰", title: "Lower health-related costs", desc: "Health screening reminders and early intervention cost less than delayed intervention." },
+          { icon: "🗓️", title: "Shift optimization", desc: "Recovery recommendations and supervisor actions built into planning." },
         ],
+      },
+      {
+        eyebrow: "The Pilot",
+        heading: "Proposed pilot: measure and quantify operational impact",
+        body:
+          "A six-month pilot with 50–100 workers. Month 1: setup and onboarding. Months 2–5: data collection and interventions. Month 6: outcome analysis and the enterprise rollout decision. You get the employee app, supervisor dashboard, reports and AI alerts. Worker effort: 15–30 seconds/day. Supervisor effort: under 2 minutes/day. No hardware required initially.",
+        items: [
+          { value: "50–100", label: "workers in pilot" },
+          { value: "15–30s", label: "worker effort per day" },
+          { value: "<2 min", label: "supervisor effort per day" },
+          { value: "6 months", label: "pilot to rollout decision" },
+        ],
+      },
+      {
+        eyebrow: "Why Cheers Wisdom",
+        heading: "Start with pilot → validate outcomes → enterprise deployment",
+        body:
+          "Cheers Miner is built on the platform behind our hospital collaborations, JACC publication, AI behavioral intelligence, research partnerships and multi-domain experience.",
       },
       {
         eyebrow: "Our Commitment",
         heading: "Worker-first design principles",
-        body: "Cheers ForeSite is designed to support workers, not surveil them.",
+        body: "Cheers Miner is designed to support workers, not surveil them.",
         items: [
           {
             icon: "🚫",

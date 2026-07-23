@@ -27,7 +27,7 @@ export const dimensions: Dimension[] = [
     why: "Physical state drives everything else: recovery speed, cognitive clarity, emotional resilience and safe performance at work.",
     assessment: "The platform observes activity, rest and self-reported recovery signals to build a continuous picture of physical state.",
     intervention: "Timely nudges for movement, rest and care routines — adapted to each person's recovery stage and daily context.",
-    solutions: ["Cheers Health", "Cheers Drive", "Cheers ForeSite", "Cheers Sports"],
+    solutions: ["Cheers Health", "Cheers Drive", "Cheers Miner", "Cheers Sports"],
     links: [{ label: "Clinical studies", href: "/#research" }, { label: "Healthcare evidence", href: "/#evidence" }],
   },
   {

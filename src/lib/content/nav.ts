@@ -78,7 +78,7 @@ export const navGroups: NavGroup[] = [
     items: [
       { label: "Cheers Health", href: "/products/cheers-health", desc: "Clinical recovery & patient wellbeing" },
       { label: "Cheers Digital", href: "/products/cheers-digital", desc: "Cyberbullying prevention & digital resilience" },
-      { label: "Cheers ForeSite", href: "/products/cheers-foresite", desc: "Workforce readiness & fatigue-risk awareness" },
+      { label: "Cheers Miner", href: "/products/cheers-miner", desc: "AI workforce intelligence for mining productivity & safety" },
       { label: "Cheers Social", href: "/products/cheers-social", desc: "Social resilience & recovery from social stress" },
       { label: "Cheers Fashion", href: "/products/cheers-fashion", desc: "Fashion psychology & mindful consumption" },
       { label: "Cheers Finance", href: "/products/cheers-finance", desc: "Financial resilience & debt-stress detection" },
