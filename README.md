@@ -57,11 +57,22 @@ and Netlify's env store, never in git or this file.
 
 - **Netlify (current):** static site + functions deploy together from `main`
   via GitHub. Env vars above are already set; changing them requires a redeploy.
-- **VM / Hostinger (future):** serve `out/` as static files, run
-  `node scripts/email-server.mjs` (systemd/pm2) with the same `ZEPTO_*` vars +
-  `ALLOWED_ORIGIN`, and rebuild the site with `NEXT_PUBLIC_FORMS_ENDPOINT`
-  pointing at that server. It answers both `/contact`-style and
-  `/.netlify/functions/contact`-style paths.
+- **VM / Hostinger (future — validated locally):** serve `out/` as static
+  files, run `node scripts/email-server.mjs` (systemd/pm2) with the same
+  `ZEPTO_*` vars + `ALLOWED_ORIGIN`, and rebuild the site with
+  `NEXT_PUBLIC_FORMS_ENDPOINT` pointing at that server. It answers both
+  `/contact`-style and `/.netlify/functions/contact`-style paths.
+  - **Clean URLs:** the export writes `contact.html` etc. Netlify maps
+    `/contact` automatically; plain hosts need rewrites. `public/.htaccess`
+    (shipped into `out/`) covers Apache/LiteSpeed — which is what Hostinger
+    shared/cloud hosting runs — so uploading `out/` there just works.
+    For nginx use: `try_files $uri $uri.html $uri/ =404;`
+  - **Hostinger note:** shared hosting can serve the static site but cannot
+    run the Node mail API — put `email-server.mjs` on a VPS/Node host and
+    point `NEXT_PUBLIC_FORMS_ENDPOINT` at it (or keep the forms on Netlify
+    functions by leaving the endpoint unset and hosting only on Netlify).
+  - Validated end-to-end locally: static server on one origin, mail API on
+    another, browser CORS POST → ZeptoMail → 200, email delivered.
 
 ## Project layout
 

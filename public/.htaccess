@@ -1,0 +1,18 @@
+# Clean URLs for the Next.js static export on Apache/LiteSpeed hosts
+# (e.g. Hostinger). Netlify ignores this file and handles pretty URLs itself.
+# Maps /contact -> /contact.html, keeps real files/dirs untouched.
+
+Options -Indexes
+RewriteEngine On
+
+# Serve existing files and directories as-is
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# /path -> /path.html when the .html exists
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)$ $1.html [L]
+
+# Everything else -> 404 page
+ErrorDocument 404 /404.html
