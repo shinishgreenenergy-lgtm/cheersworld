@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
-import { Mail, ArrowUpRight } from "lucide-react";
 import { Aurora } from "@/components/ui/Aurora";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 import { Reveal } from "@/components/ui/Reveal";
+import { CareersApplyForm } from "@/components/sections/CareersApplyForm";
 import { TINTS } from "@/lib/tints";
-
-const CAREERS_EMAIL = "careers@cheerswisdom.com";
 
 const AREAS = [
   {
@@ -83,21 +81,17 @@ export default function Page() {
         <section className="py-16 sm:py-20">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <Reveal>
-              <div className="glass flex flex-col items-center gap-4 rounded-3xl px-6 py-12 text-center">
-                <h2 className="max-w-xl text-balance font-serif text-2xl font-medium text-ink sm:text-3xl">
-                  Tell us what you&apos;d build here
-                </h2>
-                <p className="max-w-xl text-[14.5px] leading-relaxed text-muted">
-                  Send a short note about yourself and the problems you want to work on — a CV or portfolio link helps.
-                </p>
-                <a
-                  href={`mailto:${CAREERS_EMAIL}?subject=${encodeURIComponent("Joining Cheers Wisdom")}`}
-                  className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,#5bb873,#2e8b57)] px-6 py-3 text-[14px] font-semibold text-white shadow-[0_18px_36px_-18px_rgba(46,158,91,0.7)] transition-transform hover:-translate-y-0.5"
-                >
-                  <Mail className="h-4 w-4" />
-                  {CAREERS_EMAIL}
-                  <ArrowUpRight className="h-4 w-4" />
-                </a>
+              <div className="mx-auto max-w-3xl">
+                <div className="mb-8 text-center">
+                  <h2 className="text-balance font-serif text-2xl font-medium text-ink sm:text-3xl">
+                    Tell us what you&apos;d build here
+                  </h2>
+                  <p className="mx-auto mt-3 max-w-xl text-[14.5px] leading-relaxed text-muted">
+                    Send a short note about yourself and the problems you want to work on — attach your CV or share a
+                    portfolio link.
+                  </p>
+                </div>
+                <CareersApplyForm />
               </div>
             </Reveal>
           </div>

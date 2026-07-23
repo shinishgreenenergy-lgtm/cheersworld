@@ -49,3 +49,7 @@ smoke-*.png
 .agents/
 .claude/skills/
 skills-lock.json
+
+# Local Netlify folder
+.netlify
+deno.lock

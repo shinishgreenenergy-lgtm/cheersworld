@@ -6,14 +6,9 @@ import { Aurora } from "@/components/ui/Aurora";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 import { Reveal } from "@/components/ui/Reveal";
+import { formsEndpoint } from "@/lib/forms";
 
 const SUPPORT_EMAIL = "support@cheerswisdom.com";
-
-function encode(data: Record<string, string>) {
-  return Object.keys(data)
-    .map((k) => encodeURIComponent(k) + "=" + encodeURIComponent(data[k]))
-    .join("&");
-}
 
 const AUDIENCES = ["Hospitals", "Schools", "Mines", "Fleets", "Agencies", "Teams"];
 
@@ -27,6 +22,7 @@ const NEXT_STEPS = [
 export default function ContactPage() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [form, setForm] = useState({ name: "", email: "", organisation: "", role: "", message: "" });
+  const [honeypot, setHoneypot] = useState("");
 
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
@@ -35,12 +31,12 @@ export default function ContactPage() {
     e.preventDefault();
     setStatus("sending");
     try {
-      await fetch("/", {
+      const res = await fetch(formsEndpoint("contact"), {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: encode({ "form-name": "contact", ...form }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, company: honeypot }),
       });
-      setStatus("sent");
+      setStatus(res.ok ? "sent" : "error");
     } catch {
       setStatus("error");
     }
@@ -139,18 +135,10 @@ export default function ContactPage() {
                   </p>
                 </div>
               ) : (
-                <form
-                  name="contact"
-                  method="POST"
-                  data-netlify="true"
-                  data-netlify-honeypot="bot-field"
-                  onSubmit={onSubmit}
-                  className="flex flex-col gap-6"
-                >
-                  <input type="hidden" name="form-name" value="contact" />
+                <form name="contact" method="POST" onSubmit={onSubmit} className="flex flex-col gap-6">
                   <p className="hidden">
                     <label>
-                      Don&apos;t fill this out: <input name="bot-field" onChange={() => {}} />
+                      Don&apos;t fill this out: <input name="company" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} tabIndex={-1} autoComplete="off" />
                     </label>
                   </p>
 
