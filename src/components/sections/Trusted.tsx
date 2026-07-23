@@ -109,13 +109,7 @@ function PartnerRegister({ groups }: { groups: typeof trust.groups }) {
             <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
               {g.items.map((p) => {
                 const d = at();
-                return (
-                  <motion.div
-                    key={p.name}
-                    initial={reduce ? false : { opacity: 0, y: 18, scale: 0.96, filter: "blur(5px)" }}
-                    animate={on ? { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" } : undefined}
-                    transition={{ duration: 0.55, ease: EASE, delay: d }}
-                  >
+                const card = (
                   <motion.div
                     className="group flex items-center gap-4 rounded-2xl bg-white px-4 py-3.5 shadow-[0_10px_28px_-16px_rgba(0,0,0,0.6)] transition-shadow duration-300 hover:shadow-[0_18px_38px_-16px_rgba(0,0,0,0.7)]"
                     whileHover={reduce ? undefined : { y: -3 }}
@@ -140,6 +134,21 @@ function PartnerRegister({ groups }: { groups: typeof trust.groups }) {
                     )}
                     <span className="text-[13.5px] font-semibold leading-snug text-ink">{p.name}</span>
                   </motion.div>
+                );
+                return (
+                  <motion.div
+                    key={p.name}
+                    initial={reduce ? false : { opacity: 0, y: 18, scale: 0.96, filter: "blur(5px)" }}
+                    animate={on ? { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" } : undefined}
+                    transition={{ duration: 0.55, ease: EASE, delay: d }}
+                  >
+                    {p.url ? (
+                      <a href={p.url} target="_blank" rel="noopener noreferrer" aria-label={`${p.name} — opens their website`}>
+                        {card}
+                      </a>
+                    ) : (
+                      card
+                    )}
                   </motion.div>
                 );
               })}
