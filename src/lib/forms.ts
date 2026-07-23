@@ -5,4 +5,4 @@
 // the standalone server in scripts/email-server.mjs serves the same routes.
 const base = process.env.NEXT_PUBLIC_FORMS_ENDPOINT ?? "/.netlify/functions";
 
-export const formsEndpoint = (name: "contact" | "careers") => `${base}/${name}`;
+export const formsEndpoint = (name: "contact" | "careers" | "demo") => `${base}/${name}`;

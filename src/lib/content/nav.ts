@@ -21,6 +21,7 @@ export const sectionIndex = [
   { label: "Team", href: "/#team" },
   { label: "Gallery", href: "/#gallery" },
   { label: "Knowledge Centre", href: "/knowledge" },
+  { label: "Request a Demo", href: "/demo" },
   { label: "Contact", href: "/#contact" },
 ];
 
@@ -125,6 +126,7 @@ export const navGroups: NavGroup[] = [
       { label: "Gallery", href: "/#gallery" },
       { label: "Knowledge Centre", href: "/knowledge" },
       { label: "Contact", href: "/#contact" },
+      { label: "Request a Demo", href: "/demo" },
       { label: "Media" },
       { label: "Careers", href: "/careers" },
     ],

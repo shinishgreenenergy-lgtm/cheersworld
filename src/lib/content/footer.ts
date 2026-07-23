@@ -62,6 +62,7 @@ export const footer = {
         { label: "Gallery", href: "/#gallery" },
         { label: "Knowledge Centre", href: "/knowledge" },
         { label: "Contact", href: "/#contact" },
+        { label: "Request a Demo", href: "/demo" },
         { label: "Careers", href: "/careers" },
         { label: "Media" },
       ] as SoonLink[],

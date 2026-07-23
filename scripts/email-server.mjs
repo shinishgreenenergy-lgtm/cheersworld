@@ -32,8 +32,9 @@ for (const file of [".env.local", ".env"]) {
 
 const { default: contact } = await import(join(root, "netlify/functions/contact.mjs"));
 const { default: careers } = await import(join(root, "netlify/functions/careers.mjs"));
+const { default: demo } = await import(join(root, "netlify/functions/demo.mjs"));
 
-const routes = { "/contact": contact, "/careers": careers };
+const routes = { "/contact": contact, "/careers": careers, "/demo": demo };
 const allowedOrigin = process.env.ALLOWED_ORIGIN ?? "*";
 const cors = {
   "Access-Control-Allow-Origin": allowedOrigin,

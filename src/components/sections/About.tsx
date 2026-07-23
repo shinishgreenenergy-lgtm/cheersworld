@@ -14,7 +14,7 @@ import { about } from "@/lib/content";
 const CREDENTIALS: { value: string; label: string; href?: string }[] = [
   { value: "JACC · 2025", label: "Peer-reviewed clinical trial", href: "https://www.jacc.org/doi/abs/10.1016/j.jacc.2025.09.1117" },
   { value: "Patent IN 510420", label: "Wisdom Network · granted" },
-  { value: "Faubert Lab", label: "Founding science" },
+  { value: "Faubert Lab", label: "Founding science", href: "https://faubertlab.com" },
 ];
 
 const STATUS = {
