@@ -220,19 +220,38 @@ function Journey({
                     {m.status === "current" && !reduce && (
                       <span className="absolute inset-0 rounded-full" style={{ border: `1.5px solid ${s.color}`, animation: "ping 1.8s cubic-bezier(0,0,0.2,1) infinite" }} />
                     )}
-                    <motion.span
-                      className="grid h-[15px] w-[15px] place-items-center rounded-full"
-                      style={
-                        m.status === "future"
-                          ? { border: "1.5px dashed rgba(255,255,255,0.3)", background: "#0d1015" }
-                          : { background: s.color, boxShadow: `0 0 0 4px ${s.color}22` }
-                      }
-                      initial={reduce ? false : { scale: 0, opacity: 0 }}
-                      animate={on ? { scale: 1, opacity: 1 } : undefined}
-                      transition={{ type: "spring", stiffness: 480, damping: 20, delay: d }}
-                    >
-                      {m.status === "done" && <Check className="h-2.5 w-2.5 text-[#06110b]" strokeWidth={4} />}
-                    </motion.span>
+                    {m.status === "future" ? (
+                      // The vision node — a full-spectrum dot for where the journey is heading.
+                      <motion.span
+                        className="grid h-[27px] w-[27px] place-items-center rounded-full"
+                        style={{
+                          border: "1.5px dashed rgba(20,184,166,0.5)",
+                          background: "#3a4048",
+                          boxShadow: "0 0 14px rgba(139,92,246,0.3)",
+                        }}
+                        initial={reduce ? false : { scale: 0, opacity: 0 }}
+                        animate={on ? { scale: 1, opacity: 1 } : undefined}
+                        transition={{ type: "spring", stiffness: 480, damping: 20, delay: d }}
+                      >
+                        <span
+                          className="h-[13px] w-[13px] rounded-full"
+                          style={{
+                            background: "linear-gradient(135deg,#5bb873 0%,#14b8a6 45%,#8b5cf6 100%)",
+                            boxShadow: "0 0 8px rgba(20,184,166,0.5)",
+                          }}
+                        />
+                      </motion.span>
+                    ) : (
+                      <motion.span
+                        className="grid h-[15px] w-[15px] place-items-center rounded-full"
+                        style={{ background: s.color, boxShadow: `0 0 0 4px ${s.color}22` }}
+                        initial={reduce ? false : { scale: 0, opacity: 0 }}
+                        animate={on ? { scale: 1, opacity: 1 } : undefined}
+                        transition={{ type: "spring", stiffness: 480, damping: 20, delay: d }}
+                      >
+                        {m.status === "done" && <Check className="h-2.5 w-2.5 text-[#06110b]" strokeWidth={4} />}
+                      </motion.span>
+                    )}
                   </span>
 
                   {/* card */}
