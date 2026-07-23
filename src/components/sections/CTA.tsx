@@ -1,9 +1,11 @@
 "use client";
 
+import { useRef, useState } from "react";
 import Link from "next/link";
-import { motion } from "motion/react";
-import { HeartPulse, GraduationCap, HardHat, Truck, Landmark, Users, ArrowUpRight, Mail, type LucideIcon } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
+import { HeartPulse, GraduationCap, HardHat, Truck, Landmark, Users, ArrowUpRight, ChevronDown, Mail, type LucideIcon } from "lucide-react";
 import { Reveal } from "../ui/Reveal";
+import { DemoRequestForm } from "./DemoRequestForm";
 import { cta } from "@/lib/content";
 
 const AUDIENCES: { label: string; Icon: LucideIcon }[] = [
@@ -24,6 +26,16 @@ const PILOT_STEPS = [
 ];
 
 export function CTA() {
+  const [demoOpen, setDemoOpen] = useState(false);
+  const demoRef = useRef<HTMLDivElement>(null);
+
+  const toggleDemo = () => {
+    setDemoOpen((open) => {
+      if (!open) setTimeout(() => demoRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }), 350);
+      return !open;
+    });
+  };
+
   return (
     <section
       id="contact"
@@ -64,20 +76,21 @@ export function CTA() {
                 {cta.button.label}
                 <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </Link>
-              <Link
-                href="mailto:support@cheerswisdom.com?subject=Demo%20request"
-                className="inline-flex items-center rounded-full border border-white/40 px-7 py-3.5 text-[14.5px] font-bold text-white transition-colors hover:bg-white/10"
+              <button
+                type="button"
+                onClick={toggleDemo}
+                aria-expanded={demoOpen}
+                aria-controls="cta-demo-form"
+                className="inline-flex items-center gap-2 rounded-full border border-white/40 px-7 py-3.5 text-[14.5px] font-bold text-white transition-colors hover:bg-white/10"
               >
                 Request a Demo
-              </Link>
+                <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${demoOpen ? "rotate-180" : ""}`} />
+              </button>
             </div>
 
-            <a
-              href="mailto:support@cheerswisdom.com"
-              className="mt-5 inline-flex items-center gap-2 text-[13.5px] font-semibold text-white/85 underline-offset-4 hover:underline"
-            >
+            <p className="mt-5 inline-flex items-center gap-2 text-[13.5px] font-semibold text-white/85">
               <Mail className="h-4 w-4" /> support@cheerswisdom.com
-            </a>
+            </p>
             <p className="mt-2 max-w-md text-[12.5px] leading-relaxed text-white/60">
               Your enquiry is routed to the right team — clinical, education, industry or government.
             </p>
@@ -122,6 +135,34 @@ export function CTA() {
             </p>
           </div>
         </Reveal>
+
+        {/* Request a Demo — expands in place, no navigation */}
+        <AnimatePresence initial={false}>
+          {demoOpen && (
+            <motion.div
+              id="cta-demo-form"
+              key="demo-form"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              className="overflow-hidden"
+            >
+              <div ref={demoRef} className="mx-auto mt-12 max-w-3xl">
+                <div className="mb-5 flex flex-wrap items-baseline justify-between gap-2">
+                  <h3 className="font-display text-lg font-extrabold tracking-tight text-white">Request a demo</h3>
+                  <p className="text-[13px] text-white/75">
+                    General enquiry instead?{" "}
+                    <Link href="/contact" className="font-semibold text-white underline-offset-4 hover:underline">
+                      Use the contact form
+                    </Link>
+                  </p>
+                </div>
+                <DemoRequestForm />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );

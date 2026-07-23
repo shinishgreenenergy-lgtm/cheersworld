@@ -114,11 +114,8 @@ export function DemoRequestForm() {
         </span>
         <h2 className="mt-5 font-display text-xl font-extrabold tracking-tight text-ink">Demo request received</h2>
         <p className="mt-2 max-w-sm text-[14.5px] leading-relaxed text-muted">
-          We&apos;ll reach out shortly to schedule a walkthrough tailored to your domain. You can also email us at{" "}
-          <a href={`mailto:${SUPPORT_EMAIL}`} className="font-semibold text-accent hover:underline">
-            {SUPPORT_EMAIL}
-          </a>
-          .
+          We&apos;ll reach out shortly to schedule a walkthrough tailored to your domain. You can also write to{" "}
+          <span className="font-semibold text-ink">{SUPPORT_EMAIL}</span>.
         </p>
       </div>
     );

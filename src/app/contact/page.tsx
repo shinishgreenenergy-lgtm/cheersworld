@@ -71,18 +71,15 @@ export default function ContactPage() {
           <Reveal className="mt-12 grid items-start gap-12 lg:mt-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
             {/* left — direct line + what happens next */}
             <div>
-              <a
-                href={`mailto:${SUPPORT_EMAIL}`}
-                className="flex items-center gap-3.5 rounded-2xl border border-line bg-white/70 px-4 py-3.5 backdrop-blur transition-colors hover:border-accent/40"
-              >
+              <div className="flex items-center gap-3.5 rounded-2xl border border-line bg-white/70 px-4 py-3.5 backdrop-blur">
                 <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[linear-gradient(135deg,#5bb873,#2e8b57)] text-white">
                   <Mail className="h-5 w-5" />
                 </span>
                 <span className="leading-tight">
-                  <span className="block text-[12px] font-semibold text-muted">Prefer email?</span>
+                  <span className="block text-[12px] font-semibold text-muted">Our inbox</span>
                   <span className="block font-display text-[15px] font-extrabold tracking-tight text-ink">{SUPPORT_EMAIL}</span>
                 </span>
-              </a>
+              </div>
 
               <div className="mt-10">
                 <div className="flex items-center gap-4">
@@ -127,11 +124,8 @@ export default function ContactPage() {
                   </span>
                   <h2 className="mt-5 font-display text-xl font-extrabold tracking-tight text-ink">Message sent</h2>
                   <p className="mt-2 max-w-sm text-[14.5px] leading-relaxed text-muted">
-                    Thanks for reaching out — your enquiry is on its way to the right team. You can also email us at{" "}
-                    <a href={`mailto:${SUPPORT_EMAIL}`} className="font-semibold text-accent hover:underline">
-                      {SUPPORT_EMAIL}
-                    </a>
-                    .
+                    Thanks for reaching out — your enquiry is on its way to the right team. You can also write to{" "}
+                    <span className="font-semibold text-ink">{SUPPORT_EMAIL}</span>.
                   </p>
                 </div>
               ) : (

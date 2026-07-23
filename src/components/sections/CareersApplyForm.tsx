@@ -149,11 +149,8 @@ export function CareersApplyForm() {
         </span>
         <h2 className="mt-5 font-display text-xl font-extrabold tracking-tight text-ink">Application sent</h2>
         <p className="mt-2 max-w-sm text-[14.5px] leading-relaxed text-muted">
-          Thanks — we read every application. If the work fits, we&apos;ll be in touch. You can also reach us at{" "}
-          <a href={`mailto:${CAREERS_EMAIL}`} className="font-semibold text-accent hover:underline">
-            {CAREERS_EMAIL}
-          </a>
-          .
+          Thanks — we read every application. If the work fits, we&apos;ll be in touch. You can also write to{" "}
+          <span className="font-semibold text-ink">{CAREERS_EMAIL}</span>.
         </p>
       </div>
     );
@@ -255,10 +252,7 @@ export function CareersApplyForm() {
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </button>
           <p className="text-[12px] leading-relaxed text-muted">
-            Prefer email?{" "}
-            <a href={`mailto:${CAREERS_EMAIL}`} className="font-semibold text-accent underline-offset-2 hover:underline">
-              {CAREERS_EMAIL}
-            </a>
+            Applications land at <span className="font-semibold text-ink-soft">{CAREERS_EMAIL}</span>
           </p>
         </div>
       </form>

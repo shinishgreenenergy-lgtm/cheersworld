@@ -66,10 +66,10 @@ export function PolicyPage({ doc }: { doc: PolicyDoc }) {
               <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-line bg-white/60 px-6 py-5 backdrop-blur">
                 <p className="text-[13.5px] font-semibold text-ink-soft">Questions about this document?</p>
                 <a
-                  href={`mailto:support@cheerswisdom.com?subject=${encodeURIComponent(doc.title + " question")}`}
+                  href="/contact"
                   className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-[13px] font-semibold text-white transition-transform hover:-translate-y-0.5"
                 >
-                  <Mail className="h-4 w-4" /> support@cheerswisdom.com
+                  <Mail className="h-4 w-4" /> Contact us
                 </a>
               </div>
             </Reveal>
