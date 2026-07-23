@@ -176,17 +176,29 @@ export function Research() {
 
               {tab === 3 && (
                 <div className="col-span-full grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-                  {collaborators.map((c) => (
-                    <div key={c.name} className="glass flex h-28 flex-col items-center justify-center gap-2 rounded-2xl p-4 text-center">
-                      {c.logo ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={c.logo} alt={c.name} loading="lazy" className="h-9 w-auto max-w-[120px] object-contain opacity-75 grayscale" />
-                      ) : (
-                        <FlaskConical className="h-6 w-6 text-muted" />
-                      )}
-                      <span className="text-[11.5px] font-semibold leading-tight text-muted">{c.name}</span>
-                    </div>
-                  ))}
+                  {collaborators.map((c) => {
+                    const card = (
+                      <>
+                        {c.logo ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={c.logo} alt={c.name} loading="lazy" className="h-9 w-auto max-w-[120px] object-contain opacity-75 grayscale transition group-hover:opacity-100 group-hover:grayscale-0" />
+                        ) : (
+                          <FlaskConical className="h-6 w-6 text-muted" />
+                        )}
+                        <span className="text-[11.5px] font-semibold leading-tight text-muted">{c.name}</span>
+                      </>
+                    );
+                    const cls = "glass group flex h-28 flex-col items-center justify-center gap-2 rounded-2xl p-4 text-center";
+                    return c.url ? (
+                      <a key={c.name} href={c.url} target="_blank" rel="noopener noreferrer" aria-label={`${c.name} — opens their website`} className={`${cls} transition-transform duration-300 hover:-translate-y-0.5`}>
+                        {card}
+                      </a>
+                    ) : (
+                      <div key={c.name} className={cls}>
+                        {card}
+                      </div>
+                    );
+                  })}
                 </div>
               )}
             </motion.div>
