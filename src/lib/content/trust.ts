@@ -17,7 +17,7 @@ export const trust: {
       items: [
         { name: "NIMS Jaipur", logo: "/partners/nims-jaipur.png", url: "https://nimsuniversity.org" },
         { name: "NIMS Hyderabad", logo: "/partners/nims-hyderabad.svg", url: "https://nims.edu.in" },
-        { name: "Medtrina Hospitals", logo: "/partners/meditrina.png", url: "https://meditrinahospitals.com" },
+        { name: "Meditrina Hospitals", logo: "/partners/meditrina.png", url: "https://meditrinahospitals.com" },
         { name: "Renova Hospitals", logo: "/partners/renova.svg", url: "https://renovahospitals.com" },
         { name: "Ujala Cygnus Hospitals", logo: "/partners/ujala-cygnus.jpeg", url: "https://ujalacygnus.com" },
         { name: "PGIMER Chandigarh", url: "https://pgimer.edu.in" },
