@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cheers Wisdom — cheerswisdom.com
 
-## Getting Started
+Marketing site for the Cheers Wisdom Human Intelligence Platform. Built with
+Next.js 16 (App Router, Turbopack) and exported as a fully static site
+(`output: "export"` → `out/`), currently deployed on Netlify
+(site `chworld23576`, https://chworld23576.netlify.app) with room to move to a
+VM or Hostinger later.
 
-First, run the development server:
+## Commands
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev          # Next dev server only (no email functions) — http://localhost:3000
+npx netlify dev      # Next dev + email functions together — http://localhost:8888  ← use this
+npm run build        # static production build into out/
+npm run lint         # eslint
+node scripts/email-server.mjs   # standalone mail API for non-Netlify hosting (port 8787)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Always test the contact/careers forms on **http://localhost:8888** (`netlify dev`);
+on plain `next dev` the `/.netlify/functions/*` endpoints don't exist and forms
+will show "Something went wrong".
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Email pipeline
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Contact (`/contact`) and careers (`/careers`) forms send through
+**ZeptoMail SMTP** via serverless functions in `netlify/functions/`
+(`contact.mjs`, `careers.mjs`, shared branded template in `lib/email.mjs`).
+The careers form accepts CV attachments (`.pdf .doc .docx .rtf .txt .odt`, 4 MB max).
 
-## Learn More
+The frontend posts to `formsEndpoint()` from `src/lib/forms.ts` — defaults to
+`/.netlify/functions`, overridable at build time with
+`NEXT_PUBLIC_FORMS_ENDPOINT` for non-Netlify hosting.
 
-To learn more about Next.js, take a look at the following resources:
+## Environment variables
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Set locally in `.env.local` (gitignored) and in
+**Netlify → Site settings → Environment variables** (already configured for
+`chworld23576`). The SMTP token is a **secret** — it lives only in `.env.local`
+and Netlify's env store, never in git or this file.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Variable | Value | Notes |
+| --- | --- | --- |
+| `ZEPTO_SMTP_HOST` | `smtp.zeptomail.in` | ZeptoMail SMTP server (India DC) |
+| `ZEPTO_SMTP_PORT` | `465` | SSL. Use `587` for STARTTLS instead |
+| `ZEPTO_SMTP_USER` | `emailapikey` | Literal username for ZeptoMail SMTP |
+| `ZEPTO_SMTP_PASS` | *(secret — see `.env.local` / Netlify env, prod-context secret)* | ZeptoMail send-mail token for the nextdooh.com Mail Agent |
+| `ZEPTO_FROM` | `noreply@nextdooh.com` | Verified sender domain on ZeptoMail |
+| `CONTACT_TO` | `support@cheerswisdom.com` *(default, optional override)* | Where contact-form mail lands |
+| `CONTACT_CC` | `shinish@kryil.com` *(default, optional override)* | CC on contact mail; set empty to disable |
+| `CAREERS_TO` | `careers@cheerswisdom.com` *(default, optional override)* | Where applications land |
+| `CAREERS_CC` | `shinish@kryil.com` *(default, optional override)* | CC on applications; set empty to disable |
+| `NEXT_PUBLIC_FORMS_ENDPOINT` | *(unset on Netlify)* | Build-time. Set to the mail API base URL (e.g. `https://api.cheerswisdom.com`) when hosting the static site off Netlify |
+| `ALLOWED_ORIGIN` | *(standalone server only)* | CORS origin for `scripts/email-server.mjs`, e.g. `https://www.cheerswisdom.com` |
+| `PORT` | `8787` *(default)* | Port for the standalone mail server |
 
-## Deploy on Vercel
+## Hosting notes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Netlify (current):** static site + functions deploy together from `main`
+  via GitHub. Env vars above are already set; changing them requires a redeploy.
+- **VM / Hostinger (future):** serve `out/` as static files, run
+  `node scripts/email-server.mjs` (systemd/pm2) with the same `ZEPTO_*` vars +
+  `ALLOWED_ORIGIN`, and rebuild the site with `NEXT_PUBLIC_FORMS_ENDPOINT`
+  pointing at that server. It answers both `/contact`-style and
+  `/.netlify/functions/contact`-style paths.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Project layout
+
+- `src/app/` — routes (contact, careers, products/[slug], platform, …)
+- `src/lib/content/` — all page copy as typed data (products, nav, footer, team, …)
+- `src/components/sections/` — page sections; `src/components/ui/` — primitives
+- `netlify/functions/` — email functions + shared template
+- `scripts/email-server.mjs` — standalone mail API for non-Netlify hosts
+- `public/` — static assets (`cheers-mark.png` is the brand mark used in header,
+  footer and favicon; team portraits in `public/team/`)
