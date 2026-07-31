@@ -8,17 +8,12 @@ import { DomainConstellation } from "../ui/DomainConstellation";
 const ease = [0.19, 1, 0.22, 1] as const;
 
 /* Masked line reveal — each headline line rises out of its own clip. */
-function RevealLine({ children, delay, reduce }: { children: React.ReactNode; delay: number; reduce: boolean }) {
+function RevealLine({ children, delay }: { children: React.ReactNode; delay: number; reduce?: boolean }) {
   return (
     <span className="block overflow-hidden pb-[0.08em]">
-      <motion.span
-        className="block will-change-transform"
-        initial={reduce ? false : { y: "112%" }}
-        animate={{ y: "0%" }}
-        transition={{ duration: 1, delay, ease }}
-      >
+      <span className="hero-rise block will-change-transform" style={{ animationDelay: `${delay}s` }}>
         {children}
-      </motion.span>
+      </span>
     </span>
   );
 }
@@ -70,21 +65,17 @@ export function Hero() {
         <div className="order-2 lg:order-1">
           {/* overline: drawn rule + instrument label */}
           <div className="flex items-center gap-3">
-            <motion.span
+            <span
               aria-hidden
-              className="h-px w-10 origin-left bg-accent"
-              initial={reduce ? false : { scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 0.7, delay: 0.1, ease }}
+              className="hero-scalex h-px w-10 origin-left bg-accent"
+              style={{ animationDelay: "0.1s" }}
             />
-            <motion.span
-              initial={reduce ? false : { opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.7, delay: 0.25 }}
-              className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-accent"
+            <span
+              className="hero-fade font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#1e7a44]"
+              style={{ animationDelay: "0.25s" }}
             >
               Human Intelligence Platform
-            </motion.span>
+            </span>
           </div>
 
           <h1 className="mt-7 font-serif text-[clamp(2.7rem,5vw,4.5rem)] font-medium leading-[1.06] tracking-[-0.012em] text-ink [font-variation-settings:'opsz'_72]">
@@ -94,21 +85,17 @@ export function Hero() {
             </RevealLine>
           </h1>
 
-          <motion.p
-            initial={reduce ? false : { opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.5, ease }}
-            className="mt-7 max-w-md text-[16.5px] leading-[1.75] text-muted"
+          <p
+            className="hero-up mt-7 max-w-md text-[16.5px] leading-[1.75] text-muted"
+            style={{ animationDelay: "0.5s" }}
           >
             Cheers Wisdom continuously observes, understands and predicts human behaviour — advancing
             wellbeing across healthcare, education, industry and government.
-          </motion.p>
+          </p>
 
-          <motion.div
-            initial={reduce ? false : { opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.62, ease }}
-            className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-4"
+          <div
+            className="hero-up mt-10 flex flex-wrap items-center gap-x-7 gap-y-4"
+            style={{ animationDelay: "0.62s" }}
           >
             <Link
               href="/#solutions"
@@ -133,27 +120,25 @@ export function Hero() {
               </span>
               <ArrowUpRight className="h-4 w-4 text-muted transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent" />
             </Link>
-          </motion.div>
+          </div>
 
           {/* proof strip — real credentials, instrument voice */}
-          <motion.dl
-            initial={reduce ? false : { opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.78, ease }}
-            className="mt-12 flex max-w-lg flex-wrap items-stretch gap-y-4 border-t border-line pt-6"
+          <ul
+            className="hero-up mt-12 flex max-w-lg list-none flex-wrap items-stretch gap-y-4 border-t border-line pt-6"
+            style={{ animationDelay: "0.78s" }}
           >
             {PROOF.map((p, i) => {
               const body = (
                 <>
-                  <dt className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-ink/80">
+                  <span className="block font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-ink/80">
                     {p.label}
                     {p.href && <ArrowUpRight className="mb-0.5 ml-1 inline h-3 w-3 text-muted transition-colors group-hover/proof:text-accent" />}
-                  </dt>
-                  <dd className="mt-1 text-[12px] leading-snug text-muted">{p.detail}</dd>
+                  </span>
+                  <span className="mt-1 block text-[12px] leading-snug text-muted">{p.detail}</span>
                 </>
               );
               return (
-                <div key={p.label} className={i > 0 ? "border-l border-line pl-5 pr-5 last:pr-0" : "pr-5"}>
+                <li key={p.label} className={i > 0 ? "border-l border-line pl-5 pr-5 last:pr-0" : "pr-5"}>
                   {p.href ? (
                     <a href={p.href} target="_blank" rel="noreferrer" className="group/proof block">
                       {body}
@@ -161,18 +146,16 @@ export function Hero() {
                   ) : (
                     body
                   )}
-                </div>
+                </li>
               );
             })}
-          </motion.dl>
+          </ul>
         </div>
 
         {/* right — constellation, no card, sitting on the page */}
-        <motion.div
-          initial={reduce ? false : { opacity: 0, scale: 0.97 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.1, delay: 0.35, ease }}
-          className="relative order-1 lg:order-2"
+        <div
+          className="hero-scale relative order-1 lg:order-2"
+          style={{ animationDelay: "0.35s" }}
         >
           <div
             aria-hidden
@@ -180,7 +163,7 @@ export function Hero() {
             style={{ background: "radial-gradient(circle, rgba(46,158,91,0.12), rgba(245,158,11,0.06) 55%, transparent 70%)" }}
           />
           <DomainConstellation />
-        </motion.div>
+        </div>
       </div>
 
       <ScrollCue reduce={reduce} />

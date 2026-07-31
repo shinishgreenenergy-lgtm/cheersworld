@@ -121,9 +121,13 @@ export function Testimonials() {
                   key={i}
                   aria-label={`Go to testimonial ${i + 1}`}
                   onClick={() => setState([i, i >= idx ? 1 : -1])}
-                  className="h-2 rounded-full transition-all duration-300"
-                  style={{ width: i === idx ? 24 : 8, background: i === idx ? t.bar : "rgba(20,22,42,0.18)" }}
-                />
+                  className="flex h-6 min-w-6 items-center justify-center"
+                >
+                  <span
+                    className="h-2 rounded-full transition-all duration-300"
+                    style={{ width: i === idx ? 24 : 8, background: i === idx ? t.bar : "rgba(20,22,42,0.18)" }}
+                  />
+                </button>
               ))}
             </div>
             <button

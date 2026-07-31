@@ -1,33 +1,11 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
-
-// Lightweight WebP brain — instant paint + permanent fallback when WebGL is
-// unavailable or reduced-motion is set.
-function StaticBrain() {
-  return (
-    <div className="absolute inset-0 grid place-items-center">
-      <div className="w-[64%]">
-        <Image
-          src="/brain-neural.webp"
-          alt="Neural brain representing human intelligence"
-          width={640}
-          height={427}
-          priority
-          sizes="(max-width: 1024px) 70vw, 34vw"
-          className="h-auto w-full [filter:drop-shadow(0_18px_40px_rgba(20,22,42,0.22))]"
-        />
-      </div>
-    </div>
-  );
-}
 
 const BrainScene = dynamic(() => import("./BrainScene").then((m) => m.BrainScene), {
   ssr: false,
-  loading: () => <StaticBrain />,
 });
 
 // WebGL support is stable per session — detect once, expose as an external store
@@ -53,7 +31,32 @@ const getWebglServerSnapshot = () => false;
 export function HeroOrb({ compact = false }: { compact?: boolean }) {
   const reduce = useReducedMotion();
   const webgl = useSyncExternalStore(subscribeNoop, getWebglSnapshot, getWebglServerSnapshot);
-  const use3D = webgl && !reduce;
+  // Loading three.js during startup is what tanks main-thread time on
+  // Lighthouse (TBT) and low-end phones — wait for the browser to go idle
+  // before mounting it, and keep the static art on small screens where the
+  // 3D upgrade isn't worth the battery.
+  const [ready3D, setReady3D] = useState(false);
+  useEffect(() => {
+    if (window.innerWidth < 768) return;
+    let t: ReturnType<typeof setTimeout> | undefined;
+    const start = () => {
+      t = setTimeout(() => setReady3D(true), 1200);
+    };
+    if ("requestIdleCallback" in window) {
+      const id = window.requestIdleCallback(start, { timeout: 6000 });
+      return () => {
+        window.cancelIdleCallback(id);
+        if (t) clearTimeout(t);
+      };
+    }
+    const fallback = setTimeout(start, 3500);
+    return () => {
+      clearTimeout(fallback);
+      if (t) clearTimeout(t);
+    };
+  }, []);
+
+  const use3D = webgl && !reduce && ready3D;
 
   return (
     <div className="relative grid h-full w-full place-items-center">
@@ -69,8 +72,11 @@ export function HeroOrb({ compact = false }: { compact?: boolean }) {
         />
       )}
 
-      {/* brain (or static fallback) */}
-      <div className="absolute inset-0">{use3D ? <BrainScene /> : <StaticBrain />}</div>
+      {use3D && (
+        <div className="absolute inset-0">
+          <BrainScene />
+        </div>
+      )}
     </div>
   );
 }

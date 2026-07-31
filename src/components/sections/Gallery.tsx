@@ -65,7 +65,7 @@ export function Gallery() {
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6">
         {/* editorial header */}
         <div className="flex flex-col gap-2.5">
-          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">{gallery.eyebrow}</span>
+          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-[#1e7a44]">{gallery.eyebrow}</span>
           <span className="block h-px w-10 bg-accent" />
         </div>
         <div className="mt-6 grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
@@ -182,7 +182,7 @@ export function Gallery() {
                     }`}
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={it.src} alt="" loading="lazy" className="h-full w-full object-cover" />
+                    <img src={it.src} alt={it.caption} loading="lazy" className="h-full w-full object-cover" />
                   </button>
                 );
               })}

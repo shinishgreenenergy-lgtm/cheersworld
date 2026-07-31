@@ -6,6 +6,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { DemoRequestForm } from "@/components/sections/DemoRequestForm";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/demo" },
   title: "Request a Demo · Cheers Wisdom",
   description:
     "See the Human Intelligence Platform live — a walkthrough tailored to your domain, from clinical recovery to workforce safety.",

@@ -118,9 +118,12 @@ function PartnerRegister({ groups }: { groups: typeof trust.groups }) {
                     {p.logo ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
+              loading="lazy"
+              decoding="async"
                         src={p.logo}
-                        alt=""
-                        loading="lazy"
+                        alt={p.name}
+                        width={p.logoW}
+                        height={p.logoH}
                         className="h-10 w-auto max-w-[6rem] shrink-0 object-contain transition-transform duration-300 group-hover:scale-[1.06]"
                       />
                     ) : (

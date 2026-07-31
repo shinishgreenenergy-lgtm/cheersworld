@@ -1,4 +1,5 @@
-# Netlify cache headers (shipped into out/ by the static export).
+# Cache headers (shipped into out/ by the static export; _headers format
+# is honoured by Cloudflare Pages and similar static hosts).
 # Hashed build assets (JS, CSS, fonts) never change under the same URL.
 /_next/static/*
   Cache-Control: public, max-age=31536000, immutable
@@ -17,10 +18,6 @@
 /cheers-digital/*
   Cache-Control: public, max-age=604800, stale-while-revalidate=86400
 /brain-model.glb
-  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
-/brain-neural.webp
-  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
-/grass.jpg
   Cache-Control: public, max-age=604800, stale-while-revalidate=86400
 /cheers-mark.png
   Cache-Control: public, max-age=604800, stale-while-revalidate=86400

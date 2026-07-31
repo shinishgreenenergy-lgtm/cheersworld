@@ -56,9 +56,9 @@ export function Science() {
                     </span>
                     <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-white/35">{d.short}</span>
                   </div>
-                  <h3 className="relative mt-4 font-display text-[17px] font-extrabold leading-tight tracking-tight text-white">
+                  <p className="relative mt-4 font-display text-[17px] font-extrabold leading-tight tracking-tight text-white">
                     {d.name}
-                  </h3>
+                  </p>
                   <p className="relative mt-2 text-[13px] leading-relaxed text-white/55">{d.blurb}</p>
                   <div className="relative mt-auto pt-4">
                     <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3">

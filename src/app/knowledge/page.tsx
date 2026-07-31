@@ -5,6 +5,7 @@ import { Knowledge } from "@/components/sections/Knowledge";
 import { Footer } from "@/components/sections/Footer";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/knowledge" },
   title: "Knowledge Centre · Cheers Wisdom",
   description:
     "Glossary and frequently asked questions about the Cheers Wisdom Human Intelligence Platform.",

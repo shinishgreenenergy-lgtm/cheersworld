@@ -50,21 +50,25 @@ const splineMono = Spline_Sans_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.cheerswisdom.com"),
-  title: "Cheers Wisdom · Human Intelligence Platform",
+  title: "Cheers Wisdom · Human Intelligence Platform for Wellbeing",
   description:
     "One AI platform advancing human outcomes across healthcare, education, mining, transportation, finance, sports and government.",
   alternates: { canonical: "/" },
+  icons: { apple: "/apple-touch-icon.png" },
   openGraph: {
-    title: "Cheers Wisdom · Human Intelligence Platform",
+    title: "Cheers Wisdom · Human Intelligence Platform for Wellbeing",
     description:
       "One AI Platform. Multiple Human Outcomes. Continuous understanding and adaptive intervention, built on science.",
     type: "website",
+    siteName: "Cheers Wisdom",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Cheers Wisdom — Human Intelligence Platform" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Cheers Wisdom · Human Intelligence Platform",
+    title: "Cheers Wisdom · Human Intelligence Platform for Wellbeing",
     description:
       "One AI Platform. Multiple Human Outcomes. Continuous understanding and adaptive intervention, built on science.",
+    images: ["/og-image.png"],
   },
 };
 
@@ -101,10 +105,6 @@ export default function RootLayout({
             is a few KB. preconnect warms the font origins so the small fetch is fast. */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=account_balance,arrow_forward,article,auto_stories,balance,biotech,bolt,business,category,checkroom,chevron_right,clinical_notes,dashboard,description,directions_car,diversity_3,domain,download,emoji_events,event,extension,fact_check,flag,format_quote,groups,handshake,hub,info,local_hospital,local_police,lock,mail,map,memory,menu_book,monitoring,newspaper,photo_library,policy,psychology,query_stats,rocket_launch,schema,school,science,security,sell,sensors,shield,smart_display,sports_soccer,support_agent,terrain,timeline,trending_up,verified,verified_user,volunteer_activism,work,workspace_premium&display=block"
-        />
       </head>
       <body className="min-h-dvh bg-canvas text-ink antialiased">
         <script
@@ -116,6 +116,12 @@ export default function RootLayout({
           <ScrollProgress />
           {children}
         </SmoothScroll>
+        {/* Icon font last: menu icons are non-critical, and a blocking CDN
+            stylesheet in <head> was delaying first paint. */}
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=account_balance,arrow_forward,article,auto_stories,balance,biotech,bolt,business,category,checkroom,chevron_right,clinical_notes,dashboard,description,directions_car,diversity_3,domain,download,emoji_events,event,extension,fact_check,flag,format_quote,groups,handshake,hub,info,local_hospital,local_police,lock,mail,map,memory,menu_book,monitoring,newspaper,photo_library,policy,psychology,query_stats,rocket_launch,schema,school,science,security,sell,sensors,shield,smart_display,sports_soccer,support_agent,terrain,timeline,trending_up,verified,verified_user,volunteer_activism,work,workspace_premium&display=block"
+        />
       </body>
     </html>
   );

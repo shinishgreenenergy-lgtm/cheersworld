@@ -5,6 +5,7 @@ import { trustCentre } from "@/lib/content";
 const doc = trustCentre.find((d) => d.slug === "privacy")!;
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/privacy" },
   title: `${doc.title} · Cheers Wisdom`,
   description: doc.description,
 };

@@ -234,12 +234,23 @@ export function BrainScene() {
     return () => io.disconnect();
   }, []);
 
+  // A frameloop that never stops starves the CPU of idle time — Lighthouse
+  // aborts its audit over it, and idle phones keep burning battery. Play the
+  // intro, then settle to on-demand frames; any pointer contact wakes it.
+  const [settled, setSettled] = useState(false);
+  useEffect(() => {
+    if (settled) return;
+    const t = setTimeout(() => setSettled(true), 9000);
+    return () => clearTimeout(t);
+  }, [settled]);
+  const wake = () => setSettled(false);
+
   return (
-    <div ref={wrapRef} className="h-full w-full">
+    <div ref={wrapRef} className="h-full w-full" onPointerMove={wake}>
     <Canvas
       camera={{ position: [0, 0, 5], fov: 42 }}
-      dpr={[1, 2]}
-      frameloop={visible ? "always" : "never"}
+      dpr={[1, 1.75]}
+      frameloop={!visible ? "never" : settled ? "demand" : "always"}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       style={{ background: "transparent" }}
       onCreated={setupStudioEnv}

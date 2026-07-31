@@ -85,7 +85,7 @@ function AppShowcase({
             <div className="relative w-[180px] rounded-[2rem] border border-ink/10 bg-ink p-1.5 shadow-[0_30px_60px_-30px_rgba(20,22,42,0.5)] transition-transform duration-500 group-hover:-translate-y-2 group-hover:rotate-[-1.5deg] group-hover:scale-[1.03] sm:w-[196px]">
               <span aria-hidden className="absolute left-1/2 top-2 z-10 h-1.5 w-14 -translate-x-1/2 rounded-full bg-white/25" />
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={shot.src} alt={`${title} — ${shot.caption}`} loading="lazy" className="w-full rounded-[1.6rem] object-cover" />
+              <img src={shot.src} alt={`${title} — ${shot.caption}`} loading="lazy" width={640} height={1300} className="w-full rounded-[1.6rem] object-cover" />
             </div>
             <figcaption className="mt-3 text-center text-[12.5px] font-semibold text-ink-soft">{shot.caption}</figcaption>
           </motion.figure>

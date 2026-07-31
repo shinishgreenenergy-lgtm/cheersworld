@@ -26,6 +26,7 @@ const AREAS = [
 ];
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/careers" },
   title: "Careers · Cheers Wisdom",
   description:
     "Join the team building state-aware AI for human well-being — engineering, clinical research, behavioral science and design.",

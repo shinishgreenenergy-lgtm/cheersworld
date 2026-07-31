@@ -98,9 +98,10 @@ function Section({ section, index }: { section: ProductSection; index: number })
           <Reveal className="mt-8">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
+              loading="lazy"
+              decoding="async"
               src={section.image}
               alt={section.heading || "Product visual"}
-              loading="lazy"
               className="w-full rounded-3xl border border-line object-cover shadow-[0_40px_80px_-40px_rgba(20,22,42,0.35)]"
             />
           </Reveal>
@@ -148,6 +149,8 @@ export function ProductPage({ product }: { product: Product }) {
               <Reveal delay={0.15}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
+              loading="lazy"
+              decoding="async"
                   src={product.heroImage}
                   alt={product.name}
                   className="w-full rounded-3xl border border-line object-cover shadow-[0_50px_100px_-50px_rgba(20,22,42,0.45)]"

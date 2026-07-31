@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { Check, Minus, ArrowUpRight } from "lucide-react";
 import { Reveal, useRevealed } from "../ui/Reveal";
@@ -50,11 +50,23 @@ function StatusBadge({ status }: { status: keyof typeof STATUS }) {
 export function About() {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
+  // Scroll-linked transforms recalculate on every scroll frame. On phones that
+  // lands on the main thread and is a common cause of stuttery scrolling, so
+  // the parallax is desktop-only.
+  const [small, setSmall] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1024px), (pointer: coarse)");
+    const apply = () => setSmall(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+  const still = reduce || small;
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
 
-  const yBlob1 = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [-70, 70]);
-  const yBlob2 = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [70, -70]);
-  const yRing = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [40, -40]);
+  const yBlob1 = useTransform(scrollYProgress, [0, 1], still ? [0, 0] : [-70, 70]);
+  const yBlob2 = useTransform(scrollYProgress, [0, 1], still ? [0, 0] : [70, -70]);
+  const yRing = useTransform(scrollYProgress, [0, 1], still ? [0, 0] : [40, -40]);
 
   // Progress rail spans from the first node to the last non-future node.
   const n = about.milestones.length;
@@ -89,28 +101,30 @@ export function About() {
               </p>
 
               {/* proof ledger — claims backed by records */}
-              <dl className="mt-9 max-w-xl">
+              <ul className="mt-9 max-w-xl list-none">
                 {CREDENTIALS.map((c) => {
                   const inner = (
                     <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-3.5">
-                      <dt className="font-mono text-[12.5px] font-bold uppercase tracking-[0.06em] text-white">
+                      <span className="font-mono text-[12.5px] font-bold uppercase tracking-[0.06em] text-white">
                         {c.value}
                         {c.href && <ArrowUpRight className="ml-1.5 inline h-3.5 w-3.5 align-[-2px] text-white/40" />}
-                      </dt>
-                      <dd className="text-[12.5px] leading-snug text-white/50">{c.label}</dd>
+                      </span>
+                      <span className="text-[12.5px] leading-snug text-white/50">{c.label}</span>
                     </div>
                   );
-                  return c.href ? (
-                    <a key={c.value} href={c.href} target="_blank" rel="noreferrer" className="block border-t border-white/12 transition-colors last:border-b hover:[&_dt]:text-accent-2">
-                      {inner}
-                    </a>
-                  ) : (
-                    <div key={c.value} className="border-t border-white/12 last:border-b">
-                      {inner}
-                    </div>
+                  return (
+                    <li key={c.value} className="border-t border-white/12 last:border-b">
+                      {c.href ? (
+                        <a href={c.href} target="_blank" rel="noreferrer" className="block transition-colors hover:[&_span:first-child]:text-accent-2">
+                          {inner}
+                        </a>
+                      ) : (
+                        inner
+                      )}
+                    </li>
                   );
                 })}
-              </dl>
+              </ul>
             </div>
 
           <div>

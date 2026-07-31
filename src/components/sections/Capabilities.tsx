@@ -73,9 +73,12 @@ export function Capabilities() {
               <div className="relative mx-auto max-w-[19rem]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
+              loading="lazy"
+              decoding="async"
+              width={640}
+              height={1388}
                   src="/cheers-health/home.jpg"
                   alt="Cheers Health companion greeting a patient with a daily check-in"
-                  loading="lazy"
                   className="w-full rounded-[2rem] border-[6px] border-ink/90 object-cover shadow-[0_50px_90px_-40px_rgba(20,22,42,0.55)]"
                 />
                 {/* the moment that matters — a check-in, answered */}

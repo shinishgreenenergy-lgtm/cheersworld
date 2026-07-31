@@ -30,9 +30,10 @@ function PortraitCard({ m, index }: { m: TeamMember; index: number }) {
       {m.photo ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
+              loading="lazy"
+              decoding="async"
           src={m.photo}
           alt={m.name}
-          loading="lazy"
           className="aspect-[3/4] w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
         />
       ) : (
