@@ -20,9 +20,32 @@ export async function generateMetadata({
   if (!product) return {};
   return {
     title: `${product.name} · Cheers Wisdom`,
-    description: product.heroBody,
+    description: product.seoDescription ?? product.heroBody,
+    alternates: { canonical: `/products/${slug}` },
   };
 }
+
+const BASE = "https://www.cheerswisdom.com";
+
+const productJsonLd = (product: (typeof products)[number]) => [
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.seoDescription ?? product.heroBody,
+    url: `${BASE}/products/${product.slug}`,
+    image: product.heroImage ? `${BASE}${product.heroImage}` : undefined,
+    brand: { "@type": "Organization", name: "Cheers Wisdom" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: BASE },
+      { "@type": "ListItem", position: 2, name: product.name, item: `${BASE}/products/${product.slug}` },
+    ],
+  },
+];
 
 export default async function Page({
   params,
@@ -34,6 +57,10 @@ export default async function Page({
   if (!product) notFound();
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd(product)) }}
+      />
       <Aurora />
       <Header />
       <main className="pt-16">

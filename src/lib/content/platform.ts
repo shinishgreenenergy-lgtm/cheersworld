@@ -149,6 +149,8 @@ export const platformPage: Product = {
   heroTitle: "One platform core, engineered around human state",
   heroBody:
     "Every Cheers solution runs on the same behavioral intelligence infrastructure — engines that observe signals in context, model them over time, predict risk trajectories, and intervene early. Explore each layer of the platform below.",
+  seoDescription:
+    "Every Cheers solution runs on one behavioral intelligence core — engines that observe signals, model them over time, predict risk and intervene early.",
   heroImage: "/products/cheers-health-platform.jpg",
   ctas: [
     { label: "Request a demo", href: "/#contact" },

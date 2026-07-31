@@ -9,6 +9,7 @@ export function SectionHeading({
   align = "center",
   className,
   dark = false,
+  as: Tag = "h2",
 }: {
   eyebrow: string;
   title: ReactNode;
@@ -16,6 +17,7 @@ export function SectionHeading({
   align?: "center" | "left";
   className?: string;
   dark?: boolean;
+  as?: "h1" | "h2";
 }) {
   return (
     <div
@@ -32,14 +34,14 @@ export function SectionHeading({
         </div>
       </Reveal>
       <Reveal delay={0.06}>
-        <h2
+        <Tag
           className={cn(
             "max-w-3xl text-balance font-serif text-[clamp(1.9rem,3.6vw,3rem)] font-medium leading-[1.14] tracking-[-0.01em] [font-variation-settings:'opsz'_48]",
             dark ? "text-white" : "text-ink",
           )}
         >
           {title}
-        </h2>
+        </Tag>
       </Reveal>
       {subtitle && (
         <Reveal delay={0.12}>

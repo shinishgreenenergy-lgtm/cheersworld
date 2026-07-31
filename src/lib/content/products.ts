@@ -28,6 +28,8 @@ export type Product = {
   tagline?: string;
   heroTitle: string;
   heroBody?: string;
+  /** ≤160-char summary for <meta name="description">; falls back to heroBody */
+  seoDescription?: string;
   heroImage?: string;
   ctas: ProductCta[];
   sections: ProductSection[];
@@ -44,6 +46,8 @@ export const products: Product[] = [
     heroTitle: "AI-powered recovery intelligence for clinical guidance",
     heroBody:
       "A longitudinal clinical intelligence platform that traces patient recovery trajectories and guides early intervention — published in JACC, the Journal of the American College of Cardiology.",
+    seoDescription:
+      "Clinical intelligence that traces patient recovery trajectories and guides early intervention — research published in JACC.",
     heroImage: "/products/cheers-health/cheers-health-hero.jpg",
     ctas: [
       { label: "Request a clinical demo", href: "/#contact" },
@@ -268,6 +272,8 @@ export const products: Product[] = [
     heroTitle: "AI-powered cyberbullying prevention & digital resilience",
     heroBody:
       "A behavioral intelligence platform that helps schools detect cyberbullying early, support students experiencing digital stress, and build long-term digital resilience — connecting students, parents, and educators through three integrated portals.",
+    seoDescription:
+      "Helps schools detect cyberbullying early and build lasting digital resilience — connecting students, parents and educators.",
     heroImage: "/products/cheers-digital-portals.jpg",
     ctas: [{ label: "Request a school demo", href: "/#contact" }],
     sections: [
@@ -591,6 +597,8 @@ export const products: Product[] = [
     heroTitle: "AI workforce intelligence for mining productivity & safety",
     heroBody:
       "Cheers Miner turns workforce signals into operational intelligence — enhancing workforce readiness, machine efficiency and operational performance. Workers spend 15–30 seconds a day; the AI combines their inputs with the mine data you already have.",
+    seoDescription:
+      "Turns 15–30 seconds of daily workforce input into operational intelligence — improving readiness, machine efficiency and mine performance.",
     heroImage: "/products/signals-to-trajectories.jpg",
     ctas: [{ label: "Start a pilot", href: "/#contact" }],
     sections: [
@@ -762,6 +770,8 @@ export const products: Product[] = [
     heroTitle: "Social wellness & resilience intelligence",
     heroBody:
       "Digital environments and public platforms can expose individuals to intense social pressure. Cheers Social analyzes behavioral and emotional signals to understand how individuals respond to social stress — and recover from it.",
+    seoDescription:
+      "Reads behavioral and emotional signals to understand how individuals respond to social stress online — and how they recover from it.",
     heroImage: "/products/applications-wellbeing.jpg",
     ctas: [
       { label: "Visit Cheers Social", href: "https://social.cheersaipm.cloud/" },
@@ -800,6 +810,8 @@ export const products: Product[] = [
     heroTitle: "Fashion psychology & outcome-aligned consumption",
     heroBody:
       "Fashion and lifestyle choices influence identity, confidence, and emotional state. Cheers Fashion aligns consumption with psychological wellness and financial responsibility — guided by research from NIFT.",
+    seoDescription:
+      "Aligns fashion and lifestyle choices with psychological wellness and financial responsibility — guided by research from NIFT.",
     heroImage: "/products/cheers-fashion/CWFashion.jpeg",
     ctas: [{ label: "Request a demo", href: "/#contact" }],
     sections: [

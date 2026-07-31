@@ -6,8 +6,9 @@ import { ProductPage } from "@/components/sections/Product";
 import { platformPage } from "@/lib/content";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/platform" },
   title: "Platform · Cheers Wisdom",
-  description: platformPage.heroBody,
+  description: platformPage.seoDescription ?? platformPage.heroBody,
 };
 
 export default function Page() {
