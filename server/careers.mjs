@@ -2,14 +2,15 @@ import nodemailer from "nodemailer";
 import { esc, buildEmail, receivedNow, makeTransportConfig } from "./lib/email.mjs";
 
 // Careers-application handler: receives the application as JSON (CV attached
-// as base64) and relays it through ZeptoMail SMTP.
-// Env: ZEPTO_* as in contact.mjs, plus
+// as base64) and relays it through Amazon SES SMTP.
+// Env: SMTP_*/MAIL_FROM as in contact.mjs, plus
 //   CAREERS_TO  (defaults to careers@cheerswisdom.com)
 //   CAREERS_CC  (optional CC; no CC by default)
 
 const MAX_FIELD = 200;
 const MAX_MESSAGE = 5000;
-// Netlify sync functions cap payloads at 6 MB; 4 MB of file is ~5.4 MB base64.
+// Keep payloads well under nginx's client_max_body_size (10 MB);
+// 4 MB of file is ~5.4 MB base64.
 const MAX_FILE_BYTES = 4 * 1024 * 1024;
 
 const ALLOWED_TYPES = {
@@ -83,7 +84,7 @@ const handler = async (req) => {
   }
 
   const transporter = nodemailer.createTransport(makeTransportConfig());
-  const from = process.env.ZEPTO_FROM ?? "noreply@nextdooh.com";
+  const from = process.env.MAIL_FROM ?? "noreply@cheerswisdom.com";
   const to = process.env.CAREERS_TO ?? "careers@cheerswisdom.com";
   const cc = process.env.CAREERS_CC ?? "";
   const receivedAt = receivedNow();

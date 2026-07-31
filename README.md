@@ -2,84 +2,88 @@
 
 Marketing site for the Cheers Wisdom Human Intelligence Platform. Built with
 Next.js 16 (App Router, Turbopack) and exported as a fully static site
-(`output: "export"` → `out/`), currently deployed on Netlify
-(site `chworld23576`, https://chworld23576.netlify.app) with room to move to a
-VM or Hostinger later.
+(`output: "export"` → `out/`). The static build is uploaded to the web host;
+forms POST to the mail API at https://cheersap.cheerswisdom.com.
 
 ## Commands
 
 ```bash
-npm run dev          # Next dev server only (no email functions) — http://localhost:3000
-npx netlify dev      # Next dev + email functions together — http://localhost:8888  ← use this
+npm run dev          # Next dev server — http://localhost:3000
 npm run build        # static production build into out/
 npm run lint         # eslint
-node scripts/email-server.mjs   # standalone mail API for non-Netlify hosting (port 8787)
+node scripts/email-server.mjs   # mail API (port 8787) — runs on the cheersap VM in production
 ```
 
-Always test the contact/careers forms on **http://localhost:8888** (`netlify dev`);
-on plain `next dev` the `/.netlify/functions/*` endpoints don't exist and forms
-will show "Something went wrong".
+On `npm run dev` the forms post to the production mail API
+(`https://cheersap.cheerswisdom.com`) unless you run the mail server locally
+and set `NEXT_PUBLIC_FORMS_ENDPOINT=http://localhost:8787`.
 
 ## Email pipeline
 
-Contact (`/contact`) and careers (`/careers`) forms send through
-**ZeptoMail SMTP** via serverless functions in `netlify/functions/`
-(`contact.mjs`, `careers.mjs`, shared branded template in `lib/email.mjs`).
+Contact (`/contact`), careers (`/careers`) and demo (`/demo`) forms — plus the
+footer newsletter signup, which reuses the contact route — send through
+**Amazon SES SMTP (ap-south-1)** via the handlers in `server/`
+(`contact.mjs`, `careers.mjs`, `demo.mjs`, shared branded template in
+`lib/email.mjs`), served by `scripts/email-server.mjs`.
 The careers form accepts CV attachments (`.pdf .doc .docx .rtf .txt .odt`, 4 MB max).
 
 The frontend posts to `formsEndpoint()` from `src/lib/forms.ts` — defaults to
-`/.netlify/functions`, overridable at build time with
-`NEXT_PUBLIC_FORMS_ENDPOINT` for non-Netlify hosting.
+`https://cheersap.cheerswisdom.com`, overridable at build time with
+`NEXT_PUBLIC_FORMS_ENDPOINT`.
 
 ## Environment variables
 
-Set locally in `.env.local` (gitignored) and in
-**Netlify → Site settings → Environment variables** (already configured for
-`chworld23576`). The SMTP token is a **secret** — it lives only in `.env.local`
-and Netlify's env store, never in git or this file.
+**Secrets live in the vault** — AWS SSM Parameter Store, path
+`/cheersworld/mail/*` (SecureString, region `ap-south-2`). The EC2's
+`cheersworld-mail` service fetches them at start into a tmpfs env file via
+an IAM instance role (`cheersworld-mail-ssm`, read-only on that path);
+nothing secret is stored on disk, in git, or in this file. To read one:
+`aws ssm get-parameter --region ap-south-2 --name /cheersworld/mail/smtp-pass --with-decryption --query Parameter.Value --output text`
 
 | Variable | Value | Notes |
 | --- | --- | --- |
-| `ZEPTO_SMTP_HOST` | `smtp.zeptomail.in` | ZeptoMail SMTP server (India DC) |
-| `ZEPTO_SMTP_PORT` | `465` | SSL. Use `587` for STARTTLS instead |
-| `ZEPTO_SMTP_USER` | `emailapikey` | Literal username for ZeptoMail SMTP |
-| `ZEPTO_SMTP_PASS` | *(secret — see `.env.local` / Netlify env, prod-context secret)* | ZeptoMail send-mail token for the nextdooh.com Mail Agent |
-| `ZEPTO_FROM` | `noreply@nextdooh.com` | Verified sender domain on ZeptoMail |
-| `CONTACT_TO` | `support@cheerswisdom.com` *(default, optional override)* | Where contact-form mail lands |
+| `SMTP_HOST` | `email-smtp.ap-south-1.amazonaws.com` | Amazon SES SMTP endpoint |
+| `SMTP_PORT` | `587` | STARTTLS. `465` would mean implicit SSL |
+| `SMTP_USER` | *(vault: `smtp-user`)* | SES SMTP username (IAM user `cheers-mail-smtp` access key) |
+| `SMTP_PASS` | *(vault: `smtp-pass`)* | SES SMTP password derived from the IAM secret key |
+| `MAIL_FROM` | `noreply@cheerswisdom.com` | Verified SES sender (domain DKIM-signed in ap-south-1) |
+| `CONTACT_TO` | `support@cheerswisdom.com` *(default, optional override)* | Where contact-form + newsletter mail lands |
 | `CONTACT_CC` | *(unset — no CC by default)* | Optional CC on contact mail |
 | `CAREERS_TO` | `careers@cheerswisdom.com` *(default, optional override)* | Where applications land |
 | `CAREERS_CC` | *(unset — no CC by default)* | Optional CC on applications |
-| `NEXT_PUBLIC_FORMS_ENDPOINT` | *(unset on Netlify)* | Build-time. Set to the mail API base URL (e.g. `https://api.cheerswisdom.com`) when hosting the static site off Netlify |
-| `ALLOWED_ORIGIN` | *(standalone server only)* | CORS origin for `scripts/email-server.mjs`, e.g. `https://www.cheerswisdom.com` |
-| `PORT` | `8787` *(default)* | Port for the standalone mail server |
+| `DEMO_TO` | `support@cheerswisdom.com` *(default, optional override)* | Where demo requests land |
+| `DEMO_CC` | *(unset — no CC by default)* | Optional CC on demo requests |
+| `NEXT_PUBLIC_FORMS_ENDPOINT` | `https://cheersap.cheerswisdom.com` *(default)* | Build-time. Mail API base URL |
+| `ALLOWED_ORIGIN` | `https://www.cheerswisdom.com` | CORS origin for `scripts/email-server.mjs` |
+| `PORT` | `8787` *(default)* | Port for the mail server |
 
-## Hosting notes
+## Hosting
 
-- **Netlify (current):** static site + functions deploy together from `main`
-  via GitHub. Env vars above are already set; changing them requires a redeploy.
-- **VM / Hostinger (future — validated locally):** serve `out/` as static
-  files, run `node scripts/email-server.mjs` (systemd/pm2) with the same
-  `ZEPTO_*` vars + `ALLOWED_ORIGIN`, and rebuild the site with
-  `NEXT_PUBLIC_FORMS_ENDPOINT` pointing at that server. It answers both
-  `/contact`-style and `/.netlify/functions/contact`-style paths.
-  - **Clean URLs:** the export writes `contact.html` etc. Netlify maps
-    `/contact` automatically; plain hosts need rewrites. `public/.htaccess`
-    (shipped into `out/`) covers Apache/LiteSpeed — which is what Hostinger
-    shared/cloud hosting runs — so uploading `out/` there just works.
-    For nginx use: `try_files $uri $uri.html $uri/ =404;`
-  - **Hostinger note:** shared hosting can serve the static site but cannot
-    run the Node mail API — put `email-server.mjs` on a VPS/Node host and
-    point `NEXT_PUBLIC_FORMS_ENDPOINT` at it (or keep the forms on Netlify
-    functions by leaving the endpoint unset and hosting only on Netlify).
-  - Validated end-to-end locally: static server on one origin, mail API on
-    another, browser CORS POST → ZeptoMail → 200, email delivered.
+Everything runs on the **cheers-admin-portal EC2** (`ubuntu@18.61.143.104`,
+ap-south-2, key `cheers-admin-key.pem`; Cloudflare-proxied DNS), behind the
+host nginx (vhosts in `/etc/nginx/sites-available/`, TLS via the self-signed
+origin cert in `/etc/nginx/certs-cheers/` — use Cloudflare SSL mode "Full"):
+
+- **www.cheerswisdom.com / cheerswisdom.com** (vhost `cheersworld`) — the
+  static export from `/var/www/cheersworld`; `/api/forms/*` is proxied,
+  rate-limited, to the mail API. Deploy:
+  `npm run build`, rsync `out/` to the instance, then
+  `sudo rsync -a --delete --chown=www-data:www-data <staging>/ /var/www/cheersworld/`.
+- **cheersap.cheerswisdom.com / portal.cheerswisdom.com** (vhost
+  `cheers-admin`) — the Cheers Institution Portal (systemd `cheers-admin`,
+  Next.js on port 3000, code in `~/cheersWisdomAdmin`).
+- **Mail API** — systemd `cheersworld-mail` (`~/cheersworld-mail`, port 8787):
+  this repo's `scripts/email-server.mjs` + `server/` handlers, env in
+  `~/cheersworld-mail/.env.local`. Deploy handler changes by rsyncing
+  `server/` and `scripts/email-server.mjs` there and
+  `sudo systemctl restart cheersworld-mail`.
 
 ## Project layout
 
-- `src/app/` — routes (contact, careers, products/[slug], platform, …)
+- `src/app/` — routes (contact, careers, demo, products/[slug], platform, …)
 - `src/lib/content/` — all page copy as typed data (products, nav, footer, team, …)
 - `src/components/sections/` — page sections; `src/components/ui/` — primitives
-- `netlify/functions/` — email functions + shared template
-- `scripts/email-server.mjs` — standalone mail API for non-Netlify hosts
+- `server/` — form/email handlers + shared template
+- `scripts/email-server.mjs` — the mail API that serves them
 - `public/` — static assets (`cheers-mark.png` is the brand mark used in header,
   footer and favicon; team portraits in `public/team/`)

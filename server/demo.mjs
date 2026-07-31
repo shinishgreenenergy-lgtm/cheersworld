@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 import { esc, buildEmail, receivedNow, makeTransportConfig } from "./lib/email.mjs";
 
 // Demo-request handler: receives the /demo form as JSON and relays it
-// through ZeptoMail SMTP. Env: ZEPTO_* as in contact.mjs, plus
+// through Amazon SES SMTP. Env: SMTP_*/MAIL_FROM as in contact.mjs, plus
 //   DEMO_TO  (defaults to support@cheerswisdom.com)
 //   DEMO_CC  (optional CC; no CC by default)
 
@@ -42,7 +42,7 @@ const handler = async (req) => {
   }
 
   const transporter = nodemailer.createTransport(makeTransportConfig());
-  const from = process.env.ZEPTO_FROM ?? "noreply@nextdooh.com";
+  const from = process.env.MAIL_FROM ?? "noreply@cheerswisdom.com";
   const to = process.env.DEMO_TO ?? "support@cheerswisdom.com";
   const cc = process.env.DEMO_CC ?? "";
   const receivedAt = receivedNow();

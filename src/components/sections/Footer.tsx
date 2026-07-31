@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { footer, site } from "@/lib/content";
+import { NewsletterForm } from "./NewsletterForm";
 
 function FooterLink({ label, href }: { label: string; href?: string }) {
   if (!href) {
@@ -36,26 +37,9 @@ export function Footer() {
             <p className="mt-4 max-w-md text-[15px] leading-relaxed text-muted">{footer.blurb}</p>
           </div>
           <div className="lg:justify-self-end">
-            <h4 className="text-xs font-bold uppercase tracking-[0.1em] text-ink">{footer.newsletter.title}</h4>
+            <span className="block text-xs font-bold uppercase tracking-[0.1em] text-ink">{footer.newsletter.title}</span>
             <p className="mt-2 max-w-sm text-[13px] leading-relaxed text-muted">{footer.newsletter.body}</p>
-            {/* Netlify Forms: attributes baked into static HTML; no JS needed. */}
-            <form name="newsletter" method="POST" data-netlify="true" className="mt-4 flex max-w-sm gap-2">
-              <input type="hidden" name="form-name" value="newsletter" />
-              <input
-                type="email"
-                name="email"
-                required
-                placeholder="Work email"
-                aria-label="Email address"
-                className="w-full rounded-xl border border-ink/15 bg-white px-4 py-2.5 text-sm text-ink shadow-sm outline-none transition-colors placeholder:text-muted/80 hover:border-ink/25 focus:border-accent focus:ring-2 focus:ring-accent/25"
-              />
-              <button
-                type="submit"
-                className="shrink-0 rounded-xl bg-[linear-gradient(120deg,#5bb873,#2e8b57)] px-5 py-2.5 text-sm font-bold text-white shadow-[0_12px_30px_-10px_rgba(46,158,91,0.55)] transition-transform hover:-translate-y-0.5"
-              >
-                Subscribe
-              </button>
-            </form>
+            <NewsletterForm />
           </div>
         </div>
 
@@ -63,7 +47,7 @@ export function Footer() {
         <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-6">
           {footer.columns.map((col) => (
             <div key={col.heading}>
-              <h4 className="text-xs font-bold uppercase tracking-[0.1em] text-ink">{col.heading}</h4>
+              <span className="block text-xs font-bold uppercase tracking-[0.1em] text-ink">{col.heading}</span>
               <ul className="mt-4 space-y-2.5">
                 {col.links.map((l) => (
                   <li key={l.label}>

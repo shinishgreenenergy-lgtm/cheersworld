@@ -1,12 +1,12 @@
-// Standalone mail API for non-Netlify hosting (VM, Hostinger VPS, …).
-// Serves the same handlers as the Netlify Functions:
-//   POST /contact   POST /careers   (also accepts /.netlify/functions/* paths)
+// Mail API for the site's forms. Runs on the cheers EC2 behind nginx,
+// which proxies /api/forms/* here (the /api/forms prefix is stripped):
+//   POST /contact   POST /careers   POST /demo
 //
 // Usage:
 //   node scripts/email-server.mjs            # port 8787 (or PORT env)
 //
-// Env (same as Netlify): ZEPTO_SMTP_HOST, ZEPTO_SMTP_PORT, ZEPTO_SMTP_USER,
-// ZEPTO_SMTP_PASS, ZEPTO_FROM, CONTACT_TO/CC, CAREERS_TO/CC.
+// Env: SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS,
+// MAIL_FROM, CONTACT_TO/CC, CAREERS_TO/CC, DEMO_TO/CC.
 // Reads .env.local / .env from the repo root if present.
 // If the static site is served from a different origin, set
 // ALLOWED_ORIGIN=https://www.cheerswisdom.com for CORS.
@@ -30,9 +30,9 @@ for (const file of [".env.local", ".env"]) {
   }
 }
 
-const { default: contact } = await import(join(root, "netlify/functions/contact.mjs"));
-const { default: careers } = await import(join(root, "netlify/functions/careers.mjs"));
-const { default: demo } = await import(join(root, "netlify/functions/demo.mjs"));
+const { default: contact } = await import(join(root, "server/contact.mjs"));
+const { default: careers } = await import(join(root, "server/careers.mjs"));
+const { default: demo } = await import(join(root, "server/demo.mjs"));
 
 const routes = { "/contact": contact, "/careers": careers, "/demo": demo };
 const allowedOrigin = process.env.ALLOWED_ORIGIN ?? "*";
@@ -43,7 +43,7 @@ const cors = {
 };
 
 const server = http.createServer(async (req, res) => {
-  const path = (req.url ?? "/").split("?")[0].replace(/^\/\.netlify\/functions/, "");
+  const path = (req.url ?? "/").split("?")[0].replace(/^\/api\/forms/, "");
   const handler = routes[path];
 
   if (req.method === "OPTIONS") {

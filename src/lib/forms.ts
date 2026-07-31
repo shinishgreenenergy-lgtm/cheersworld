@@ -1,8 +1,7 @@
-// Where form submissions are POSTed. Defaults to Netlify Functions paths
-// (works on Netlify hosting and `netlify dev`). When the static site is
-// hosted elsewhere (VM, Hostinger…), set NEXT_PUBLIC_FORMS_ENDPOINT at build
-// time to the mail API's base URL, e.g. "https://api.cheerswisdom.com" —
-// the standalone server in scripts/email-server.mjs serves the same routes.
-const base = process.env.NEXT_PUBLIC_FORMS_ENDPOINT ?? "/.netlify/functions";
+// Where form submissions are POSTed. Same-origin by default: nginx on the
+// EC2 proxies /api/forms/* to the mail API (scripts/email-server.mjs), so
+// no CORS is involved. Override at build time with NEXT_PUBLIC_FORMS_ENDPOINT
+// (e.g. http://localhost:8787 for local testing against the mail server).
+const base = process.env.NEXT_PUBLIC_FORMS_ENDPOINT ?? "/api/forms";
 
 export const formsEndpoint = (name: "contact" | "careers" | "demo") => `${base}/${name}`;

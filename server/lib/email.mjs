@@ -1,5 +1,5 @@
 // Shared branded email template for notification mails sent by the
-// Netlify functions. Table-based and fully inlined so it renders
+// form handlers. Table-based and fully inlined so it renders
 // consistently in Gmail, Outlook and Apple Mail.
 
 export const esc = (s) =>
@@ -125,11 +125,11 @@ export const receivedNow = () =>
   new Date().toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Kolkata" }) + " IST";
 
 export const makeTransportConfig = () => ({
-  host: process.env.ZEPTO_SMTP_HOST ?? "smtp.zeptomail.in",
-  port: Number(process.env.ZEPTO_SMTP_PORT ?? 465),
-  secure: Number(process.env.ZEPTO_SMTP_PORT ?? 465) === 465,
+  host: process.env.SMTP_HOST ?? "email-smtp.ap-south-1.amazonaws.com",
+  port: Number(process.env.SMTP_PORT ?? 587),
+  secure: Number(process.env.SMTP_PORT ?? 587) === 465,
   auth: {
-    user: process.env.ZEPTO_SMTP_USER ?? "emailapikey",
-    pass: process.env.ZEPTO_SMTP_PASS,
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
   },
 });

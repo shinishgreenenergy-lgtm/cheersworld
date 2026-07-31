@@ -2,12 +2,12 @@ import nodemailer from "nodemailer";
 import { esc, buildEmail, receivedNow, makeTransportConfig } from "./lib/email.mjs";
 
 // Contact-form handler: receives the site's form as JSON and relays it
-// through ZeptoMail SMTP. All secrets live in Netlify environment variables:
-//   ZEPTO_SMTP_HOST  (smtp.zeptomail.in)
-//   ZEPTO_SMTP_PORT  (465 = SSL, 587 = STARTTLS)
-//   ZEPTO_SMTP_USER  (emailapikey)
-//   ZEPTO_SMTP_PASS  (ZeptoMail send-mail token)
-//   ZEPTO_FROM       (verified sender, e.g. noreply@nextdooh.com)
+// through Amazon SES SMTP. All secrets live in the server's environment:
+//   SMTP_HOST  (email-smtp.ap-south-1.amazonaws.com)
+//   SMTP_PORT  (465 = SSL, 587 = STARTTLS)
+//   SMTP_USER  (SES SMTP username — IAM access key id)
+//   SMTP_PASS  (SES SMTP password derived from the IAM secret key)
+//   MAIL_FROM  (verified sender, e.g. noreply@cheerswisdom.com)
 //   CONTACT_TO       (where submissions land; defaults to support@cheerswisdom.com)
 //   CONTACT_CC       (optional CC; no CC by default)
 
@@ -40,7 +40,7 @@ const handler = async (req) => {
   }
 
   const transporter = nodemailer.createTransport(makeTransportConfig());
-  const from = process.env.ZEPTO_FROM ?? "noreply@nextdooh.com";
+  const from = process.env.MAIL_FROM ?? "noreply@cheerswisdom.com";
   const to = process.env.CONTACT_TO ?? "support@cheerswisdom.com";
   const cc = process.env.CONTACT_CC ?? "";
   const receivedAt = receivedNow();
