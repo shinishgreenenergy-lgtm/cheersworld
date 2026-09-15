@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { m, useReducedMotion } from "motion/react";
 import { Eye, Brain, TrendingUp, Zap, Activity, Sparkles, Infinity as Loop } from "lucide-react";
 import { hero } from "@/lib/content";
 
@@ -33,7 +33,7 @@ export function PhilosophyRing({ dark = false }: { dark?: boolean }) {
   return (
     <div className="relative mx-auto aspect-square w-full max-w-[26rem]">
       {/* rotating dashed orbit */}
-      <motion.div
+      <m.div
         aria-hidden
         className="absolute inset-[9%] rounded-full border border-dashed border-accent/30"
         animate={reduce ? {} : { rotate: 360 }}
@@ -41,26 +41,26 @@ export function PhilosophyRing({ dark = false }: { dark?: boolean }) {
       />
       {/* orbiting light packet */}
       {!reduce && (
-        <motion.div
+        <m.div
           aria-hidden
           className="absolute inset-[9%]"
           animate={{ rotate: 360 }}
           transition={{ duration: 6.6, repeat: Infinity, ease: "linear" }}
         >
           <span className="absolute left-1/2 top-0 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent shadow-[0_0_18px_4px_rgba(46,158,91,0.6)]" />
-        </motion.div>
+        </m.div>
       )}
 
       {/* centre medallion */}
       <div className="absolute left-1/2 top-1/2 grid h-28 w-28 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-line bg-white/80 text-center shadow-[0_20px_50px_-24px_rgba(20,22,42,0.4)] backdrop-blur">
         <div className="flex flex-col items-center gap-1">
-          <motion.span
+          <m.span
             animate={reduce ? {} : { rotate: 360 }}
             transition={reduce ? {} : { duration: 12, repeat: Infinity, ease: "linear" }}
             className="text-accent"
           >
             <Loop className="h-6 w-6" />
-          </motion.span>
+          </m.span>
           <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-muted">Continuous</span>
         </div>
       </div>
@@ -75,7 +75,7 @@ export function PhilosophyRing({ dark = false }: { dark?: boolean }) {
             className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1.5"
             style={{ left: `${n.x}%`, top: `${n.y}%` }}
           >
-            <motion.span
+            <m.span
               animate={{
                 scale: on ? 1.14 : 1,
                 boxShadow: on ? "0 12px 28px -10px rgba(46,158,91,0.6)" : "0 0 0 0 rgba(0,0,0,0)",
@@ -89,7 +89,7 @@ export function PhilosophyRing({ dark = false }: { dark?: boolean }) {
               }
             >
               <Icon className="h-5 w-5" />
-            </motion.span>
+            </m.span>
             <span
               className={
                 "text-[11px] font-bold tracking-tight transition-colors duration-300 " +

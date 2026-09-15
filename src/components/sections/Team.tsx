@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowUpRight } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
+import { m, useReducedMotion } from "motion/react";
 import { Reveal } from "../ui/Reveal";
 import { team, type TeamMember } from "@/lib/content";
 
@@ -18,26 +18,26 @@ function initials(name: string) {
   return name.split(" ").map((w) => w[0]).slice(0, 2).join("").toUpperCase();
 }
 
-function PortraitCard({ m, index }: { m: TeamMember; index: number }) {
+function PortraitCard({ m: mem, index }: { m: TeamMember; index: number }) {
   const reduce = useReducedMotion();
   return (
-    <motion.article
+    <m.article
       whileHover={reduce ? undefined : { y: -8 }}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04]"
     >
       {/* portrait */}
-      {m.photo ? (
+      {mem.photo ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
               loading="lazy"
               decoding="async"
-          src={m.photo}
-          alt={m.name}
+          src={mem.photo}
+          alt={mem.name}
           className="aspect-[3/4] w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
         />
       ) : (
-        <span className="grid aspect-[3/4] w-full place-items-center text-4xl font-black text-white/25">{initials(m.name)}</span>
+        <span className="grid aspect-[3/4] w-full place-items-center text-4xl font-black text-white/25">{initials(mem.name)}</span>
       )}
 
       {/* index */}
@@ -49,25 +49,25 @@ function PortraitCard({ m, index }: { m: TeamMember; index: number }) {
       </span>
 
       {/* links — float in from the corner */}
-      {(m.linkedin || m.href) && (
+      {(mem.linkedin || mem.href) && (
         <span className="absolute right-4 top-4 flex gap-1.5">
-          {m.linkedin && (
+          {mem.linkedin && (
             <a
-              href={m.linkedin}
+              href={mem.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`${m.name} on LinkedIn`}
+              aria-label={`${mem.name} on LinkedIn`}
               className="grid h-9 w-9 place-items-center rounded-full bg-black/35 text-white/85 backdrop-blur-sm transition-colors hover:bg-accent hover:text-white"
             >
               <LinkedinIcon className="h-4 w-4" />
             </a>
           )}
-          {m.href && (
+          {mem.href && (
             <a
-              href={m.href}
+              href={mem.href}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`${m.name} profile`}
+              aria-label={`${mem.name} profile`}
               className="grid h-9 w-9 place-items-center rounded-full bg-black/35 text-white/85 backdrop-blur-sm transition-colors hover:bg-accent hover:text-white"
             >
               <ArrowUpRight className="h-4 w-4" />
@@ -79,15 +79,15 @@ function PortraitCard({ m, index }: { m: TeamMember; index: number }) {
       {/* identity */}
       <span aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-3/5 bg-[linear-gradient(180deg,transparent,rgba(6,8,12,0.9))]" />
       <div className="absolute inset-x-0 bottom-0 p-5">
-        <h4 className="font-display text-[19px] font-extrabold tracking-tight text-white">{m.name}</h4>
-        <p className="mt-0.5 text-[12.5px] font-semibold text-accent-2">{[m.role, m.affiliation].filter(Boolean).join(" · ")}</p>
-        {m.bio && (
+        <h4 className="font-display text-[19px] font-extrabold tracking-tight text-white">{mem.name}</h4>
+        <p className="mt-0.5 text-[12.5px] font-semibold text-accent-2">{[mem.role, mem.affiliation].filter(Boolean).join(" · ")}</p>
+        {mem.bio && (
           <p className="mt-2 line-clamp-2 text-[12px] leading-relaxed text-white/65 sm:line-clamp-none sm:max-h-0 sm:opacity-0 sm:transition-all sm:duration-500 sm:group-hover:max-h-24 sm:group-hover:opacity-100">
-            {m.bio}
+            {mem.bio}
           </p>
         )}
       </div>
-    </motion.article>
+    </m.article>
   );
 }
 
@@ -124,9 +124,9 @@ export function Team() {
                 <span className="font-mono text-[10.5px] tabular-nums text-white/35">{String(g.members.length).padStart(2, "0")}</span>
               </div>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
-                {g.members.map((m) => {
+                {g.members.map((mem) => {
                   idx += 1;
-                  return <PortraitCard key={m.name} m={m} index={idx} />;
+                  return <PortraitCard key={mem.name} m={mem} index={idx} />;
                 })}
               </div>
             </Reveal>

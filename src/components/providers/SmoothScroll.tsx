@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactLenis } from "lenis/react";
-import { MotionConfig } from "motion/react";
+import { LazyMotion, domAnimation, MotionConfig } from "motion/react";
 import type { ReactNode } from "react";
 
 export default function SmoothScroll({ children }: { children: ReactNode }) {
@@ -10,7 +10,9 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
       root
       options={{ lerp: 0.1, smoothWheel: true, wheelMultiplier: 1, touchMultiplier: 1.4 }}
     >
-      <MotionConfig reducedMotion="user">{children}</MotionConfig>
+      <LazyMotion features={domAnimation} strict>
+        <MotionConfig reducedMotion="user">{children}</MotionConfig>
+      </LazyMotion>
     </ReactLenis>
   );
 }

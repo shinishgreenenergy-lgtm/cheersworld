@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "motion/react";
+import { m } from "motion/react";
 import { Reveal } from "../ui/Reveal";
 import { science } from "@/lib/content";
 import { TINTS } from "@/lib/tints";
@@ -38,7 +38,7 @@ export function Science() {
             const t = TINTS[i % TINTS.length];
             return (
               <Reveal key={d.name} delay={(i % 4) * 0.06}>
-                <motion.div
+                <m.div
                   whileHover={{ y: -6 }}
                   transition={{ duration: 0.35, ease }}
                   className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1c2029] p-6 transition-colors duration-300 hover:border-white/25"
@@ -68,7 +68,7 @@ export function Science() {
                       <p className="mt-1 text-[12px] leading-relaxed text-white/55">{d.use}</p>
                     </div>
                   </div>
-                </motion.div>
+                </m.div>
               </Reveal>
             );
           })}

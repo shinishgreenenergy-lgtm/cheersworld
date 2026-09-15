@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, m, useReducedMotion } from "motion/react";
 import { Quote, ArrowLeft, ArrowRight, Play } from "lucide-react";
 import { SectionHeading } from "../ui/SectionHeading";
 import { testimonials } from "@/lib/content";
@@ -50,7 +50,7 @@ export function Testimonials() {
         <div className="relative mx-auto mt-14 max-w-3xl">
           <div className="relative grid min-h-[19rem] place-items-stretch">
             <AnimatePresence custom={dir} mode="wait" initial={false}>
-              <motion.figure
+              <m.figure
                 key={idx}
                 custom={dir}
                 variants={reduce ? undefined : variants}
@@ -102,7 +102,7 @@ export function Testimonials() {
                     <Play className="h-3.5 w-3.5 fill-current" /> Watch the story
                   </button>
                 )}
-              </motion.figure>
+              </m.figure>
             </AnimatePresence>
           </div>
 

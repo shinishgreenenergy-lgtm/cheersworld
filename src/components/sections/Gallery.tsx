@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, m, useReducedMotion } from "motion/react";
 import { Camera, X, ArrowLeft, ArrowRight, Expand } from "lucide-react";
 import { Reveal } from "../ui/Reveal";
 import { gallery } from "@/lib/content";
@@ -107,7 +107,7 @@ export function Gallery() {
               <div className="relative aspect-[16/10] w-full sm:aspect-[16/8.5]">
                 <AnimatePresence mode="wait">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <motion.img
+                  <m.img
                     key={active.src}
                     src={active.src}
                     alt={active.caption}
@@ -208,7 +208,7 @@ export function Gallery() {
       {/* fullscreen viewer */}
       <AnimatePresence>
         {full && active && (
-          <motion.div
+          <m.div
             role="dialog"
             aria-modal="true"
             aria-label={active.caption}
@@ -238,7 +238,7 @@ export function Gallery() {
             <div className="relative flex min-h-0 flex-1 items-center justify-center px-14 pb-2 sm:px-20">
               <AnimatePresence mode="wait">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <motion.img
+                <m.img
                   key={active.src}
                   src={active.src}
                   alt={active.caption}
@@ -277,7 +277,7 @@ export function Gallery() {
             <p className="mx-auto max-w-3xl px-6 pb-7 pt-4 text-center text-[13.5px] font-medium leading-relaxed text-white/85" onClick={(e) => e.stopPropagation()}>
               {active.caption}
             </p>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </section>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { m, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { DomainConstellation } from "../ui/DomainConstellation";
 
@@ -31,7 +31,7 @@ function ScrollCue({ reduce }: { reduce: boolean }) {
   const opacity = useTransform(scrollY, [0, 160], [1, 0]);
 
   return (
-    <motion.a
+    <m.a
       href="/#trust"
       aria-label="Scroll to explore"
       style={{ opacity }}
@@ -42,13 +42,13 @@ function ScrollCue({ reduce }: { reduce: boolean }) {
     >
       <span className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.3em] text-muted">Scroll</span>
       <span className="relative h-11 w-px overflow-hidden bg-ink/15">
-        <motion.span
+        <m.span
           className="absolute left-0 top-0 h-3 w-px bg-accent"
           animate={reduce ? undefined : { y: [-12, 44] }}
           transition={{ duration: 1.6, repeat: Infinity, ease: [0.45, 0, 0.55, 1], repeatDelay: 0.4 }}
         />
       </span>
-    </motion.a>
+    </m.a>
   );
 }
 

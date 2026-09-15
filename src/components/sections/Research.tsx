@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, m } from "motion/react";
 import { FileText, Download, FlaskConical, Landmark } from "lucide-react";
 import { SectionHeading } from "../ui/SectionHeading";
 import { Reveal } from "../ui/Reveal";
@@ -130,7 +130,7 @@ export function Research() {
 
         <div className="relative mt-10 min-h-[18rem]">
           <AnimatePresence mode="wait">
-            <motion.div
+            <m.div
               key={tab}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -201,7 +201,7 @@ export function Research() {
                   })}
                 </div>
               )}
-            </motion.div>
+            </m.div>
           </AnimatePresence>
         </div>
       </div>

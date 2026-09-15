@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, m } from "motion/react";
 import { HeartPulse, GraduationCap, HardHat, Truck, Landmark, Users, ArrowUpRight, ChevronDown, Mail, type LucideIcon } from "lucide-react";
 import { Reveal } from "../ui/Reveal";
 import { DemoRequestForm } from "./DemoRequestForm";
@@ -43,7 +43,7 @@ export function CTA() {
     >
       {/* full-bleed decor */}
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-dots opacity-[0.18]" />
-      <motion.div
+      <m.div
         aria-hidden
         className="pointer-events-none absolute right-[8%] top-[12%] h-[26rem] w-[26rem] rounded-full bg-white/12 blur-[130px]"
         animate={{ scale: [1, 1.12, 1], opacity: [0.6, 1, 0.6] }}
@@ -139,7 +139,7 @@ export function CTA() {
         {/* Request a Demo — expands in place, no navigation */}
         <AnimatePresence initial={false}>
           {demoOpen && (
-            <motion.div
+            <m.div
               id="cta-demo-form"
               key="demo-form"
               initial={{ height: 0, opacity: 0 }}
@@ -160,7 +160,7 @@ export function CTA() {
                 </div>
                 <DemoRequestForm />
               </div>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
       </div>

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, m, useReducedMotion } from "motion/react";
 import { useRevealed } from "../ui/Reveal";
 import { Icon } from "../ui/Icon";
 import { Badge } from "../ui/badge";
@@ -36,7 +36,7 @@ export function Dimensions() {
     <section id="dimensions" className="relative isolate min-h-[100svh] flex flex-col justify-center scroll-mt-24 overflow-hidden bg-canvas py-24 sm:py-32">
       <div ref={(el) => void (ref.current = el)} className="mx-auto w-full max-w-7xl px-4 sm:px-6">
         {/* editorial header */}
-        <motion.div
+        <m.div
           className="flex flex-col gap-2.5"
           initial={reduce ? false : { opacity: 0, y: 14 }}
           animate={revealed ? { opacity: 1, y: 0 } : undefined}
@@ -44,24 +44,24 @@ export function Dimensions() {
         >
           <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">{dimensionsIntro.eyebrow}</span>
           <span className="block h-px w-10 bg-accent" />
-        </motion.div>
+        </m.div>
         <div className="mt-6 grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
-          <motion.h2
+          <m.h2
             className="max-w-2xl font-serif text-[clamp(1.8rem,3.8vw,2.8rem)] font-medium leading-[1.13] tracking-[-0.01em] text-ink [font-variation-settings:'opsz'_48]"
             initial={reduce ? false : { opacity: 0, y: 18, filter: "blur(6px)" }}
             animate={revealed ? { opacity: 1, y: 0, filter: "blur(0px)" } : undefined}
             transition={{ duration: 0.7, ease, delay: 0.08 }}
           >
             {dimensionsIntro.title}
-          </motion.h2>
-          <motion.p
+          </m.h2>
+          <m.p
             className="max-w-md text-[14.5px] leading-relaxed text-muted lg:pb-1.5"
             initial={reduce ? false : { opacity: 0, y: 14 }}
             animate={revealed ? { opacity: 1, y: 0 } : undefined}
             transition={{ duration: 0.6, ease, delay: 0.18 }}
           >
             {dimensionsIntro.subtitle}
-          </motion.p>
+          </m.p>
         </div>
 
         <div className="mt-12 grid items-center gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-14">
@@ -71,7 +71,7 @@ export function Dimensions() {
               {/* orbit + spokes */}
               <svg aria-hidden viewBox="0 0 100 100" className="absolute inset-0 h-full w-full">
                 {/* dashed orbit — fades in, then slowly revolves */}
-                <motion.circle
+                <m.circle
                   cx="50"
                   cy="50"
                   r={RADIUS}
@@ -89,7 +89,7 @@ export function Dimensions() {
                 />
                 {/* spokes draw outward from the person */}
                 {POS.map((p, i) => (
-                  <motion.line
+                  <m.line
                     key={i}
                     x1="50"
                     y1="50"
@@ -107,7 +107,7 @@ export function Dimensions() {
 
               {/* the person */}
               <div className="absolute left-1/2 top-1/2 h-[31%] w-[31%] -translate-x-1/2 -translate-y-1/2">
-                <motion.div
+                <m.div
                   className="grid h-full w-full place-items-center rounded-full border border-line bg-white text-center shadow-[0_30px_60px_-30px_rgba(20,22,42,0.35)]"
                   initial={reduce ? false : { scale: 0.5, opacity: 0 }}
                   animate={revealed ? { scale: 1, opacity: 1 } : undefined}
@@ -123,7 +123,7 @@ export function Dimensions() {
                       5 dimensions
                     </p>
                   </div>
-                </motion.div>
+                </m.div>
               </div>
 
               {/* dimension nodes */}
@@ -140,7 +140,7 @@ export function Dimensions() {
                     className="group absolute z-10 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1.5 outline-none"
                     style={{ left: `${POS[i].x}%`, top: `${POS[i].y}%` }}
                   >
-                    <motion.div
+                    <m.div
                       className="flex flex-col items-center gap-1.5"
                       initial={reduce ? false : { scale: 0, opacity: 0 }}
                       animate={revealed ? { scale: 1, opacity: 1 } : undefined}
@@ -162,7 +162,7 @@ export function Dimensions() {
                     >
                       {d.name}
                     </span>
-                    </motion.div>
+                    </m.div>
                   </button>
                 );
               })}
@@ -170,14 +170,14 @@ export function Dimensions() {
           </div>
 
           {/* the active dimension, in full */}
-          <motion.div
+          <m.div
             className="min-w-0"
             initial={reduce ? false : { opacity: 0, y: 22 }}
             animate={revealed ? { opacity: 1, y: 0 } : undefined}
             transition={{ duration: 0.65, ease, delay: 0.45 }}
           >
             <AnimatePresence mode="wait">
-              <motion.article
+              <m.article
                 key={dim.name}
                 initial={reduce ? false : { opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -222,9 +222,9 @@ export function Dimensions() {
                     </Badge>
                   ))}
                 </div>
-              </motion.article>
+              </m.article>
             </AnimatePresence>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, m } from "motion/react";
 import { Search, CornerDownLeft } from "lucide-react";
 import { navGroups, sectionIndex } from "@/lib/content";
 import { cn } from "@/lib/cn";
@@ -64,7 +64,7 @@ function PaletteDialog({ onClose }: { onClose: () => void }) {
   };
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -72,7 +72,7 @@ function PaletteDialog({ onClose }: { onClose: () => void }) {
       className="fixed inset-0 z-[60] grid place-items-start justify-items-center bg-ink/40 px-4 pt-[18vh] backdrop-blur-sm"
       onClick={onClose}
     >
-      <motion.div
+      <m.div
         role="dialog"
         aria-modal="true"
         aria-label="Search the site"
@@ -122,7 +122,7 @@ function PaletteDialog({ onClose }: { onClose: () => void }) {
             </li>
           ))}
         </ul>
-      </motion.div>
-    </motion.div>
+      </m.div>
+    </m.div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { m, useReducedMotion } from "motion/react";
 import { ArrowUpRight, Check, Minus } from "lucide-react";
 import { Reveal } from "../ui/Reveal";
 import { Icon } from "../ui/Icon";
@@ -38,7 +38,7 @@ function StageDot({ state }: { state: StageState }) {
     return (
       <span className="relative grid h-5 w-5 place-items-center rounded-full">
         {!reduce && (
-          <motion.span
+          <m.span
             aria-hidden
             className="absolute inset-0 rounded-full"
             style={{ border: `1.5px solid ${MEASURING}` }}

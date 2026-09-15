@@ -3,7 +3,7 @@
 Marketing site for the Cheers Wisdom Human Intelligence Platform. Built with
 Next.js 16 (App Router, Turbopack) and exported as a fully static site
 (`output: "export"` → `out/`). The static build is uploaded to the web host;
-forms POST to the mail API at https://cheersap.cheerswisdom.com.
+forms POST same-origin to `/api/forms/*`, which nginx proxies to the mail API.
 
 ## Commands
 
@@ -11,11 +11,11 @@ forms POST to the mail API at https://cheersap.cheerswisdom.com.
 npm run dev          # Next dev server — http://localhost:3000
 npm run build        # static production build into out/
 npm run lint         # eslint
-node scripts/email-server.mjs   # mail API (port 8787) — runs on the cheersap VM in production
+node scripts/email-server.mjs   # mail API (port 8787) — runs on the cheers-admin-portal VM in production
 ```
 
-On `npm run dev` the forms post to the production mail API
-(`https://cheersap.cheerswisdom.com`) unless you run the mail server locally
+On `npm run dev` the forms post to the same-origin `/api/forms` path (which
+only works behind the production nginx) unless you run the mail server locally
 and set `NEXT_PUBLIC_FORMS_ENDPOINT=http://localhost:8787`.
 
 ## Email pipeline
@@ -28,7 +28,7 @@ footer newsletter signup, which reuses the contact route — send through
 The careers form accepts CV attachments (`.pdf .doc .docx .rtf .txt .odt`, 4 MB max).
 
 The frontend posts to `formsEndpoint()` from `src/lib/forms.ts` — defaults to
-`https://cheersap.cheerswisdom.com`, overridable at build time with
+same-origin `/api/forms`, overridable at build time with
 `NEXT_PUBLIC_FORMS_ENDPOINT`.
 
 ## Environment variables
@@ -53,7 +53,7 @@ nothing secret is stored on disk, in git, or in this file. To read one:
 | `CAREERS_CC` | *(unset — no CC by default)* | Optional CC on applications |
 | `DEMO_TO` | `support@cheerswisdom.com` *(default, optional override)* | Where demo requests land |
 | `DEMO_CC` | *(unset — no CC by default)* | Optional CC on demo requests |
-| `NEXT_PUBLIC_FORMS_ENDPOINT` | `https://cheersap.cheerswisdom.com` *(default)* | Build-time. Mail API base URL |
+| `NEXT_PUBLIC_FORMS_ENDPOINT` | `/api/forms` *(default, same-origin)* | Build-time. Mail API base URL |
 | `ALLOWED_ORIGIN` | `https://www.cheerswisdom.com` | CORS origin for `scripts/email-server.mjs` |
 | `PORT` | `8787` *(default)* | Port for the mail server |
 
@@ -69,7 +69,7 @@ origin cert in `/etc/nginx/certs-cheers/` — use Cloudflare SSL mode "Full"):
   rate-limited, to the mail API. Deploy:
   `npm run build`, rsync `out/` to the instance, then
   `sudo rsync -a --delete --chown=www-data:www-data <staging>/ /var/www/cheersworld/`.
-- **cheersap.cheerswisdom.com / portal.cheerswisdom.com** (vhost
+- **adm.cheerswisdom.com** (formerly cheersap. / portal.) (vhost
   `cheers-admin`) — the Cheers Institution Portal (systemd `cheers-admin`,
   Next.js on port 3000, code in `~/cheersWisdomAdmin`).
 - **Mail API** — systemd `cheersworld-mail` (`~/cheersworld-mail`, port 8787):

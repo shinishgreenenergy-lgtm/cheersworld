@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { m, useReducedMotion } from "motion/react";
 import NumberFlow from "@number-flow/react";
 import { Reveal, useRevealed } from "../ui/Reveal";
 import { Icon, type IconName } from "../ui/Icon";
@@ -22,7 +22,7 @@ function ProvenStat({ label, value }: { label: string; value: number }) {
   const [n, setN] = useState(0);
   const shown = reduce ? value : n;
   return (
-    <motion.div
+    <m.div
       className="flex flex-col gap-1"
       onViewportEnter={() => setN(value)}
       viewport={{ once: true, margin: "-40px" }}
@@ -31,7 +31,7 @@ function ProvenStat({ label, value }: { label: string; value: number }) {
         <NumberFlow value={shown} animated={!reduce} />
       </span>
       <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-white/60">{label}</span>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -61,7 +61,7 @@ function PartnerRegister({ groups }: { groups: typeof trust.groups }) {
         return (
           <div key={g.label}>
             <div className="flex items-center gap-3">
-              <motion.span
+              <m.span
                 aria-hidden
                 className="h-2 w-2 rounded-full"
                 style={{ background: t.bar }}
@@ -69,30 +69,30 @@ function PartnerRegister({ groups }: { groups: typeof trust.groups }) {
                 animate={on ? { scale: 1, opacity: 1 } : undefined}
                 transition={{ type: "spring", stiffness: 500, damping: 22, delay: head }}
               />
-              <motion.h3
+              <m.h3
                 className="font-display text-[13px] font-extrabold uppercase tracking-[0.14em] text-white"
                 initial={reduce ? false : { opacity: 0, y: 8 }}
                 animate={on ? { opacity: 1, y: 0 } : undefined}
                 transition={{ duration: 0.5, ease: EASE, delay: head + 0.04 }}
               >
                 {g.label}
-              </motion.h3>
-              <motion.span
+              </m.h3>
+              <m.span
                 className="hidden text-[12px] text-white/45 sm:block"
                 initial={reduce ? false : { opacity: 0 }}
                 animate={on ? { opacity: 1 } : undefined}
                 transition={{ duration: 0.5, delay: head + 0.12 }}
               >
                 {s.blurb}
-              </motion.span>
-              <motion.span
+              </m.span>
+              <m.span
                 aria-hidden
                 className="h-px flex-1 origin-left bg-white/10"
                 initial={reduce ? false : { scaleX: 0 }}
                 animate={on ? { scaleX: 1 } : undefined}
                 transition={{ duration: 0.9, ease: EASE, delay: head + 0.08 }}
               />
-              <motion.span
+              <m.span
                 className="font-mono text-[11.5px] font-semibold tabular-nums"
                 style={{ color: t.bar }}
                 initial={reduce ? false : { opacity: 0 }}
@@ -104,13 +104,13 @@ function PartnerRegister({ groups }: { groups: typeof trust.groups }) {
                   animated={!reduce}
                   format={{ minimumIntegerDigits: 2 }}
                 />
-              </motion.span>
+              </m.span>
             </div>
             <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
               {g.items.map((p) => {
                 const d = at();
                 const card = (
-                  <motion.div
+                  <m.div
                     className="group flex items-center gap-4 rounded-2xl bg-white px-4 py-3.5 shadow-[0_10px_28px_-16px_rgba(0,0,0,0.6)] transition-shadow duration-300 hover:shadow-[0_18px_38px_-16px_rgba(0,0,0,0.7)]"
                     whileHover={reduce ? undefined : { y: -3 }}
                     transition={{ duration: 0.25, ease: EASE }}
@@ -136,10 +136,10 @@ function PartnerRegister({ groups }: { groups: typeof trust.groups }) {
                       </span>
                     )}
                     <span className="text-[13.5px] font-semibold leading-snug text-ink">{p.name}</span>
-                  </motion.div>
+                  </m.div>
                 );
                 return (
-                  <motion.div
+                  <m.div
                     key={p.name}
                     initial={reduce ? false : { opacity: 0, y: 18, scale: 0.96, filter: "blur(5px)" }}
                     animate={on ? { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" } : undefined}
@@ -152,7 +152,7 @@ function PartnerRegister({ groups }: { groups: typeof trust.groups }) {
                     ) : (
                       card
                     )}
-                  </motion.div>
+                  </m.div>
                 );
               })}
             </div>

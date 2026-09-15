@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { motion } from "motion/react";
+import { m } from "motion/react";
 import { ArrowRight, Play } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { Magnetic } from "./Magnetic";
@@ -32,7 +32,7 @@ export function Button({
   magnetic?: boolean;
 }) {
   const inner = (
-    <motion.span
+    <m.span
       whileHover={{ y: -2 }}
       whileTap={{ scale: 0.97 }}
       transition={{ type: "spring", stiffness: 420, damping: 24 }}
@@ -47,7 +47,7 @@ export function Button({
       {icon === "arrow" && (
         <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
       )}
-    </motion.span>
+    </m.span>
   );
 
   const link = (

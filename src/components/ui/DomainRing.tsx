@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { m, useReducedMotion } from "motion/react";
 import { hero } from "@/lib/content";
 
 // 8 domain nodes on a circle around the brain, with connection lines and
@@ -36,7 +36,7 @@ export function DomainRing() {
               strokeDasharray="1.5 1.5"
             />
             {!reduce && (
-              <motion.circle
+              <m.circle
                 r={0.9}
                 fill={n.color}
                 initial={{ cx: 50, cy: 50, opacity: 0 }}
@@ -50,7 +50,7 @@ export function DomainRing() {
 
       {/* node chips */}
       {NODES.map((n, i) => (
-        <motion.div
+        <m.div
           key={n.name}
           className="pointer-events-auto absolute -translate-x-1/2 -translate-y-1/2"
           style={{ left: `${n.x}%`, top: `${n.y}%` }}
@@ -71,7 +71,7 @@ export function DomainRing() {
             </span>
             <span className="whitespace-nowrap text-[11.5px] font-bold text-ink-soft">{n.name}</span>
           </div>
-        </motion.div>
+        </m.div>
       ))}
     </div>
   );

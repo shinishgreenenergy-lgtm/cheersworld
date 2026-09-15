@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
+import { m, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { Check, Minus, ArrowUpRight } from "lucide-react";
 import { Reveal, useRevealed } from "../ui/Reveal";
 import { Icon } from "../ui/Icon";
@@ -78,8 +78,8 @@ export function About() {
     <section ref={ref} id="about" className="relative isolate min-h-[100svh] flex flex-col justify-center scroll-mt-24 overflow-hidden bg-[linear-gradient(180deg,#12161d_0%,#0a0d12_100%)] py-24 sm:py-32">
       {/* atmosphere with parallax */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <motion.div style={{ y: yBlob1 }} className="absolute -left-20 top-4 h-[26rem] w-[26rem] rounded-full bg-accent/20 blur-[130px]" />
-        <motion.div style={{ y: yBlob2 }} className="absolute -right-20 bottom-0 h-[24rem] w-[24rem] rounded-full bg-accent-3/15 blur-[130px]" />
+        <m.div style={{ y: yBlob1 }} className="absolute -left-20 top-4 h-[26rem] w-[26rem] rounded-full bg-accent/20 blur-[130px]" />
+        <m.div style={{ y: yBlob2 }} className="absolute -right-20 bottom-0 h-[24rem] w-[24rem] rounded-full bg-accent-3/15 blur-[130px]" />
         <div className="absolute inset-0 bg-noise opacity-[0.4] mix-blend-overlay" />
       </div>
 
@@ -128,9 +128,9 @@ export function About() {
             </div>
 
           <div>
-            <motion.div style={{ y: yRing }}>
+            <m.div style={{ y: yRing }}>
               <PhilosophyRing dark />
-            </motion.div>
+            </m.div>
             <p className="mt-4 text-center font-mono text-[10.5px] uppercase tracking-[0.2em] text-white/40">
               Observe · Understand · Predict · Intervene · Measure · Improve
             </p>
@@ -179,34 +179,34 @@ function Journey({
     <div ref={(el) => void (ref.current = el)} className="mt-16">
       <span id="timeline" className="block scroll-mt-28" aria-hidden />
       <div className="flex items-center gap-4">
-        <motion.span
+        <m.span
           className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-accent-2"
           initial={reduce ? false : { opacity: 0, y: 8 }}
           animate={on ? { opacity: 1, y: 0 } : undefined}
           transition={{ duration: 0.5, ease: EASE }}
         >
           Our journey
-        </motion.span>
-        <motion.span
+        </m.span>
+        <m.span
           className="h-px flex-1 origin-left bg-white/15"
           initial={reduce ? false : { scaleX: 0 }}
           animate={on ? { scaleX: 1 } : undefined}
           transition={{ duration: 0.9, ease: EASE, delay: 0.1 }}
         />
-        <motion.span
+        <m.span
           className="font-mono text-[11px] text-white/40"
           initial={reduce ? false : { opacity: 0 }}
           animate={on ? { opacity: 1 } : undefined}
           transition={{ duration: 0.5, delay: 0.5 }}
         >
           2019 — today
-        </motion.span>
+        </m.span>
       </div>
 
       <div className="mt-8 overflow-x-auto pb-2">
         <div className="relative min-w-[60rem] lg:min-w-0">
           {/* rail */}
-          <motion.div
+          <m.div
             aria-hidden
             className="absolute left-0 right-0 top-[13px] h-px origin-left bg-white/12"
             initial={reduce ? false : { scaleX: 0 }}
@@ -214,7 +214,7 @@ function Journey({
             transition={{ duration: 1.1, ease: EASE, delay: 0.15 }}
           />
           {/* progress — draws in step with the cards landing on it */}
-          <motion.div
+          <m.div
             aria-hidden
             className="absolute top-[13px] h-px origin-left"
             style={{ left: `${leftPct}%`, width: `${railWidth}%`, background: "linear-gradient(90deg,#2e9e5b,#14b8a6)" }}
@@ -224,19 +224,19 @@ function Journey({
           />
 
           <ol className="relative grid grid-cols-7 gap-3">
-            {milestones.map((m, i) => {
-              const s = STATUS[m.status];
+            {milestones.map((mile, i) => {
+              const s = STATUS[mile.status];
               const d = 0.25 + i * STEP;
               return (
-                <li key={m.title} className="flex flex-col">
+                <li key={mile.title} className="flex flex-col">
                   {/* node */}
                   <span className="relative mx-auto grid h-[27px] w-[27px] place-items-center">
-                    {m.status === "current" && !reduce && (
+                    {mile.status === "current" && !reduce && (
                       <span className="absolute inset-0 rounded-full" style={{ border: `1.5px solid ${s.color}`, animation: "ping 1.8s cubic-bezier(0,0,0.2,1) infinite" }} />
                     )}
-                    {m.status === "future" ? (
+                    {mile.status === "future" ? (
                       // The vision node — a full-spectrum dot for where the journey is heading.
-                      <motion.span
+                      <m.span
                         className="grid h-[27px] w-[27px] place-items-center rounded-full"
                         style={{
                           border: "1.5px dashed rgba(20,184,166,0.5)",
@@ -254,38 +254,38 @@ function Journey({
                             boxShadow: "0 0 8px rgba(20,184,166,0.5)",
                           }}
                         />
-                      </motion.span>
+                      </m.span>
                     ) : (
-                      <motion.span
+                      <m.span
                         className="grid h-[15px] w-[15px] place-items-center rounded-full"
                         style={{ background: s.color, boxShadow: `0 0 0 4px ${s.color}22` }}
                         initial={reduce ? false : { scale: 0, opacity: 0 }}
                         animate={on ? { scale: 1, opacity: 1 } : undefined}
                         transition={{ type: "spring", stiffness: 480, damping: 20, delay: d }}
                       >
-                        {m.status === "done" && <Check className="h-2.5 w-2.5 text-[#06110b]" strokeWidth={4} />}
-                      </motion.span>
+                        {mile.status === "done" && <Check className="h-2.5 w-2.5 text-[#06110b]" strokeWidth={4} />}
+                      </m.span>
                     )}
                   </span>
 
                   {/* card */}
-                  <motion.div
+                  <m.div
                     className="mt-4 flex flex-1 flex-col rounded-xl border p-4"
                     style={{
-                      borderColor: m.status === "current" ? "rgba(20,184,166,0.35)" : "rgba(255,255,255,0.1)",
-                      background: m.status === "current" ? "rgba(20,184,166,0.06)" : "rgba(255,255,255,0.03)",
+                      borderColor: mile.status === "current" ? "rgba(20,184,166,0.35)" : "rgba(255,255,255,0.1)",
+                      background: mile.status === "current" ? "rgba(20,184,166,0.06)" : "rgba(255,255,255,0.03)",
                     }}
                     initial={reduce ? false : { opacity: 0, y: 22, scale: 0.96, filter: "blur(5px)" }}
                     animate={on ? { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" } : undefined}
                     transition={{ duration: 0.6, ease: EASE, delay: d + 0.06 }}
                   >
                     <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1.5">
-                      <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-white/40">{m.label}</span>
-                      <StatusBadge status={m.status} />
+                      <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-white/40">{mile.label}</span>
+                      <StatusBadge status={mile.status} />
                     </div>
-                    <h4 className="mt-2.5 font-display text-[14px] font-extrabold leading-tight tracking-tight text-white">{m.title}</h4>
-                    <p className="mt-1.5 text-[12px] leading-relaxed text-white/55">{m.body}</p>
-                  </motion.div>
+                    <h4 className="mt-2.5 font-display text-[14px] font-extrabold leading-tight tracking-tight text-white">{mile.title}</h4>
+                    <p className="mt-1.5 text-[12px] leading-relaxed text-white/55">{mile.body}</p>
+                  </m.div>
                 </li>
               );
             })}

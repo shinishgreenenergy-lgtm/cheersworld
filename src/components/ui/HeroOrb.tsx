@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useSyncExternalStore } from "react";
 import dynamic from "next/dynamic";
-import { motion, useReducedMotion } from "motion/react";
+import { m, useReducedMotion } from "motion/react";
 
 const BrainScene = dynamic(() => import("./BrainScene").then((m) => m.BrainScene), {
   ssr: false,
@@ -63,7 +63,7 @@ export function HeroOrb({ compact = false }: { compact?: boolean }) {
       {/* soft brand aura, gently breathing — only in the large standalone orb, never
           behind the inline letter (compact) where it reads as an unwanted backdrop */}
       {!compact && (
-        <motion.div
+        <m.div
           aria-hidden
           className="absolute inset-[14%] rounded-full blur-[70px]"
           style={{ background: "conic-gradient(from 0deg,#2e9e5b,#14b8a6,#8fbf4d,#2e9e5b)" }}

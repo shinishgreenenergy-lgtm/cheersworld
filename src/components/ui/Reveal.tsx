@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { m, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 // Robust "has scrolled into view" detection: IntersectionObserver plus
@@ -60,7 +60,7 @@ export function Reveal({
   className?: string;
   as?: "div" | "span" | "li";
 }) {
-  const MotionTag = motion[as];
+  const MotionTag = m[as];
   const { ref, shown } = useRevealed();
   const reduce = useReducedMotion();
 

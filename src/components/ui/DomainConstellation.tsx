@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { m, useReducedMotion } from "motion/react";
 import { HeroOrb } from "./HeroOrb";
 import {
   GraduationCap,
@@ -83,7 +83,7 @@ export function DomainConstellation() {
   return (
     <div className="relative mx-auto aspect-square w-full max-w-[40rem]">
       {/* slow-rotating dashed orbit */}
-      <motion.div
+      <m.div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[50%] border border-dashed border-emerald-400/25"
         style={{ width: "71%", height: "74%" }}
@@ -142,7 +142,7 @@ export function DomainConstellation() {
             const d1 = `M${n.sx},${n.sy} Q${midx + px * 36},${midy + py * 36} ${n.x},${n.y}`;
             const d2 = `M${n.sx},${n.sy} Q${midx + px * 4},${midy + py * 4} ${n.x},${n.y}`;
             return (
-              <motion.path
+              <m.path
                 key={`t-${i}`}
                 fill="none"
                 stroke="url(#tendrilG)"
@@ -168,7 +168,7 @@ export function DomainConstellation() {
         {/* travelling pulses */}
         {!reduce &&
           NODES.map((n, i) => (
-            <motion.circle
+            <m.circle
               key={`p-${i}`}
               r={3}
               fill={n.color}
@@ -181,7 +181,7 @@ export function DomainConstellation() {
 
       {/* central hub sphere */}
       <div className="absolute left-1/2 top-1/2 grid aspect-square w-[31%] -translate-x-1/2 -translate-y-1/2 place-items-center">
-        <motion.div
+        <m.div
           className="absolute inset-[-38%] rounded-full"
           style={{ background: "radial-gradient(circle, rgba(46,158,91,0.22), rgba(245,158,11,0.08) 55%, transparent 72%)" }}
           animate={reduce ? {} : { scale: [1, 1.05, 1], opacity: [0.85, 1, 0.85] }}
@@ -226,7 +226,7 @@ export function DomainConstellation() {
               textAlign: "center",
             };
         return (
-          <motion.div
+          <m.div
             key={i}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -235,24 +235,24 @@ export function DomainConstellation() {
             style={{ left, top }}
           >
             <div className="relative">
-              <motion.span
+              <m.span
                 className="grid h-[clamp(2.4rem,4.8vw,3.4rem)] w-[clamp(2.4rem,4.8vw,3.4rem)] place-items-center rounded-full border bg-white"
                 style={{ borderColor: `${n.color}55`, color: n.color, boxShadow: `0 6px 18px -6px ${n.color}66` }}
                 animate={reduce ? {} : { scale: [1, 1.08, 1], y: [0, -3, 0] }}
                 transition={reduce ? {} : { duration: 3.4, delay: (i * 0.3) % 3.4, repeat: Infinity, ease: "easeInOut" }}
               >
                 <n.Icon className="h-[46%] w-[46%]" strokeWidth={1.8} />
-              </motion.span>
-              <motion.span
+              </m.span>
+              <m.span
                 className="absolute w-max max-w-[8.5rem] whitespace-pre-line text-[clamp(0.6rem,1.1vw,0.88rem)] font-semibold leading-tight text-ink-soft"
                 style={labelStyle}
                 animate={reduce ? {} : { opacity: [0.7, 1, 0.7] }}
                 transition={reduce ? {} : { duration: 3, delay: (i * 0.26) % 3, repeat: Infinity, ease: "easeInOut" }}
               >
                 {n.label}
-              </motion.span>
+              </m.span>
             </div>
-          </motion.div>
+          </m.div>
         );
       })}
 

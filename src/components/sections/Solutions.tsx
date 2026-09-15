@@ -2,7 +2,7 @@
 
 import type { CSSProperties } from "react";
 import Link from "next/link";
-import { motion, useReducedMotion } from "motion/react";
+import { m, useReducedMotion } from "motion/react";
 import { BrainCircuit, ArrowUpRight } from "lucide-react";
 import { SectionHeading } from "../ui/SectionHeading";
 import { Reveal } from "../ui/Reveal";
@@ -74,7 +74,7 @@ function AppShowcase({
 
       <div className="mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {shots.map((shot, i) => (
-          <motion.figure
+          <m.figure
             key={shot.src}
             initial={reduce ? false : { opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -88,7 +88,7 @@ function AppShowcase({
               <img src={shot.src} alt={`${title} — ${shot.caption}`} loading="lazy" width={640} height={1300} className="w-full rounded-[1.6rem] object-cover" />
             </div>
             <figcaption className="mt-3 text-center text-[12.5px] font-semibold text-ink-soft">{shot.caption}</figcaption>
-          </motion.figure>
+          </m.figure>
         ))}
       </div>
     </Reveal>
@@ -107,7 +107,7 @@ export function Solutions() {
           <div className="flex flex-col items-center">
             <div className="glass relative flex items-center gap-3 rounded-full px-7 py-4 shadow-[0_24px_50px_-24px_rgba(46,158,91,0.5)]">
               {!reduce && (
-                <motion.span
+                <m.span
                   aria-hidden
                   className="absolute inset-0 rounded-full border-2 border-accent/40"
                   animate={{ scale: [1, 1.15], opacity: [0.6, 0] }}

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, m, useReducedMotion } from "motion/react";
 import { HeartPulse, GraduationCap, HardHat, Truck, Landmark, FlaskConical, type LucideIcon } from "lucide-react";
 import { Reveal } from "../ui/Reveal";
 import { dashboards, dashboardsIntro } from "@/lib/content";
@@ -107,7 +107,7 @@ export function Dashboards() {
               {/* main pane */}
               <div className="min-w-0 flex-1 bg-canvas">
                 <AnimatePresence mode="wait">
-                  <motion.div
+                  <m.div
                     key={tab}
                     initial={reduce ? false : { opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -115,7 +115,7 @@ export function Dashboards() {
                     transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
                   >
                     <DashboardFrame config={active} accent={activeTint.bar} bare />
-                  </motion.div>
+                  </m.div>
                 </AnimatePresence>
               </div>
             </div>
